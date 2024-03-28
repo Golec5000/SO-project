@@ -24,7 +24,7 @@ void MaInAppMap::loadMap()
             map[mid][j] = pathChar;
 
         //przelacznik kierunku
-        map[mid][selectorPoint] = '^';
+        map[mid][selectorPoint] = switchChar;
 
         //dolna galoz
         downArm();
@@ -61,9 +61,19 @@ void MaInAppMap::diisplayMap() const
     }
 }
 
+void MaInAppMap::setSwitchChar(char arg)
+{
+    this->switchChar = arg;
+}
+
 MaInAppMap::~MaInAppMap()
 {
     for (int i = 0; i < height; i++)
         delete map[i];
     delete[] map;
+}
+
+std::string** MaInAppMap::getMap()
+{
+    return map;
 }

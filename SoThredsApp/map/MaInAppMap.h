@@ -9,10 +9,10 @@ public:
     MaInAppMap();
     ~MaInAppMap();
 
-    int** getMap();
-    int getWidth();
-    int getHeight();
+    std::string** getMap();
     void diisplayMap() const;
+    void setSwitchChar(char arg);
+    void loadMap();
 
 private:
 
@@ -22,8 +22,8 @@ private:
     int mid = 15;
     int selectorPoint = 29;
     char pathChar = '1';
+    char switchChar = '^';
 
-    void loadMap();
     void downArm() const;
     void upArm() const;
 

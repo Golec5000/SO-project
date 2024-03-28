@@ -7,4 +7,6 @@ add_executable(SoThredsApp main/main.cpp
         map/MaInAppMap.cpp
         map/MaInAppMap.h
         threads/mapRender/MapRender.cpp
-        threads/mapRender/MapRender.h)
+        threads/mapRender/MapRender.h
+        threads/switch/SwitchThread.cpp
+        threads/switch/SwitchThread.h)
