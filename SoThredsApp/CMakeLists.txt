@@ -9,4 +9,8 @@ add_executable(SoThredsApp main/main.cpp
         threads/mapRender/MapRender.cpp
         threads/mapRender/MapRender.h
         threads/switch/SwitchThread.cpp
-        threads/switch/SwitchThread.h)
+        threads/switch/SwitchThread.h
+        threads/entity/Person.cpp
+        threads/entity/Person.h
+        threads/entityGenerator/EntityGenerator.cpp
+        threads/entityGenerator/EntityGenerator.h)

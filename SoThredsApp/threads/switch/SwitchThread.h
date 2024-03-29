@@ -3,8 +3,10 @@
 
 #include <mutex>
 #include <pthread.h>
+#include <unistd.h>
 
-class SwitchThread {
+class SwitchThread
+{
 public:
     SwitchThread();
     ~SwitchThread();
@@ -14,7 +16,7 @@ public:
     void stop();
 
 private:
-    char * switchState;
+    char* switchState;
     int switchStateIndex;
     pthread_t thread;
     bool running;

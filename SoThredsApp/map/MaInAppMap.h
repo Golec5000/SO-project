@@ -15,7 +15,6 @@ public:
     void loadMap();
 
 private:
-
     std::string** map = nullptr;
     int width = 40;
     int height = 31;
@@ -27,7 +26,6 @@ private:
     void downArm() const;
     void upArm() const;
     void deleteMap();
-
 };
 
 

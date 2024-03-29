@@ -1,5 +1,4 @@
 #include "SwitchThread.h"
-#include <unistd.h>
 
 SwitchThread::SwitchThread() : switchState(new char[3]{'^', '>', 'v'}), switchStateIndex(0), thread(0), running(false)
 {
@@ -8,12 +7,9 @@ SwitchThread::SwitchThread() : switchState(new char[3]{'^', '>', 'v'}), switchSt
 SwitchThread::~SwitchThread()
 {
     delete[] switchState;
+    switchState = nullptr;
 
-    if (running)
-    {
-        pthread_join(thread, NULL);
-    }
-
+    stop();
 }
 
 void SwitchThread::run()

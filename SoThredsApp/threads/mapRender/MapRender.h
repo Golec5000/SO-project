@@ -12,7 +12,7 @@ class MapRender
 public:
     void start();
     void stop();
-    void render() ;
+    void render();
     void setMap(MaInAppMap* map);
     void setSwitchThread(SwitchThread* switchThread);
     MapRender();

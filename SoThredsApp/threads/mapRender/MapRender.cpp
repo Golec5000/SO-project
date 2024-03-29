@@ -29,14 +29,15 @@ void MapRender::stop()
         mtx.lock();
         pthread_join(thread, NULL);
         mtx.unlock();
-
     }
 }
+
 void MapRender::render()
 {
     while (running)
     {
-        if (switchThread != nullptr) {
+        if (switchThread != nullptr)
+        {
             const char direction = switchThread->getSwitchState();
             mtx.lock();
             map->setSwitchChar(direction);

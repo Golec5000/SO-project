@@ -2,7 +2,6 @@
 
 MaInAppMap::MaInAppMap()
 {
-
     map = new std::string*[height];
     for (int i = 0; i < height; i++)
     {
@@ -18,7 +17,6 @@ MaInAppMap::MaInAppMap()
 
 void MaInAppMap::loadMap()
 {
-
     if (map != nullptr)
     {
         //srodkowy rzad
@@ -53,7 +51,7 @@ void MaInAppMap::upArm() const
 
 void MaInAppMap::deleteMap()
 {
-    if(map != nullptr)
+    if (map != nullptr)
     {
         for (int i = 0; i < height; i++)
             delete[] map[i];

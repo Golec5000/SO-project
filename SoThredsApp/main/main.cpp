@@ -6,6 +6,7 @@
 #include <fcntl.h>
 
 #include <iostream>
+
 #include "../map/MaInAppMap.h"
 #include "../threads/mapRender/MapRender.h"
 #include "../threads/switch/SwitchThread.h"
@@ -73,7 +74,7 @@ int main()
                 break;
             }
         }
-        usleep(1000000); // Zasypia na 1 sekundę
+        usleep(100000); // Zasypia na 1 sekundę
     }
 
     delete map;
