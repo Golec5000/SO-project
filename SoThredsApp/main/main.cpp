@@ -68,6 +68,8 @@ int main()
             int ch = getchar();
             if (ch == ' ') // Jeśli naciśnięto spację, zakończ pętlę
             {
+                mapRender->stop();
+                switchThread->stop();
                 break;
             }
         }

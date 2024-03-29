@@ -9,7 +9,7 @@ public:
     MaInAppMap();
     ~MaInAppMap();
 
-    std::string** getMap();
+    std::string** getMap() const;
     void diisplayMap() const;
     void setSwitchChar(char arg);
     void loadMap();
@@ -26,6 +26,7 @@ private:
 
     void downArm() const;
     void upArm() const;
+    void deleteMap();
 
 };
 

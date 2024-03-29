@@ -2,11 +2,7 @@
 
 MaInAppMap::MaInAppMap()
 {
-    loadMap();
-}
 
-void MaInAppMap::loadMap()
-{
     map = new std::string*[height];
     for (int i = 0; i < height; i++)
     {
@@ -16,6 +12,12 @@ void MaInAppMap::loadMap()
             map[i][j] = "kl";
         }
     }
+
+    loadMap();
+}
+
+void MaInAppMap::loadMap()
+{
 
     if (map != nullptr)
     {
@@ -49,6 +51,17 @@ void MaInAppMap::upArm() const
         map[0][i] = pathChar;
 }
 
+void MaInAppMap::deleteMap()
+{
+    if(map != nullptr)
+    {
+        for (int i = 0; i < height; i++)
+            delete[] map[i];
+        delete[] map;
+        map = nullptr;
+    }
+}
+
 
 void MaInAppMap::diisplayMap() const
 {
@@ -56,7 +69,6 @@ void MaInAppMap::diisplayMap() const
     {
         for (int j = 0; j < width; j++)
             std::cout << std::setw(4) << map[i][j];
-
         std::cout << std::endl;
     }
 }
@@ -68,12 +80,10 @@ void MaInAppMap::setSwitchChar(char arg)
 
 MaInAppMap::~MaInAppMap()
 {
-    for (int i = 0; i < height; i++)
-        delete map[i];
-    delete[] map;
+    deleteMap();
 }
 
-std::string** MaInAppMap::getMap()
+std::string** MaInAppMap::getMap() const
 {
     return map;
 }
