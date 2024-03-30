@@ -16,15 +16,13 @@
 volatile sig_atomic_t running = 1;
 
 // Funkcja obsługi sygnału
-void handle_signal(int signal)
-{
+void handle_signal(int signal) {
     // Ustaw zmienną running na 0, aby zakończyć pętlę
     running = 0;
 }
 
 // Funkcja do sprawdzenia, czy klawisz został naciśnięty
-int kbhit()
-{
+int kbhit() {
     struct termios oldt, newt;
     int ch;
     int oldf;
@@ -41,8 +39,7 @@ int kbhit()
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
     fcntl(STDIN_FILENO, F_SETFL, oldf);
 
-    if (ch != EOF)
-    {
+    if (ch != EOF) {
         ungetc(ch, stdin);
         return 1;
     }
@@ -51,26 +48,27 @@ int kbhit()
 }
 
 
-int main()
-{
-    MaInAppMap* map = new MaInAppMap();
-    MapRender* mapRender = new MapRender();
-    SwitchThread* switchThread = new SwitchThread();
+int main() {
+    auto *map = new MaInAppMap();
+    auto *mapRender = new MapRender();
+    auto *switchThread = new SwitchThread();
+    auto* entityGenerator = new EntityGenerator();
 
     mapRender->setMap(map);
     mapRender->setSwitchThread(switchThread);
+    mapRender->setEntityGenerator(entityGenerator);
+    entityGenerator->setMap(map);
     mapRender->start();
 
     // Czekaj na zakończenie renderowania
-    while (mapRender->isRunning())
-    {
-        if (kbhit())
-        {
+    while (mapRender->isRunning()) {
+        if (kbhit()) {
             int ch = getchar();
             if (ch == ' ') // Jeśli naciśnięto spację, zakończ pętlę
             {
                 mapRender->stop();
                 switchThread->stop();
+                entityGenerator->stop();
                 break;
             }
         }
@@ -80,6 +78,7 @@ int main()
     delete map;
     delete mapRender;
     delete switchThread;
+    delete entityGenerator;
 
     return 0;
 }

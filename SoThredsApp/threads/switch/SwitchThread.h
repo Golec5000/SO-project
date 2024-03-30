@@ -5,23 +5,30 @@
 #include <pthread.h>
 #include <unistd.h>
 
-class SwitchThread
-{
+class SwitchThread {
 public:
     SwitchThread();
+
     ~SwitchThread();
+
     void run();
+
     char getSwitchState() const;
+
     pthread_t getThread() const;
+
     void stop();
 
 private:
-    char* switchState;
+    char *switchState;
     int switchStateIndex;
     pthread_t thread;
     bool running;
-    static void* pthreadStart(void* arg);
+
+    static void *pthreadStart(void *arg);
+
     void switchStateChange();
+
     std::mutex mtx;
 };
 
