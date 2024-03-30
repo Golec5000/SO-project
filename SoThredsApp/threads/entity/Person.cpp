@@ -1,6 +1,6 @@
 #include "Person.h"
 
-Person::Person() : direction(new char[3]{'^', '>', 'v'}), thread(0), running(false) {
+Person::Person() : thread(0), running(false), diretion('>'){
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(1000, 5000);
@@ -14,9 +14,6 @@ Person::Person() : direction(new char[3]{'^', '>', 'v'}), thread(0), running(fal
 }
 
 Person::~Person() {
-    delete[] direction;
-    direction = nullptr;
-
     stop();
 }
 
@@ -49,14 +46,58 @@ void *Person::pthreadStart(void *arg) {
 
 void Person::move() {
     mtx.lock();
-    if(getY() < 39){
-        setY(getY() + 1);
-    } else {
-        stop();
+    switch (diretion) {
+        case '^':
+            if(getX() > 0) {
+                setX(getX() - 1);
+            } else {
+                setY(getY() + 1);
+                setDirection('>');
+            }
+            break;
+        case '>':
+            if(getY() < 39) {
+                setY(getY() + 1);
+            } else {
+                stop();
+            }
+            break;
+        case 'v':
+            if(getX() < 30) {
+                setX(getX() + 1);
+            } else {
+                setY(getY() + 1);
+                setDirection('>');
+            }
+            break;
     }
     mtx.unlock();
 }
 
 std::string Person::getName() const {
     return name;
+}
+
+int Person::getX() const {
+    return x;
+}
+
+int Person::getY() const {
+    return y;
+}
+
+void Person::setX(int x) {
+    this->x = x;
+}
+
+void Person::setY(int y) {
+    this->y = y;
+}
+
+bool Person::isRunning() const {
+    return running;
+}
+
+void Person::setDirection(char direction) {
+    this->diretion = direction;
 }

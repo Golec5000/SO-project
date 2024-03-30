@@ -39,6 +39,15 @@ void MapRender::render() {
             map->setSwitchChar(direction);
             mtx.unlock();
         }
+        if (entityGenerator != nullptr) {
+           mtx.lock();
+           for (auto &person: *entityGenerator->getPeople()) {
+               if(person->getY() == map->getSelectorPoint() && person->getX() == map->getMid()) {
+                   person->setDirection(map->getSwitchChar());
+               }
+           }
+           mtx.unlock();
+        }
         map->loadMap();
         map->displayMap();
         system("clear");

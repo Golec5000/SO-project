@@ -10,7 +10,6 @@ EntityGenerator::~EntityGenerator() {
             person->stop();
             delete person;
             person = nullptr;
-            std::cout << "Person deleted" << std::endl;
         }
 
         delete people;
@@ -46,7 +45,7 @@ void *EntityGenerator::pthreadStart(void *arg) {
     while (instance->running) {
         instance->generate();
         instance->removeFinishedPeople();
-        usleep(10000000);
+        usleep(1000000);
     }
     pthread_exit(nullptr);
 }

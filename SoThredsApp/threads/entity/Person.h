@@ -21,28 +21,20 @@ public:
 
     std::string getName() const;
 
-    int getX() const {
-        return x;
-    }
+    int getX() const;
 
-    int getY() const {
-        return y;
-    }
+    int getY() const;
 
-    void setX(int x) {
-        this->x = x;
-    }
+    void setX(int x);
 
-    void setY(int y) {
-        this->y = y;
-    }
+    void setY(int y);
 
-    bool isRunning() const {
-        return running;
-    }
+    void setDirection(char direction);
+
+    bool isRunning() const;
 
 private:
-    char *direction;
+    char diretion;
     pthread_t thread;
     bool running;
     std::string name;

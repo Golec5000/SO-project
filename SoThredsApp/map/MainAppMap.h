@@ -21,17 +21,16 @@ public:
     void loadMap();
 
     void setPeople(std::vector<Person*> * people);
-    int getWidth() const {
-        return width;
-    }
-    int getHeight() const {
-        return height;
-    }
+
     int getMid() const {
         return mid;
     }
+
     int getSelectorPoint() const {
         return selectorPoint;
+    }
+    char getSwitchChar() const {
+        return switchChar;
     }
 
 private:
