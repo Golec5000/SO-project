@@ -1,6 +1,6 @@
-#include "MaInAppMap.h"
+#include "MainAppMap.h"
 
-MaInAppMap::MaInAppMap() {
+MainAppMap::MainAppMap() {
     map = new std::string *[height];
     for (int i = 0; i < height; i++) {
         map[i] = new std::string[width];
@@ -12,7 +12,7 @@ MaInAppMap::MaInAppMap() {
     loadMap();
 }
 
-void MaInAppMap::loadMap() {
+void MainAppMap::loadMap() {
     if (map != nullptr) {
         //srodkowy rzad
         for (int j = 0; j < width; j++)
@@ -26,29 +26,33 @@ void MaInAppMap::loadMap() {
         //gorna galoz
         upArm();
 
-        if (people != nullptr) {
+        if (people != nullptr && !people->empty()) {
             for (auto &person: *people) {
-                map[person->getX()][person->getY()] = person->getName();
+                if (person->isRunning()) {
+                    map[person->getX()][person->getY()] = person->getName();
+                } else {
+                    map[person->getX()][person->getY()] = "1";
+                }
             }
         }
     }
 }
 
-void MaInAppMap::downArm() const {
+void MainAppMap::downArm() const {
     for (int i = mid + 1; i < height; i++)
         map[i][selectorPoint] = pathChar;
     for (int i = selectorPoint + 1; i < width; i++)
         map[height - 1][i] = pathChar;
 }
 
-void MaInAppMap::upArm() const {
+void MainAppMap::upArm() const {
     for (int i = mid - 1; i >= 0; i--)
         map[i][selectorPoint] = pathChar;
     for (int i = selectorPoint + 1; i < width; i++)
         map[0][i] = pathChar;
 }
 
-void MaInAppMap::deleteMap() {
+void MainAppMap::deleteMap() {
     if (map != nullptr) {
         for (int i = 0; i < height; i++)
             delete[] map[i];
@@ -58,7 +62,7 @@ void MaInAppMap::deleteMap() {
 }
 
 
-void MaInAppMap::diisplayMap() const {
+void MainAppMap::displayMap() const {
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++)
             std::cout << std::setw(4) << map[i][j];
@@ -66,19 +70,20 @@ void MaInAppMap::diisplayMap() const {
     }
 }
 
-void MaInAppMap::setSwitchChar(char arg) {
+void MainAppMap::setSwitchChar(char arg) {
     this->switchChar = arg;
 }
 
-MaInAppMap::~MaInAppMap() {
+MainAppMap::~MainAppMap() {
     deleteMap();
+    std::cout << "Map deleted" << std::endl;
 }
 
-std::string **MaInAppMap::getMap() const {
+std::string **MainAppMap::getMap() const {
     return map;
 }
 
-void MaInAppMap::setPeople(std::vector<Person *> *people) {
+void MainAppMap::setPeople(std::vector<Person *> *people) {
     this->people = people;
 
 }

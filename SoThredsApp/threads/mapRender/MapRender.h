@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <mutex>
 
-#include "../../map/MaInAppMap.h"
+#include "../../map/MainAppMap.h"
 #include "../switch/SwitchThread.h"
 #include "../entityGenerator/EntityGenerator.h"
 
@@ -17,7 +17,7 @@ public:
 
     void render();
 
-    void setMap(MaInAppMap *map);
+    void setMap(MainAppMap *map);
 
     void setSwitchThread(SwitchThread *switchThread);
 
@@ -30,7 +30,7 @@ public:
     bool isRunning() const;
 
 private:
-    MaInAppMap *map = nullptr;
+    MainAppMap *map = nullptr;
     SwitchThread *switchThread = nullptr;
     EntityGenerator *entityGenerator = nullptr;
     pthread_t thread = 0;

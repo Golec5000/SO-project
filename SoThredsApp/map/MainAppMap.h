@@ -6,15 +6,15 @@
 #include <vector>
 #include "../threads/entity/Person.h"
 
-class MaInAppMap {
+class MainAppMap {
 public:
-    MaInAppMap();
+    MainAppMap();
 
-    ~MaInAppMap();
+    ~MainAppMap();
 
     std::string **getMap() const;
 
-    void diisplayMap() const;
+    void displayMap() const;
 
     void setSwitchChar(char arg);
 

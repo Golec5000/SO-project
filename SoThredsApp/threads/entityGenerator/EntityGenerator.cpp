@@ -1,21 +1,26 @@
 #include "EntityGenerator.h"
 
-EntityGenerator::EntityGenerator() : people(new std::vector<Person *>), finishedPeople(new std::vector<Person *>), thread(0), running(false) {
+EntityGenerator::EntityGenerator() : people(new std::vector<Person *>), finishedPeople(new std::vector<Person *>),
+                                     thread(0), running(false) {
 }
 
 EntityGenerator::~EntityGenerator() {
     if (people != nullptr) {
-        for (auto &person: *people){
+        for (auto &person: *people) {
             person->stop();
             delete person;
             person = nullptr;
+            std::cout << "Person deleted" << std::endl;
         }
 
         delete people;
         people = nullptr;
+        std::cout << "People collection deleted" << std::endl;
     }
 
     stop();
+
+    std::cout << "EntityGenerator stopped" << std::endl;
 }
 
 void EntityGenerator::run() {
@@ -40,23 +45,18 @@ void *EntityGenerator::pthreadStart(void *arg) {
     auto *instance = static_cast<EntityGenerator *>(arg);
     while (instance->running) {
         instance->generate();
+        instance->removeFinishedPeople();
         usleep(10000000);
     }
     pthread_exit(nullptr);
-    return nullptr;
 }
 
 void EntityGenerator::removeFinishedPeople() {
-    mtx.lock();
-    for (auto &person: *finishedPeople){
-        auto it = std::find(people->begin(), people->end(), person);
-        if (it != people->end()) {
-            people->erase(it);
-        }
-        delete person;
-    }
-    finishedPeople->clear();
-    mtx.unlock();
+
+    for (auto &person: *finishedPeople)
+        if (person->getY() == 39)
+            removePerson(person);
+
 }
 
 void EntityGenerator::generate() {
@@ -67,12 +67,17 @@ void EntityGenerator::generate() {
     people->push_back(person);
     people->back()->run();
     mtx.unlock();
+}
 
-    // Dodaj Person do listy zakończonych, gdy zakończy działanie
-    if (!person->isRunning()) {
-        finishedPeople->push_back(person);
+void EntityGenerator::removePerson(Person *person) {
+    mtx.lock();
+    auto it = std::find(people->begin(), people->end(), person);
+    if (it != people->end()) {
+        people->erase(it);
     }
-
-    // Usuń zakończone osoby
-    removeFinishedPeople();
+    std::cout << "Person " << person->getName() << " removed" << std::endl;
+    std::cout << "People size: " << people->size() << std::endl;
+    delete person;
+    person = nullptr;
+    mtx.unlock();
 }

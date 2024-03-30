@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <random>
+#include <iostream>
 
 class Person {
 public:

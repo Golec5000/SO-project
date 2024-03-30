@@ -6,7 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include "../entity/Person.h"
-#include "../../map/MaInAppMap.h"
+#include "../../map/MainAppMap.h"
 
 class EntityGenerator {
 public:
@@ -24,7 +24,7 @@ public:
         return people;
     }
 
-    void setMap(MaInAppMap *map) {
+    void setMap(MainAppMap *map) {
         this->map = map;
     }
 
@@ -38,7 +38,7 @@ private:
 
     std::mutex mtx;
     std::vector<Person *> *people;
-    MaInAppMap *map = nullptr;
+    MainAppMap *map = nullptr;
 
     void removePerson(Person *person);
 

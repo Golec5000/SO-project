@@ -4,8 +4,8 @@ project(SoThredsApp)
 set(CMAKE_CXX_STANDARD 11)
 
 add_executable(SoThredsApp main/main.cpp
-        map/MaInAppMap.cpp
-        map/MaInAppMap.h
+        map/MainAppMap.cpp
+        map/MainAppMap.h
         threads/mapRender/MapRender.cpp
         threads/mapRender/MapRender.h
         threads/switch/SwitchThread.cpp

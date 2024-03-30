@@ -45,12 +45,11 @@ void *Person::pthreadStart(void *arg) {
         usleep(instance->sleepTime * 100);
     }
     pthread_exit(nullptr);
-    return nullptr;
 }
 
 void Person::move() {
     mtx.lock();
-    if(getY() < 40){
+    if(getY() < 39){
         setY(getY() + 1);
     } else {
         stop();

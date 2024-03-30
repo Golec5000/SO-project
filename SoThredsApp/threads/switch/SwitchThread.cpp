@@ -8,6 +8,8 @@ SwitchThread::~SwitchThread() {
     switchState = nullptr;
 
     stop();
+
+    std::cout << "SwitchThread stopped" << std::endl;
 }
 
 void SwitchThread::run() {

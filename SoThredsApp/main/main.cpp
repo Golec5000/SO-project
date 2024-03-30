@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-#include "../map/MaInAppMap.h"
+#include "../map/MainAppMap.h"
 #include "../threads/mapRender/MapRender.h"
 #include "../threads/switch/SwitchThread.h"
 
@@ -49,7 +49,7 @@ int kbhit() {
 
 
 int main() {
-    auto *map = new MaInAppMap();
+    auto *map = new MainAppMap();
     auto *mapRender = new MapRender();
     auto *switchThread = new SwitchThread();
     auto* entityGenerator = new EntityGenerator();

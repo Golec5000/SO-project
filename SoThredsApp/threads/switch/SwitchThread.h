@@ -4,6 +4,7 @@
 #include <mutex>
 #include <pthread.h>
 #include <unistd.h>
+#include <iostream>
 
 class SwitchThread {
 public:

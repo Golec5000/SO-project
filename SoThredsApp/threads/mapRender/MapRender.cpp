@@ -6,6 +6,7 @@ MapRender::~MapRender() {
     if (running) {
         stop();
     }
+    std::cout << "MapRender destroyed" << std::endl;
 }
 
 void MapRender::start() {
@@ -39,12 +40,12 @@ void MapRender::render() {
             mtx.unlock();
         }
         map->loadMap();
-        map->diisplayMap();
+        map->displayMap();
         system("clear");
     }
 }
 
-void MapRender::setMap(MaInAppMap *map) {
+void MapRender::setMap(MainAppMap *map) {
     this->map = map;
 }
 
