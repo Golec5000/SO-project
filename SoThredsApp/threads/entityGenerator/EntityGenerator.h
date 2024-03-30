@@ -18,8 +18,6 @@ public:
 
     void stop();
 
-    pthread_t getThread() const;
-
     std::vector<Person *> *getPeople() const {
         return people;
     }
@@ -29,10 +27,10 @@ public:
     }
 
 private:
-    pthread_t thread;
-    bool running;
+    pthread_t generateThread;
+    pthread_t removeThread;
 
-    static void *pthreadStart(void *arg);
+    bool running;
 
     void generate();
 
@@ -42,9 +40,11 @@ private:
 
     void removePerson(Person *person);
 
-    std::vector<Person *> *finishedPeople;
-
     void removeFinishedPeople();
+
+    static void *generateThreadStart(void *arg);
+
+    static void *removeThreadStart(void *arg);
 };
 
 

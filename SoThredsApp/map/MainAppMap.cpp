@@ -5,7 +5,7 @@ MainAppMap::MainAppMap() {
     for (int i = 0; i < height; i++) {
         map[i] = new std::string[width];
         for (int j = 0; j < width; j++) {
-            map[i][j] = "kl";
+            map[i][j] = "..";
         }
     }
 
@@ -15,8 +15,10 @@ MainAppMap::MainAppMap() {
 void MainAppMap::loadMap() {
     if (map != nullptr) {
         //srodkowy rzad
-        for (int j = 0; j < width; j++)
+        for (int j = 0; j < width - 1; j++)
             map[mid][j] = pathChar;
+
+        map[mid][width - 1] = stationChar;
 
         //przelacznik kierunku
         map[mid][selectorPoint] = switchChar;
@@ -41,15 +43,17 @@ void MainAppMap::loadMap() {
 void MainAppMap::downArm() const {
     for (int i = mid + 1; i < height; i++)
         map[i][selectorPoint] = pathChar;
-    for (int i = selectorPoint + 1; i < width; i++)
+    for (int i = selectorPoint + 1; i < width - 1; i++)
         map[height - 1][i] = pathChar;
+    map[height - 1][width - 1] = stationChar;
 }
 
 void MainAppMap::upArm() const {
     for (int i = mid - 1; i >= 0; i--)
         map[i][selectorPoint] = pathChar;
-    for (int i = selectorPoint + 1; i < width; i++)
+    for (int i = selectorPoint + 1; i < width - 1; i++)
         map[0][i] = pathChar;
+    map[0][width - 1] = stationChar;
 }
 
 void MainAppMap::deleteMap() {

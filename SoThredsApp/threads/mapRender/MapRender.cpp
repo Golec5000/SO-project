@@ -22,13 +22,12 @@ void MapRender::start() {
 }
 
 void MapRender::stop() {
+    mtx.lock();
     if (running) {
         running = false;
-
-        mtx.lock();
         pthread_join(thread, NULL);
-        mtx.unlock();
     }
+    mtx.unlock();
 }
 
 void MapRender::render() {
@@ -40,16 +39,18 @@ void MapRender::render() {
             mtx.unlock();
         }
         if (entityGenerator != nullptr) {
-           mtx.lock();
-           for (auto &person: *entityGenerator->getPeople()) {
-               if(person->getY() == map->getSelectorPoint() && person->getX() == map->getMid()) {
-                   person->setDirection(map->getSwitchChar());
-               }
-           }
-           mtx.unlock();
+            mtx.lock();
+            for (auto &person: *entityGenerator->getPeople()) {
+                if (person->getY() == map->getSelectorPoint() && person->getX() == map->getMid()) {
+                    person->setDirection(map->getSwitchChar());
+                }
+            }
+            std::cout << "Live people: " << entityGenerator->getPeople()->size() << std::endl;
+            mtx.unlock();
         }
         map->loadMap();
         map->displayMap();
+        std::cout << "Press 'space' to quit" << std::endl;
         system("clear");
     }
 }

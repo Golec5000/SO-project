@@ -42,6 +42,7 @@ private:
     int selectorPoint = 29;
     char pathChar = '1';
     char switchChar = '^';
+    char stationChar = '#';
 
     void downArm() const;
 

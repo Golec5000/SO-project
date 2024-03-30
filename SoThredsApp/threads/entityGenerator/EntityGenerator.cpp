@@ -1,7 +1,7 @@
 #include "EntityGenerator.h"
 
-EntityGenerator::EntityGenerator() : people(new std::vector<Person *>), finishedPeople(new std::vector<Person *>),
-                                     thread(0), running(false) {
+EntityGenerator::EntityGenerator() : people(new std::vector<Person *>), removeThread(0),
+                                     generateThread(0), running(false) {
 }
 
 EntityGenerator::~EntityGenerator() {
@@ -23,43 +23,56 @@ EntityGenerator::~EntityGenerator() {
 }
 
 void EntityGenerator::run() {
+    mtx.lock();
     running = true;
-    pthread_create(&thread, NULL, &EntityGenerator::pthreadStart, this);
+    pthread_create(&generateThread, NULL, &EntityGenerator::generateThreadStart, this);
+    pthread_create(&removeThread, NULL, &EntityGenerator::removeThreadStart, this);
+    mtx.unlock();
 }
 
 void EntityGenerator::stop() {
+    mtx.lock();
     if (running) {
         running = false;
-        mtx.lock();
-        pthread_join(thread, NULL);
-        mtx.unlock();
+        pthread_join(generateThread, NULL);
+        pthread_join(removeThread, NULL);
     }
+    mtx.unlock();
 }
 
-pthread_t EntityGenerator::getThread() const {
-    return thread;
-}
 
-void *EntityGenerator::pthreadStart(void *arg) {
+void *EntityGenerator::generateThreadStart(void *arg) {
     auto *instance = static_cast<EntityGenerator *>(arg);
     while (instance->running) {
         instance->generate();
+        usleep(2000000); // Zasypia na 2 sekundy
+    }
+    pthread_exit(nullptr);
+}
+
+void *EntityGenerator::removeThreadStart(void *arg) {
+    auto *instance = static_cast<EntityGenerator *>(arg);
+    while (instance->running) {
         instance->removeFinishedPeople();
-        usleep(1000000);
+        usleep(10000); // Zasypia na 0.01 sekundę
     }
     pthread_exit(nullptr);
 }
 
 void EntityGenerator::removeFinishedPeople() {
 
-    for (auto &person: *finishedPeople)
-        if (person->getY() == 39)
-            removePerson(person);
 
+//    std::cout << "remover" << std::endl;
+    mtx.lock();
+    for (auto &person: *people)
+        if (!person->isRunning())
+            removePerson(person);
+    mtx.unlock();
 }
 
 void EntityGenerator::generate() {
     mtx.lock();
+//    std::cout << "generator" << std::endl;
     auto *person = new Person();
     person->setX(map->getMid());
     person->setY(0);
@@ -69,14 +82,14 @@ void EntityGenerator::generate() {
 }
 
 void EntityGenerator::removePerson(Person *person) {
-    mtx.lock();
+
     auto it = std::find(people->begin(), people->end(), person);
     if (it != people->end()) {
         people->erase(it);
     }
-    std::cout << "Person " << person->getName() << " removed" << std::endl;
-    std::cout << "People size: " << people->size() << std::endl;
+//    std::cout << "Person " << person->getName() << " removed" << std::endl;
+//    std::cout << "People size: " << people->size() << std::endl;
     delete person;
     person = nullptr;
-    mtx.unlock();
+
 }
