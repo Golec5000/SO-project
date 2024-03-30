@@ -6,7 +6,7 @@ Person::Person() : thread(0), running(false), diretion('>'){
     std::uniform_int_distribution<> dis(1000, 5000);
     this->sleepTime = dis(gen);
 
-    std::string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+-=[]{}|;':,.<>?";
+    std::string chars = "abcdefghijmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ234567890!@#$%&*()_+-=[]{}|;':,.<?";
 
     for (int i = 0; i < 2; i++)
         name += chars[dis(gen) % chars.size()];
