@@ -1,7 +1,7 @@
 CMakeFiles/SoThredsApp.dir/threads/entity/Person.cpp.o: \
- /home/wombat-laptop/GitLab/SO-project/SoThredsApp/threads/entity/Person.cpp \
+ /home/wombat/GitHub/SO-project/SoThredsApp/threads/entity/Person.cpp \
  /usr/include/stdc-predef.h \
- /home/wombat-laptop/GitLab/SO-project/SoThredsApp/threads/entity/Person.h \
+ /home/wombat/GitHub/SO-project/SoThredsApp/threads/entity/Person.h \
  /usr/include/c++/11/mutex /usr/include/c++/11/tuple \
  /usr/include/c++/11/utility \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \

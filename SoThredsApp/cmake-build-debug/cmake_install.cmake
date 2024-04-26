@@ -1,4 +1,4 @@
-# Install script for directory: /home/wombat-laptop/GitLab/SO-project/SoThredsApp
+# Install script for directory: /home/wombat/GitHub/SO-project/SoThredsApp
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/wombat-laptop/GitLab/SO-project/SoThredsApp/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/wombat/GitHub/SO-project/SoThredsApp/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

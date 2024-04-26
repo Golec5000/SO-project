@@ -2,7 +2,7 @@
 #define SWITCHTHREAD_H
 
 #include <mutex>
-#include <pthread.h>
+#include <thread>
 #include <unistd.h>
 #include <iostream>
 
@@ -16,17 +16,13 @@ public:
 
     char getSwitchState() const;
 
-    pthread_t getThread() const;
-
     void stop();
 
 private:
     char *switchState;
     int switchStateIndex;
-    pthread_t thread;
+    std::thread thread;
     bool running;
-
-    static void *pthreadStart(void *arg);
 
     void switchStateChange();
 

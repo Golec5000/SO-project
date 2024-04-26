@@ -1,5 +1,5 @@
 CMakeFiles/SoThredsApp.dir/main/main.cpp.o: \
- /home/wombat-laptop/GitLab/SO-project/SoThredsApp/main/main.cpp \
+ /home/wombat/GitHub/SO-project/SoThredsApp/main/main.cpp \
  /usr/include/stdc-predef.h /usr/include/unistd.h /usr/include/features.h \
  /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -154,7 +154,7 @@ CMakeFiles/SoThredsApp.dir/main/main.cpp.o: \
  /usr/include/c++/11/bits/basic_ios.tcc \
  /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
  /usr/include/c++/11/bits/istream.tcc \
- /home/wombat-laptop/GitLab/SO-project/SoThredsApp/main/../map/MainAppMap.h \
+ /home/wombat/GitHub/SO-project/SoThredsApp/main/../map/MainAppMap.h \
  /usr/include/c++/11/iomanip /usr/include/c++/11/locale \
  /usr/include/c++/11/bits/locale_facets_nonio.h /usr/include/c++/11/ctime \
  /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
@@ -170,7 +170,7 @@ CMakeFiles/SoThredsApp.dir/main/main.cpp.o: \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
- /home/wombat-laptop/GitLab/SO-project/SoThredsApp/main/../map/../threads/entity/Person.h \
+ /home/wombat/GitHub/SO-project/SoThredsApp/main/../map/../threads/entity/Person.h \
  /usr/include/c++/11/mutex /usr/include/c++/11/chrono \
  /usr/include/c++/11/ratio /usr/include/c++/11/limits \
  /usr/include/c++/11/bits/parse_numbers.h \
@@ -191,13 +191,16 @@ CMakeFiles/SoThredsApp.dir/main/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/11/bits/opt_random.h \
  /usr/include/c++/11/bits/random.tcc /usr/include/c++/11/numeric \
  /usr/include/c++/11/bits/stl_numeric.h \
- /home/wombat-laptop/GitLab/SO-project/SoThredsApp/main/../threads/mapRender/MapRender.h \
- /home/wombat-laptop/GitLab/SO-project/SoThredsApp/main/../threads/mapRender/../../map/MainAppMap.h \
- /home/wombat-laptop/GitLab/SO-project/SoThredsApp/main/../threads/mapRender/../switch/SwitchThread.h \
- /home/wombat-laptop/GitLab/SO-project/SoThredsApp/main/../threads/mapRender/../entityGenerator/EntityGenerator.h \
+ /home/wombat/GitHub/SO-project/SoThredsApp/main/../threads/mapRender/MapRender.h \
+ /usr/include/c++/11/thread /usr/include/c++/11/bits/std_thread.h \
+ /usr/include/c++/11/bits/refwrap.h \
+ /usr/include/c++/11/bits/this_thread_sleep.h \
+ /home/wombat/GitHub/SO-project/SoThredsApp/main/../threads/mapRender/../../map/MainAppMap.h \
+ /home/wombat/GitHub/SO-project/SoThredsApp/main/../threads/mapRender/../switch/SwitchThread.h \
+ /home/wombat/GitHub/SO-project/SoThredsApp/main/../threads/mapRender/../entityGenerator/EntityGenerator.h \
  /usr/include/c++/11/algorithm /usr/include/c++/11/bits/stl_algo.h \
  /usr/include/c++/11/bits/algorithmfwd.h \
  /usr/include/c++/11/bits/stl_heap.h \
  /usr/include/c++/11/bits/stl_tempbuf.h \
- /home/wombat-laptop/GitLab/SO-project/SoThredsApp/main/../threads/mapRender/../entityGenerator/../entity/Person.h \
- /home/wombat-laptop/GitLab/SO-project/SoThredsApp/main/../threads/mapRender/../entityGenerator/../../map/MainAppMap.h
+ /home/wombat/GitHub/SO-project/SoThredsApp/main/../threads/mapRender/../entityGenerator/../entity/Person.h \
+ /home/wombat/GitHub/SO-project/SoThredsApp/main/../threads/mapRender/../entityGenerator/../../map/MainAppMap.h

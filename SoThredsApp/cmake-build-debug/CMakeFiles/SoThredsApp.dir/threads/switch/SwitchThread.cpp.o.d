@@ -1,7 +1,7 @@
 CMakeFiles/SoThredsApp.dir/threads/switch/SwitchThread.cpp.o: \
- /home/wombat-laptop/GitLab/SO-project/SoThredsApp/threads/switch/SwitchThread.cpp \
+ /home/wombat/GitHub/SO-project/SoThredsApp/threads/switch/SwitchThread.cpp \
  /usr/include/stdc-predef.h \
- /home/wombat-laptop/GitLab/SO-project/SoThredsApp/threads/switch/SwitchThread.h \
+ /home/wombat/GitHub/SO-project/SoThredsApp/threads/switch/SwitchThread.h \
  /usr/include/c++/11/mutex /usr/include/c++/11/tuple \
  /usr/include/c++/11/utility \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
@@ -138,7 +138,10 @@ CMakeFiles/SoThredsApp.dir/threads/switch/SwitchThread.cpp.o: \
  /usr/include/c++/11/bits/functional_hash.h \
  /usr/include/c++/11/bits/basic_string.tcc \
  /usr/include/c++/11/bits/std_mutex.h \
- /usr/include/c++/11/bits/unique_lock.h /usr/include/unistd.h \
+ /usr/include/c++/11/bits/unique_lock.h /usr/include/c++/11/thread \
+ /usr/include/c++/11/bits/std_thread.h /usr/include/c++/11/bits/refwrap.h \
+ /usr/include/c++/11/bits/unique_ptr.h \
+ /usr/include/c++/11/bits/this_thread_sleep.h /usr/include/unistd.h \
  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
  /usr/include/x86_64-linux-gnu/bits/environments.h \
  /usr/include/x86_64-linux-gnu/bits/confname.h \

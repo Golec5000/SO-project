@@ -1,10 +1,11 @@
 #ifndef MAPRENDER_H
 #define MAPRENDER_H
 
-#include <pthread.h>
+#include <thread>
 #include <unistd.h>
 #include <mutex>
 #include <ncurses.h>
+#include <thread>
 
 #include "../../map/MainAppMap.h"
 #include "../switch/SwitchThread.h"
@@ -34,10 +35,8 @@ private:
     MainAppMap *map = nullptr;
     SwitchThread *switchThread = nullptr;
     EntityGenerator *entityGenerator = nullptr;
-    pthread_t thread = 0;
+    std::thread thread;
     bool running = false;
-
-    static void *pthreadStart(void *arg);
 
     std::mutex mtx;
 };

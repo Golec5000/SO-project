@@ -1,4 +1,4 @@
-/home/wombat-laptop/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/wombat-laptop/GitLab/SO-project/SoThredsApp -B /home/wombat-laptop/GitLab/SO-project/SoThredsApp/cmake-build-debug
+/home/wombat/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/wombat/GitHub/SO-project/SoThredsApp -B /home/wombat/GitHub/SO-project/SoThredsApp/cmake-build-debug
 CMake Deprecation Warning:
   Support for "Extra Generators" like
 
@@ -8,6 +8,7 @@ CMake Deprecation Warning:
   use the cmake-file-api(7) to view CMake-generated project build trees.
 
 
+-- Found Curses: /usr/lib/x86_64-linux-gnu/libcurses.so  
 -- Configuring done (0.0s)
 -- Generating done (0.0s)
--- Build files have been written to: /home/wombat-laptop/GitLab/SO-project/SoThredsApp/cmake-build-debug
+-- Build files have been written to: /home/wombat/GitHub/SO-project/SoThredsApp/cmake-build-debug

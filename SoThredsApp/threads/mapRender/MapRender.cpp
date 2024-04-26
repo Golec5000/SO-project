@@ -16,7 +16,7 @@ void MapRender::start() {
     keypad(stdscr, TRUE);
 
     running = true;
-    pthread_create(&thread, NULL, &MapRender::pthreadStart, this);
+    this->thread = std::thread(&MapRender::render, this);
     if (switchThread != nullptr) {
         switchThread->run();
     }
@@ -27,12 +27,12 @@ void MapRender::start() {
 }
 
 void MapRender::stop() {
-    mtx.lock();
-    if (running) {
+    if(running) {
         running = false;
-        pthread_join(thread, NULL);
+        if (this->thread.joinable()) {
+            this->thread.join();
+        }
     }
-    mtx.unlock();
     endwin();
 }
 
@@ -42,12 +42,12 @@ void MapRender::render() {
 
     while (running) {
         werase(buffer);
+
+        // Update switch state
         if (switchThread != nullptr) {
-            const char direction = switchThread->getSwitchState();
-            mtx.lock();
-            map->setSwitchChar(direction);
-            mtx.unlock();
+            map->setSwitchChar(switchThread->getSwitchState());
         }
+
         if (entityGenerator != nullptr) {
             mtx.lock();
             for (auto &person: *entityGenerator->getPeople()) {
@@ -67,7 +67,7 @@ void MapRender::render() {
         // Odśwież ekran
         refresh();
         // Wyczyść bufor
-        usleep(1000);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     }
 
@@ -84,13 +84,6 @@ void MapRender::setSwitchThread(SwitchThread *switchThread) {
 
 bool MapRender::isRunning() const {
     return running;
-}
-
-void *MapRender::pthreadStart(void *arg) {
-    auto *instance = static_cast<MapRender *>(arg);
-    instance->render();
-    pthread_exit(nullptr);
-    return nullptr;
 }
 
 void MapRender::setEntityGenerator(EntityGenerator *entityGenerator) {
