@@ -1,6 +1,6 @@
 #include "EntityGenerator.h"
 
-EntityGenerator::EntityGenerator() : people(new std::vector<Person *>), removeThread(0),
+EntityGenerator::EntityGenerator() : people(new std::vector<Person *>), removeThread(0),//przerobić vector na liste
                                      generateThread(0), running(false) {
 }
 

@@ -34,6 +34,7 @@ void Person::stop() {
         mtx.unlock();
     }
 
+    //guardy
 }
 
 pthread_t Person::getThread() const {
@@ -75,11 +76,11 @@ void Person::move() {
             }
             break;
     }
-    if(getY() == 39) {
+    if (getY() == 39) {
         usleep(500000); // Zasypia na 0.5 sekundy
         stop();
     }
-    mtx.unlock();
+    mtx.unlock();//usunąć lock
 }
 
 std::string Person::getName() const {

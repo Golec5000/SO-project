@@ -66,11 +66,11 @@ void MainAppMap::deleteMap() {
 }
 
 
-void MainAppMap::displayMap() const {
+void MainAppMap::displayMap(WINDOW* win) const {
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++)
-            std::cout << std::setw(4) << map[i][j];
-        std::cout << std::endl;
+            wprintw(win, "%4s", map[i][j].c_str());
+        wprintw(win, "\n");
     }
 }
 

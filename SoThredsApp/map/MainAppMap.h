@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <vector>
 #include "../threads/entity/Person.h"
+#include <ncurses.h>
 
 class MainAppMap {
 public:
@@ -14,7 +15,7 @@ public:
 
     std::string **getMap() const;
 
-    void displayMap() const;
+    void displayMap(WINDOW* win) const;
 
     void setSwitchChar(char arg);
 

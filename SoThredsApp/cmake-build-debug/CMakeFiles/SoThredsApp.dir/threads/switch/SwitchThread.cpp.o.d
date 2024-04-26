@@ -1,7 +1,7 @@
 CMakeFiles/SoThredsApp.dir/threads/switch/SwitchThread.cpp.o: \
- /home/wombat/GitHub/SO-project/SoThredsApp/threads/switch/SwitchThread.cpp \
+ /home/wombat-laptop/GitLab/SO-project/SoThredsApp/threads/switch/SwitchThread.cpp \
  /usr/include/stdc-predef.h \
- /home/wombat/GitHub/SO-project/SoThredsApp/threads/switch/SwitchThread.h \
+ /home/wombat-laptop/GitLab/SO-project/SoThredsApp/threads/switch/SwitchThread.h \
  /usr/include/c++/11/mutex /usr/include/c++/11/tuple \
  /usr/include/c++/11/utility \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \

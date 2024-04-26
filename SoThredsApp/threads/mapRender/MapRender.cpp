@@ -10,6 +10,11 @@ MapRender::~MapRender() {
 }
 
 void MapRender::start() {
+
+    initscr();
+    cbreak();
+    keypad(stdscr, TRUE);
+
     running = true;
     pthread_create(&thread, NULL, &MapRender::pthreadStart, this);
     if (switchThread != nullptr) {
@@ -28,10 +33,15 @@ void MapRender::stop() {
         pthread_join(thread, NULL);
     }
     mtx.unlock();
+    endwin();
 }
 
 void MapRender::render() {
+
+    WINDOW *buffer = newwin(0, 0, 0, 0);
+
     while (running) {
+        werase(buffer);
         if (switchThread != nullptr) {
             const char direction = switchThread->getSwitchState();
             mtx.lock();
@@ -45,14 +55,23 @@ void MapRender::render() {
                     person->setDirection(map->getSwitchChar());
                 }
             }
-            std::cout << "Live people: " << entityGenerator->getPeople()->size() << std::endl;
             mtx.unlock();
         }
+
         map->loadMap();
-        map->displayMap();
-        std::cout << "Press 'space' to quit" << std::endl;
-        system("clear");
+        map->displayMap(buffer);
+        wprintw(buffer, "Press 'space' to quit\n");
+
+        // Skopiuj bufor na ekran
+        overwrite(buffer, stdscr);
+        // Odśwież ekran
+        refresh();
+        // Wyczyść bufor
+        usleep(1000);
+
     }
+
+    delwin(buffer);
 }
 
 void MapRender::setMap(MainAppMap *map) {

@@ -4,6 +4,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <mutex>
+#include <ncurses.h>
 
 #include "../../map/MainAppMap.h"
 #include "../switch/SwitchThread.h"
