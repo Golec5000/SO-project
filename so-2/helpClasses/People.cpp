@@ -1,6 +1,6 @@
 #include "People.h"
 
-People::People(int x, int y) : running(true), finalDirection(false), toErase(false), direction('>'){
+People::People(int x, int y) : running(true), toErase(false), direction('>'){
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(500, 1500);
