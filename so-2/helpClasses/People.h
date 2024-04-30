@@ -9,7 +9,6 @@
 class People {
 private:
     bool volatile running;
-    bool volatile finalDirection;
     bool volatile toErase;
     int speed;
     std::string name;

@@ -1,3 +1,4 @@
+#include <iostream>
 #include <vector>
 #include <random>
 #include <memory>
@@ -5,11 +6,12 @@
 #include <ncurses.h>
 #include <atomic>
 #include <mutex>
+#include <list>
 #include "helpClasses/People.h"
 
 std::vector<std::vector<std::string>> map;
 std::vector<char> switchChars = {'^', '>', 'v'};
-std::vector<std::shared_ptr<People *>> clients;
+std::list<std::shared_ptr<People*>> clients;
 
 std::atomic<bool> isSwitchRunning = true;
 std::atomic<bool> isGeneratorRunning = true;
@@ -57,7 +59,6 @@ int main() {
 
         if (!clients.empty()) {
             for (auto &client: clients) {
-                //std::lock_guard<std::mutex> lock(clientsMutex);
                 auto c = *client;
                 if(c->getYPos() == selectorPoint && c->getXPos() == mid)
                     c->setDirection(switchChar);
@@ -72,62 +73,72 @@ int main() {
 
         int c = getch();
         if (c == ' ') {
+            wclear(buffer);
 
             isSwitchRunning = false;
             switchThread.join();
+            std::cout << "Switch thread joined" << std::endl;
+
             isGeneratorRunning = false;
             clientsThread.join();
+            std::cout << "Generator thread joined" << std::endl;
+
             isClientCheckerRunning = false;
             checkClientsThread.join();
+            std::cout << "Checker thread joined" << std::endl;
+
             for(auto& client : clients) {
                 (*client)->joinThread();
             }
+            std::cout << "All threads joined" << std::endl;
+
             break;
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
-
     endwin();
 
+    buffer = nullptr;
 
     return 0;
 }
 
 void darw_map(WINDOW *ptr) {
+    // Clear the map
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            map[i][j] = "..";
+        }
+    }
 
-    if (!map.empty()) {
-        //srodkowy rzad
-        for (int j = 0; j < width - 1; j++)
-            map[mid][j] = pathChar;
+    // Draw the middle row
+    for (int j = 0; j < width - 1; j++)
+        map[mid][j] = pathChar;
 
-        map[mid][width - 1] = stationChar;
+    map[mid][width - 1] = stationChar;
 
-        //przelacznik kierunku
-        map[mid][selectorPoint] = switchChar;
+    // Draw the switch
+    map[mid][selectorPoint] = switchChar;
 
-        //dolna galoz
-        downArm();
-        //gorna galoz
-        upArm();
+    // Draw the lower branch
+    downArm();
+    // Draw the upper branch
+    upArm();
 
-        if (!clients.empty()) {
-            for (auto &client: clients) {
-                auto c = *client;
-                if (!c->getToErase()) {
-                    map[c->getXPos()][c->getYPos()] = c->getName();
-                } else {
-                    map[c->getXPos()][c->getYPos()] = "1";
-                }
+    if (!clients.empty()) {
+        for (auto &client: clients) {
+            auto c = *client;
+            if (!c->getToErase()) {
+                map[c->getXPos()][c->getYPos()] = c->getName();
             }
         }
+    }
 
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++)
-                wprintw(ptr, "%4s", map[i][j].c_str());
-            wprintw(ptr, "\n");
-        }
-
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++)
+            wprintw(ptr, "%4s", map[i][j].c_str());
+        wprintw(ptr, "\n");
     }
 }
 
@@ -177,9 +188,11 @@ void checkClients(){
         if (!clients.empty()) {
             for (auto client = clients.begin(); client != clients.end();) {
                 if ((*(*client))->getToErase()) {
-                    //std::lock_guard<std::mutex> lock(clientsMutex);
+                    std::lock_guard<std::mutex> lock(clientsMutex);
                     client = clients.erase(client);
-                } else ++client;
+                } else {
+                    ++client;
+                }
             }
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
