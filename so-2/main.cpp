@@ -16,44 +16,36 @@ std::list<std::shared_ptr<People *>> clients;
 std::atomic<bool> isSwitchRunning = true;
 std::atomic<bool> isGeneratorRunning = true;
 std::atomic<bool> isClientCheckerRunning = true;
+
 std::mutex clientsMutex;
 
 int width = 40;
 int height = 31;
 int mid = 15;
 int selectorPoint = 29;
+
 char pathChar = '1';
 char switchChar = '^';
 char stationChar = '#';
 
-void darw_map(WINDOW *ptr);
-
-void downArm();
-
-void upArm();
-
+void draw_map(WINDOW *ptr);
+void draw_arm(int start, int end, int row);
 void switchDirection();
-
 void generateClients();
-
 void checkClients();
 
 int main() {
-    // Initialize ncurses
     initscr();
     curs_set(0);
     nodelay(stdscr, TRUE);
     WINDOW *buffer = newwin(0, 0, 0, 0);
 
-    // Initialize map
     map = std::vector<std::vector<std::string>>(height, std::vector<std::string>(width, ".."));
-
 
     std::thread switchThread(switchDirection);
     std::thread clientsThread(generateClients);
     std::thread checkClientsThread(checkClients);
 
-    // Game loop
     while (true) {
         werase(buffer);
 
@@ -64,7 +56,7 @@ int main() {
             }
         }
 
-        darw_map(buffer);
+        draw_map(buffer);
         wprintw(buffer, "Press 'space' to quit\n");
 
         overwrite(buffer, stdscr);
@@ -73,24 +65,19 @@ int main() {
         int c = getch();
         if (c == ' ') {
             endwin();
-            buffer = nullptr;
 
             isSwitchRunning = false;
             switchThread.join();
-            std::cout << "Switch thread joined" << std::endl;
 
             isGeneratorRunning = false;
             clientsThread.join();
-            std::cout << "Generator thread joined" << std::endl;
 
             isClientCheckerRunning = false;
             checkClientsThread.join();
-            std::cout << "Checker thread joined" << std::endl;
 
             for (auto &client: clients) {
                 (*client)->joinThread();
             }
-            std::cout << "All threads joined" << std::endl;
 
             break;
         }
@@ -98,31 +85,24 @@ int main() {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 
-
     return 0;
 }
 
-void darw_map(WINDOW *ptr) {
-    // Clear the map
+void draw_map(WINDOW *ptr) {
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             map[i][j] = "..";
         }
     }
 
-    // Draw the middle row
     for (int j = 0; j < width - 1; j++)
         map[mid][j] = pathChar;
 
     map[mid][width - 1] = stationChar;
-
-    // Draw the switch
     map[mid][selectorPoint] = switchChar;
 
-    // Draw the lower branch
-    downArm();
-    // Draw the upper branch
-    upArm();
+    draw_arm(mid + 1, height, height - 1);
+    draw_arm(mid - 1, 0, 0);
 
     if (!clients.empty()) {
         for (auto &client: clients) {
@@ -139,24 +119,15 @@ void darw_map(WINDOW *ptr) {
     }
 }
 
-void upArm() {
-    for (int i = mid - 1; i >= 0; i--)
+void draw_arm(int start, int end, int row) {
+    for (int i = start; i != end; i += (start < end ? 1 : -1))
         map[i][selectorPoint] = pathChar;
     for (int i = selectorPoint + 1; i < width - 1; i++)
-        map[0][i] = pathChar;
-    map[0][width - 1] = stationChar;
-}
-
-void downArm() {
-    for (int i = mid + 1; i < height; i++)
-        map[i][selectorPoint] = pathChar;
-    for (int i = selectorPoint + 1; i < width - 1; i++)
-        map[height - 1][i] = pathChar;
-    map[height - 1][width - 1] = stationChar;
+        map[row][i] = pathChar;
+    map[row][width - 1] = stationChar;
 }
 
 void switchDirection() {
-
     int cycle = 0;
 
     while (isSwitchRunning) {
@@ -177,7 +148,6 @@ void generateClients() {
         clients.push_back(client);
         std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
     }
-
 }
 
 void checkClients() {
@@ -185,13 +155,12 @@ void checkClients() {
         if (!clients.empty()) {
             for (auto client = clients.begin(); client != clients.end();) {
                 if ((*(*client))->getToErase()) {
-                    std::lock_guard<std::mutex> lock(clientsMutex);
                     client = clients.erase(client);
                 } else {
                     ++client;
                 }
             }
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }

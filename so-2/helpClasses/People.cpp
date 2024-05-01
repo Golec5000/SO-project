@@ -4,7 +4,7 @@ People::People(int x, int y) : running(true), toErase(false), direction('>'){
 
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(500, 1500);
+    std::uniform_int_distribution<> dis(300, 1500);
     this->speed = dis(gen);
 
     std::string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ234567890!@$%&*()_+-=[]{}|;':,<?";
