@@ -11,7 +11,7 @@
 
 std::vector<std::vector<std::string>> map;
 std::vector<char> switchChars = {'^', '>', 'v'};
-std::list<std::shared_ptr<People*>> clients;
+std::list<std::shared_ptr<People *>> clients;
 
 std::atomic<bool> isSwitchRunning = true;
 std::atomic<bool> isGeneratorRunning = true;
@@ -59,9 +59,8 @@ int main() {
 
         if (!clients.empty()) {
             for (auto &client: clients) {
-                auto c = *client;
-                if(c->getYPos() == selectorPoint && c->getXPos() == mid)
-                    c->setDirection(switchChar);
+                if ((*client)->getYPos() == selectorPoint && (*client)->getXPos() == mid)
+                    (*client)->setDirection(switchChar);
             }
         }
 
@@ -73,7 +72,8 @@ int main() {
 
         int c = getch();
         if (c == ' ') {
-            wclear(buffer);
+            endwin();
+            buffer = nullptr;
 
             isSwitchRunning = false;
             switchThread.join();
@@ -87,7 +87,7 @@ int main() {
             checkClientsThread.join();
             std::cout << "Checker thread joined" << std::endl;
 
-            for(auto& client : clients) {
+            for (auto &client: clients) {
                 (*client)->joinThread();
             }
             std::cout << "All threads joined" << std::endl;
@@ -97,9 +97,7 @@ int main() {
 
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
-    endwin();
 
-    buffer = nullptr;
 
     return 0;
 }
@@ -128,9 +126,8 @@ void darw_map(WINDOW *ptr) {
 
     if (!clients.empty()) {
         for (auto &client: clients) {
-            auto c = *client;
-            if (!c->getToErase()) {
-                map[c->getXPos()][c->getYPos()] = c->getName();
+            if (!(*client)->getToErase()) {
+                map[(*client)->getXPos()][(*client)->getYPos()] = (*client)->getName();
             }
         }
     }
@@ -183,7 +180,7 @@ void generateClients() {
 
 }
 
-void checkClients(){
+void checkClients() {
     while (isClientCheckerRunning) {
         if (!clients.empty()) {
             for (auto client = clients.begin(); client != clients.end();) {
