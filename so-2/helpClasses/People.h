@@ -1,15 +1,15 @@
 #ifndef SO_2_PEOPLE_H
 #define SO_2_PEOPLE_H
 
-#include <iostream>
 #include <thread>
 #include <random>
 #include <cstdlib>
+#include <atomic>
 
 class People {
 private:
-    bool volatile running;
-    bool volatile toErase;
+    std::atomic<bool> running;
+    std::atomic<bool> toErase;
     int speed;
     std::string name;
     std::thread thread;

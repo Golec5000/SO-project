@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 #include <random>
 #include <memory>
@@ -10,13 +9,9 @@
 #include "helpClasses/People.h"
 
 std::vector<std::vector<std::string>> map;
-std::vector<char> switchChars = {'^', '>', 'v'};
 std::list<std::shared_ptr<People *>> clients;
 
-std::atomic<bool> isSwitchRunning = true;
-std::atomic<bool> isGeneratorRunning = true;
-std::atomic<bool> isClientCheckerRunning = true;
-
+std::atomic<bool> isRunning = true;
 std::mutex clientsMutex;
 
 int width = 40;
@@ -29,10 +24,18 @@ char switchChar = '^';
 char stationChar = '#';
 
 void draw_map(WINDOW *ptr);
-void draw_arm(int start, int end, int row);
+
+void down_arm();
+
+void up_arm();
+
 void switchDirection();
+
 void generateClients();
+
 void checkClients();
+
+void setSwitchDirectionForClients();
 
 int main() {
     initscr();
@@ -46,69 +49,55 @@ int main() {
     std::thread clientsThread(generateClients);
     std::thread checkClientsThread(checkClients);
 
-    while (true) {
+    while (isRunning) {
         werase(buffer);
 
-        if (!clients.empty()) {
-            for (auto &client: clients) {
-                if ((*client)->getYPos() == selectorPoint && (*client)->getXPos() == mid)
-                    (*client)->setDirection(switchChar);
-            }
-        }
+        wprintw(buffer, "City Hall simulation\n");
+        wprintw(buffer, "Living threads: %zu\n", clients.size());
+
+        setSwitchDirectionForClients();
 
         draw_map(buffer);
         wprintw(buffer, "Press 'space' to quit\n");
-
         overwrite(buffer, stdscr);
         refresh();
 
-        int c = getch();
-        if (c == ' ') {
+        if (getch() == ' ') {
             endwin();
-
-            isSwitchRunning = false;
+            isRunning = false;
             switchThread.join();
-
-            isGeneratorRunning = false;
             clientsThread.join();
-
-            isClientCheckerRunning = false;
             checkClientsThread.join();
-
             for (auto &client: clients) {
                 (*client)->joinThread();
             }
-
-            break;
         }
-
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
-
     return 0;
 }
 
-void draw_map(WINDOW *ptr) {
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            map[i][j] = "..";
+void setSwitchDirectionForClients() {
+    if (!clients.empty()) {
+        for (auto &client: clients) {
+            if ((*client)->getYPos() == selectorPoint && (*client)->getXPos() == mid)
+                (*client)->setDirection(switchChar);
         }
     }
+}
 
-    for (int j = 0; j < width - 1; j++)
-        map[mid][j] = pathChar;
+void draw_map(WINDOW *ptr) {
+    for (int j = 0; j < width - 1; j++) map[mid][j] = pathChar;
 
     map[mid][width - 1] = stationChar;
     map[mid][selectorPoint] = switchChar;
 
-    draw_arm(mid + 1, height, height - 1);
-    draw_arm(mid - 1, 0, 0);
+    down_arm();
+    up_arm();
 
-    if (!clients.empty()) {
-        for (auto &client: clients) {
-            if (!(*client)->getToErase()) {
-                map[(*client)->getXPos()][(*client)->getYPos()] = (*client)->getName();
-            }
+    for (auto &client: clients) {
+        if (!(*client)->getToErase()) {
+            map[(*client)->getXPos()][(*client)->getYPos()] = (*client)->getName();
         }
     }
 
@@ -119,48 +108,48 @@ void draw_map(WINDOW *ptr) {
     }
 }
 
-void draw_arm(int start, int end, int row) {
-    for (int i = start; i != end; i += (start < end ? 1 : -1))
-        map[i][selectorPoint] = pathChar;
-    for (int i = selectorPoint + 1; i < width - 1; i++)
-        map[row][i] = pathChar;
-    map[row][width - 1] = stationChar;
+void down_arm() {
+
+    for (int i = mid + 1; i < height; i++) map[i][selectorPoint] = pathChar;
+    for (int i = selectorPoint + 1; i < width - 1; i++) map[height - 1][i] = pathChar;
+    map[height - 1][width - 1] = stationChar;
+
+}
+
+void up_arm() {
+
+    for (int i = mid - 1; i >= 0; i--) map[i][selectorPoint] = pathChar;
+    for (int i = selectorPoint + 1; i < width - 1; i++) map[0][i] = pathChar;
+    map[0][width - 1] = stationChar;
+
 }
 
 void switchDirection() {
-    int cycle = 0;
-
-    while (isSwitchRunning) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        switchChar = switchChars[cycle % 3];
-        cycle++;
+    while (isRunning) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(750));
+        switchChar = (switchChar == '^') ? '>' : (switchChar == '>') ? 'v' : '^';
     }
 }
 
 void generateClients() {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dis(2000, 6000);
+    std::uniform_int_distribution<int> dis(1, 7);
 
-    while (isGeneratorRunning) {
+    while (isRunning) {
         auto client = std::make_shared<People *>(new People(mid, 0));
         std::lock_guard<std::mutex> lock(clientsMutex);
         clients.push_back(client);
-        std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
+        std::this_thread::sleep_for(std::chrono::seconds(dis(gen)));
     }
 }
 
 void checkClients() {
-    while (isClientCheckerRunning) {
-        if (!clients.empty()) {
-            for (auto client = clients.begin(); client != clients.end();) {
-                if ((*(*client))->getToErase()) {
-                    client = clients.erase(client);
-                } else {
-                    ++client;
-                }
-            }
+    while (isRunning) {
+        for (auto client = clients.begin(); client != clients.end();) {
+            if ((*(*client))->getToErase()) client = clients.erase(client);
+            else ++client;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 }

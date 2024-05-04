@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/wombat-laptop/GitLab/SO-project/so-2/cmake-build-debug",
-		"source" : "/home/wombat-laptop/GitLab/SO-project/so-2"
+		"build" : "/home/wombat/GitHub/SO-project/so-2/cmake-build-debug",
+		"source" : "/home/wombat/GitHub/SO-project/so-2"
 	},
 	"version" : 
 	{
