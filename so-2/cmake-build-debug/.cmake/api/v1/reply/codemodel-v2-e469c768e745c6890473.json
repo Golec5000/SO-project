@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "so_2::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-so_2-Debug-233c1da50aa3e92f3d41.json",
+					"jsonFile" : "target-so_2-Debug-09ac9f0b24f6ddcc43c7.json",
 					"name" : "so_2",
 					"projectIndex" : 0
 				}
@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/wombat/GitHub/SO-project/so-2/cmake-build-debug",
-		"source" : "/home/wombat/GitHub/SO-project/so-2"
+		"build" : "/home/wombat-laptop/GitLab/SO-project/so-2/cmake-build-debug",
+		"source" : "/home/wombat-laptop/GitLab/SO-project/so-2"
 	},
 	"version" : 
 	{

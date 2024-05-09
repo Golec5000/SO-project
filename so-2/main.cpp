@@ -1,10 +1,10 @@
+#include <iostream>
 #include <vector>
 #include <random>
 #include <memory>
 #include <thread>
 #include <ncurses.h>
 #include <atomic>
-#include <mutex>
 #include <list>
 #include "helpClasses/People.h"
 
@@ -12,7 +12,6 @@ std::vector<std::vector<std::string>> map;
 std::list<std::shared_ptr<People *>> clients;
 
 std::atomic<bool> isRunning = true;
-std::mutex clientsMutex;
 
 int width = 40;
 int height = 31;
@@ -65,12 +64,17 @@ int main() {
         if (getch() == ' ') {
             endwin();
             isRunning = false;
+            std::cout << "Włączanie switcha" << std::endl;
             switchThread.join();
+            std::cout << "Włączanie generatora ludzi" << std::endl;
             clientsThread.join();
+            std::cout << "Włączanie watku za sprawdzanie życia wątków" << std::endl;
             checkClientsThread.join();
+            std::cout << "Włączanie pozostałych ludzi którzy nie dotarli do końca" << std::endl;
             for (auto &client: clients) {
                 (*client)->joinThread();
             }
+            std::cout << "Włączanie całęgo systemu powidło sie !" << std::endl;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
@@ -95,11 +99,9 @@ void draw_map(WINDOW *ptr) {
     down_arm();
     up_arm();
 
-    for (auto &client: clients) {
-        if (!(*client)->getToErase()) {
-            map[(*client)->getXPos()][(*client)->getYPos()] = (*client)->getName();
-        }
-    }
+    for (auto &client: clients)
+        if (!(*client)->getToErase()) map[(*client)->getXPos()][(*client)->getYPos()] = (*client)->getName();
+
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++)
@@ -134,13 +136,11 @@ void switchDirection() {
 void generateClients() {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dis(1, 7);
+    std::uniform_int_distribution<int> dis(1000, 7000);
 
     while (isRunning) {
-        auto client = std::make_shared<People *>(new People(mid, 0));
-        std::lock_guard<std::mutex> lock(clientsMutex);
-        clients.push_back(client);
-        std::this_thread::sleep_for(std::chrono::seconds(dis(gen)));
+        clients.push_back(std::make_shared<People *>(new People(mid, 0)));
+        std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
     }
 }
 
@@ -150,6 +150,6 @@ void checkClients() {
             if ((*(*client))->getToErase()) client = clients.erase(client);
             else ++client;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(80));
     }
 }
