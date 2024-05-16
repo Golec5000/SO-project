@@ -8,6 +8,8 @@ include_directories(${CURSES_INCLUDE_DIR})
 
 add_executable(so_2 main.cpp
         helpClasses/People.cpp
-        helpClasses/People.h)
+        helpClasses/People.h
+        helpClasses/Cord.cpp
+        helpClasses/Cord.h)
 
 target_link_libraries(so_2 ${CURSES_LIBRARIES})

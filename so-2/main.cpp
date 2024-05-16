@@ -7,11 +7,13 @@
 #include <atomic>
 #include <list>
 #include "helpClasses/People.h"
+#include "helpClasses/Cord.h"
 
-std::vector<std::vector<std::string>> map;
+std::vector<std::vector<Cord>> map;
 std::list<std::shared_ptr<People *>> clients;
 
-std::atomic<bool> isRunning = true;
+std::atomic_bool isRunning = true;
+std::atomic<int> switchCounter = 0;
 
 int width = 40;
 int height = 31;
@@ -42,7 +44,13 @@ int main() {
     nodelay(stdscr, TRUE);
     WINDOW *buffer = newwin(0, 0, 0, 0);
 
-    map = std::vector<std::vector<std::string>>(height, std::vector<std::string>(width, ".."));
+    map = std::vector<std::vector<Cord>>(height, std::vector<Cord>(width));
+
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            map[i][j] = Cord(i, j);
+        }
+    }
 
     std::thread switchThread(switchDirection);
     std::thread clientsThread(generateClients);
@@ -53,6 +61,7 @@ int main() {
 
         wprintw(buffer, "City Hall simulation\n");
         wprintw(buffer, "Living threads: %zu\n", clients.size());
+        wprintw(buffer, "Threads after switch: %d\n", switchCounter.load());
 
         setSwitchDirectionForClients();
 
@@ -84,46 +93,48 @@ int main() {
 void setSwitchDirectionForClients() {
     if (!clients.empty()) {
         for (auto &client: clients) {
-            if ((*client)->getYPos() == selectorPoint && (*client)->getXPos() == mid)
+            if ((*client)->getCord().y == selectorPoint && (*client)->getCord().x == mid &&
+                !(*client)->getHasCrossedSwitch()) {
+
                 (*client)->setDirection(switchChar);
+                (*client)->setHasCrossedSwitch(true);
+                switchCounter++;
+
+            }
+
         }
     }
 }
 
 void draw_map(WINDOW *ptr) {
-    for (int j = 0; j < width - 1; j++) map[mid][j] = pathChar;
+    for (int j = 0; j < width - 1; j++) map[mid][j].cordChar = pathChar;
 
-    map[mid][width - 1] = stationChar;
-    map[mid][selectorPoint] = switchChar;
+    map[mid][width - 1].cordChar = stationChar;
+    map[mid][selectorPoint].cordChar = switchChar;
 
     down_arm();
     up_arm();
 
     for (auto &client: clients)
-        if (!(*client)->getToErase()) map[(*client)->getXPos()][(*client)->getYPos()] = (*client)->getName();
-
+        if (!(*client)->getToErase()) map[(*client)->getCord().x][(*client)->getCord().y].cordChar = (*client)->getName();
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++)
-            wprintw(ptr, "%4s", map[i][j].c_str());
+            wprintw(ptr, "%4s", map[i][j].cordChar.c_str());
         wprintw(ptr, "\n");
     }
 }
 
 void down_arm() {
-
-    for (int i = mid + 1; i < height; i++) map[i][selectorPoint] = pathChar;
-    for (int i = selectorPoint + 1; i < width - 1; i++) map[height - 1][i] = pathChar;
-    map[height - 1][width - 1] = stationChar;
-
+    for (int i = mid + 1; i < height; i++) map[i][selectorPoint].cordChar = pathChar;
+    for (int i = selectorPoint + 1; i < width - 1; i++) map[height - 1][i].cordChar = pathChar;
+    map[height - 1][width - 1].cordChar = stationChar;
 }
 
 void up_arm() {
-
-    for (int i = mid - 1; i >= 0; i--) map[i][selectorPoint] = pathChar;
-    for (int i = selectorPoint + 1; i < width - 1; i++) map[0][i] = pathChar;
-    map[0][width - 1] = stationChar;
-
+    for (int i = mid - 1; i >= 0; i--) map[i][selectorPoint].cordChar = pathChar;
+    for (int i = selectorPoint + 1; i < width - 1; i++) map[0][i].cordChar = pathChar;
+    map[0][width - 1].cordChar = stationChar;
 }
 
 void switchDirection() {
@@ -147,8 +158,10 @@ void generateClients() {
 void checkClients() {
     while (isRunning) {
         for (auto client = clients.begin(); client != clients.end();) {
-            if ((*(*client))->getToErase()) client = clients.erase(client);
-            else ++client;
+            if ((*(*client))->getToErase()) {
+                client = clients.erase(client);
+                switchCounter--;
+            } else ++client;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(80));
     }

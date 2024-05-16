@@ -51,7 +51,7 @@ build cmake_object_order_depends_target_so_2: phony || CMakeFiles/so_2.dir
 
 build CMakeFiles/so_2.dir/main.cpp.o: CXX_COMPILER__so_2_unscanned_Debug /home/wombat-laptop/GitLab/SO-project/so-2/main.cpp || cmake_object_order_depends_target_so_2
   DEP_FILE = CMakeFiles/so_2.dir/main.cpp.o.d
-  FLAGS = -g -std=gnu++23
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/so_2.dir
   OBJECT_FILE_DIR = CMakeFiles/so_2.dir
   TARGET_COMPILE_PDB = CMakeFiles/so_2.dir/
@@ -59,7 +59,15 @@ build CMakeFiles/so_2.dir/main.cpp.o: CXX_COMPILER__so_2_unscanned_Debug /home/w
 
 build CMakeFiles/so_2.dir/helpClasses/People.cpp.o: CXX_COMPILER__so_2_unscanned_Debug /home/wombat-laptop/GitLab/SO-project/so-2/helpClasses/People.cpp || cmake_object_order_depends_target_so_2
   DEP_FILE = CMakeFiles/so_2.dir/helpClasses/People.cpp.o.d
-  FLAGS = -g -std=gnu++23
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/so_2.dir
+  OBJECT_FILE_DIR = CMakeFiles/so_2.dir/helpClasses
+  TARGET_COMPILE_PDB = CMakeFiles/so_2.dir/
+  TARGET_PDB = so_2.pdb
+
+build CMakeFiles/so_2.dir/helpClasses/Cord.cpp.o: CXX_COMPILER__so_2_unscanned_Debug /home/wombat-laptop/GitLab/SO-project/so-2/helpClasses/Cord.cpp || cmake_object_order_depends_target_so_2
+  DEP_FILE = CMakeFiles/so_2.dir/helpClasses/Cord.cpp.o.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/so_2.dir
   OBJECT_FILE_DIR = CMakeFiles/so_2.dir/helpClasses
   TARGET_COMPILE_PDB = CMakeFiles/so_2.dir/
@@ -73,7 +81,7 @@ build CMakeFiles/so_2.dir/helpClasses/People.cpp.o: CXX_COMPILER__so_2_unscanned
 #############################################
 # Link the executable so_2
 
-build so_2: CXX_EXECUTABLE_LINKER__so_2_Debug CMakeFiles/so_2.dir/main.cpp.o CMakeFiles/so_2.dir/helpClasses/People.cpp.o | /usr/lib/x86_64-linux-gnu/libcurses.so /usr/lib/x86_64-linux-gnu/libform.so
+build so_2: CXX_EXECUTABLE_LINKER__so_2_Debug CMakeFiles/so_2.dir/main.cpp.o CMakeFiles/so_2.dir/helpClasses/People.cpp.o CMakeFiles/so_2.dir/helpClasses/Cord.cpp.o | /usr/lib/x86_64-linux-gnu/libcurses.so /usr/lib/x86_64-linux-gnu/libform.so
   FLAGS = -g
   LINK_LIBRARIES = -lcurses  /usr/lib/x86_64-linux-gnu/libform.so
   OBJECT_DIR = CMakeFiles/so_2.dir

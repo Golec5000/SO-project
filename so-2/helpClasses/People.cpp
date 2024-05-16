@@ -1,6 +1,6 @@
 #include "People.h"
 
-People::People(int x, int y) : running(true), toErase(false), direction('>') {
+People::People(int x, int y) : cord(x, y), running(true), toErase(false), direction('>'), hasCrossedSwitch(false) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(150, 1650);
@@ -10,11 +10,8 @@ People::People(int x, int y) : running(true), toErase(false), direction('>') {
     for (int i = 0; i < 2; i++)
         name += chars[dis(gen) % chars.size()];
 
-    xPos = x;
-    yPos = y;
-
-    thread = std::thread([this](){
-        while (running){
+    thread = std::thread([this]() {
+        while (running) {
             moveClient();
             std::this_thread::sleep_for(std::chrono::milliseconds(speed));
         }
@@ -22,16 +19,16 @@ People::People(int x, int y) : running(true), toErase(false), direction('>') {
 }
 
 void People::moveClient() {
-    if (direction == '^' && xPos > 0) {
-        --xPos;
-    } else if (direction == 'v' && xPos < 30) {
-        ++xPos;
+    if (direction == '^' && cord.x > 0) {
+        --cord.x;
+    } else if (direction == 'v' && cord.x < 30) {
+        ++cord.x;
     } else {
-        ++yPos;
+        ++cord.y;
         direction = '>';
     }
 
-    if (yPos == 39) {
+    if (cord.y == 39) {
         running = false;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         toErase = true;
@@ -41,14 +38,6 @@ void People::moveClient() {
 void People::joinThread() {
     running = false;
     thread.join();
-}
-
-int People::getXPos() const {
-    return xPos;
-}
-
-int People::getYPos() const {
-    return yPos;
 }
 
 bool People::getToErase() const {
@@ -67,10 +56,18 @@ void People::setDirection(char newDirection) {
     direction = newDirection;
 }
 
-void People::setX(int x) {
-    xPos = x;
+const Cord &People::getCord() const {
+    return cord;
 }
 
-void People::setY(int y) {
-    yPos = y;
+void People::setCord(const Cord &cord) {
+    People::cord = cord;
+}
+
+const std::atomic_bool &People::getHasCrossedSwitch() const {
+    return hasCrossedSwitch;
+}
+
+void People::setHasCrossedSwitch(const std::atomic_bool &hasCrossedSwitch) {
+    People::hasCrossedSwitch = hasCrossedSwitch.load();
 }

@@ -5,17 +5,19 @@
 #include <random>
 #include <cstdlib>
 #include <atomic>
+#include "Cord.h"
 
 class People {
 private:
-    std::atomic<bool> running;
-    std::atomic<bool> toErase;
+    std::atomic_bool running;
+    std::atomic_bool toErase;
+    std::atomic_bool hasCrossedSwitch;
     int speed;
     std::string name;
     std::thread thread;
-    int xPos;
-    int yPos;
+    Cord cord;
     char direction;
+
 public:
 
     People(int x, int y);
@@ -23,10 +25,6 @@ public:
     void moveClient();
 
     void joinThread();
-
-    int getXPos() const;
-
-    int getYPos() const;
 
     bool getToErase() const;
 
@@ -36,9 +34,13 @@ public:
 
     void setDirection(char direction);
 
-    void setX(int x);
+    const Cord &getCord() const;
 
-    void setY(int y);
+    void setCord(const Cord &cord);
+
+    const std::atomic_bool &getHasCrossedSwitch() const;
+
+    void setHasCrossedSwitch(const std::atomic_bool &hasCrossedSwitch);
 
 };
 
