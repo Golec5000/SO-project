@@ -4,13 +4,18 @@
 #include <string>
 #include <atomic>
 #include <utility>
+#include <mutex>
+#include "People.h"
+
+class People;
 
 class Cord {
 public:
     int x;
     int y;
-    std::atomic<bool> ocupied;
+    std::atomic_bool ocupied;
     std::string cordChar;
+    std::mutex mutex;
 
     Cord() : x(0), y(0), ocupied(false), cordChar("..") {}
 
@@ -31,6 +36,10 @@ public:
         }
         return *this;
     }
+
+    bool move(People &people, int nextX, int nextY);
+
+    void free();
 };
 
 #endif //SO_2_CORD_H

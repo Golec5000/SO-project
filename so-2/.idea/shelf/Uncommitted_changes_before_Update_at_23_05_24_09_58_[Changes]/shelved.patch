@@ -1,0 +1,268 @@
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_30_04_24_23_54__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_24_23_54__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_24_23_54__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_24_23_54__Changes_.xml	(revision c3c0abb81f43878cd322fcb280a4d9a9dde049b2)
++++ /dev/null	(revision c3c0abb81f43878cd322fcb280a4d9a9dde049b2)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_30_04_24_23_54_[Changes]" date="1714514075540" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_24_23_54_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 30.04.24 23:54 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_30_04_24_23_54_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_24_23_54_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_24_23_54_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_24_23_54_[Changes]/shelved.patch	(revision c3c0abb81f43878cd322fcb280a4d9a9dde049b2)
++++ /dev/null	(revision c3c0abb81f43878cd322fcb280a4d9a9dde049b2)
+@@ -1,98 +0,0 @@
+-Index: .idea/workspace.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"CMakePresetLoader\"><![CDATA[{\n  \"useNewFormat\": true\n}]]></component>\n  <component name=\"CMakeReloadState\">\n    <option name=\"reloaded\" value=\"true\" />\n  </component>\n  <component name=\"CMakeRunConfigurationManager\">\n    <generated>\n      <config projectName=\"so_2\" targetName=\"so_2\" />\n    </generated>\n  </component>\n  <component name=\"CMakeSettings\">\n    <configurations>\n      <configuration PROFILE_NAME=\"Debug\" ENABLED=\"true\" CONFIG_NAME=\"Debug\" />\n    </configurations>\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"372a97d4-d17d-4099-b470-ae601a9d97a4\" name=\"Changes\" comment=\"\">\n      <change afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/modules.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/so-2.iml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/vcs.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/helpClasses/People.cpp\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/helpClasses/People.h\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/../SoThredsApp/cmake-build-debug/Testing/Temporary/LastTest.log\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/../SoThredsApp/cmake-build-debug/Testing/Temporary/LastTest.log\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"ClangdSettings\">\n    <option name=\"formatViaClangd\" value=\"false\" />\n  </component>\n  <component name=\"ExecutionTargetManager\" SELECTED_TARGET=\"CMakeBuildProfile:Debug\" />\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$/..\" />\n  </component>\n  <component name=\"ProjectApplicationVersion\">\n    <option name=\"ide\" value=\"CLion\" />\n    <option name=\"majorVersion\" value=\"2024\" />\n    <option name=\"minorVersion\" value=\"1\" />\n    <option name=\"productBranch\" value=\"Classic\" />\n  </component>\n  <component name=\"ProjectColorInfo\"><![CDATA[{\n  \"associatedIndex\": 5\n}]]></component>\n  <component name=\"ProjectId\" id=\"2fpl1Cdq6EKVum1IhA1DLr3SnDf\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"RunOnceActivity.cidr.known.project.marker\": \"true\",\n    \"RunOnceActivity.readMode.enableVisualFormatting\": \"true\",\n    \"cf.first.check.clang-format\": \"false\",\n    \"cidr.known.project.marker\": \"true\",\n    \"git-widget-placeholder\": \"main\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.detected.package.tslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"nodejs_package_manager_path\": \"npm\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RunManager\">\n    <configuration default=\"true\" type=\"CLionExternalRunConfiguration\" factoryName=\"Application\" REDIRECT_INPUT=\"false\" ELEVATE=\"false\" USE_EXTERNAL_CONSOLE=\"false\" EMULATE_TERMINAL=\"false\" PASS_PARENT_ENVS_2=\"true\">\n      <method v=\"2\">\n        <option name=\"CLION.EXTERNAL.BUILD\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"so_2\" type=\"CMakeRunConfiguration\" factoryName=\"Application\" REDIRECT_INPUT=\"false\" ELEVATE=\"false\" USE_EXTERNAL_CONSOLE=\"false\" EMULATE_TERMINAL=\"false\" PASS_PARENT_ENVS_2=\"true\" PROJECT_NAME=\"so_2\" TARGET_NAME=\"so_2\" CONFIG_NAME=\"Debug\" RUN_TARGET_PROJECT_NAME=\"so_2\" RUN_TARGET_NAME=\"so_2\">\n      <method v=\"2\">\n        <option name=\"com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask\" enabled=\"true\" />\n      </method>\n    </configuration>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"372a97d4-d17d-4099-b470-ae601a9d97a4\" name=\"Changes\" comment=\"\" />\n      <created>1714505684014</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1714505684014</updated>\n      <workItem from=\"1714505685544\" duration=\"8035000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"VCPKGProject\">\n    <isAutomaticCheckingOnLaunch value=\"false\" />\n    <isAutomaticFoundErrors value=\"true\" />\n    <isAutomaticReloadCMake value=\"true\" />\n  </component>\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+---- a/.idea/workspace.xml	(revision b429b21fd2471040b00fc7a7cd1b8eb478d5cbb1)
+-+++ b/.idea/workspace.xml	(date 1714514047512)
+-@@ -20,13 +20,57 @@
+-     </configurations>
+-   </component>
+-   <component name="ChangeListManager">
+--    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="">
+-+    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2v1 stage 1 finish">
+-+      <change afterPath="$PROJECT_DIR$/../SoThredsApp/cmake-build-debug/.cmake/api/v1/reply/cache-v2-8d2c48cfb608bab1b9fc.json" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/../SoThredsApp/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-2e21385f7dc11d9b1770.json" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/../SoThredsApp/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-9388337896e459b71430.json" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/../SoThredsApp/cmake-build-debug/.cmake/api/v1/reply/index-2024-04-26T10-51-27-0180.json" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/../SoThredsApp/cmake-build-debug/.cmake/api/v1/reply/target-SoThredsApp-Debug-0d210080d328082daabb.json" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+-       <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-       <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+-       <change afterPath="$PROJECT_DIR$/.idea/so-2.iml" afterDir="false" />
+-       <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/query/cache-v2" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/query/cmakeFiles-v1" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/query/codemodel-v2" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/query/toolchains-v1" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/cache-v2-7cbc1ea02705f661bf33.json" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-2f63a45f758e13e540e8.json" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-1f0f90a68fcf97165413.json" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/directory-.-Debug-f5ebdc15457944623624.json" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/index-2024-04-30T20-24-25-0112.json" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/target-so_2-Debug-233c1da50aa3e92f3d41.json" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/toolchains-v1-7096c62e23c342eb06a8.json" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CMakeCCompiler.cmake" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CMakeCXXCompiler.cmake" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CMakeSystem.cmake" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CompilerIdC/CMakeCCompilerId.c" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CompilerIdC/a.out" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CompilerIdCXX/CMakeCXXCompilerId.cpp" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CompilerIdCXX/a.out" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/cmake.check_cache" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/rules.ninja" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/helpClasses/People.cpp.o" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/main.cpp.o" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/build.ninja" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/so_2" afterDir="false" />
+-       <change afterPath="$PROJECT_DIR$/helpClasses/People.cpp" afterDir="false" />
+-       <change afterPath="$PROJECT_DIR$/helpClasses/People.h" afterDir="false" />
+-+      <change afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+-       <change beforePath="$PROJECT_DIR$/../SoThredsApp/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/../SoThredsApp/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+-     </list>
+-     <option name="SHOW_DIALOG" value="false" />
+-@@ -91,8 +135,17 @@
+-       <option name="number" value="Default" />
+-       <option name="presentableId" value="Default" />
+-       <updated>1714505684014</updated>
+--      <workItem from="1714505685544" duration="8035000" />
+-+      <workItem from="1714505685544" duration="8359000" />
+-+    </task>
+-+    <task id="LOCAL-00001" summary="update - v2v1 stage 1 finish">
+-+      <option name="closed" value="true" />
+-+      <created>1714514047127</created>
+-+      <option name="number" value="00001" />
+-+      <option name="presentableId" value="LOCAL-00001" />
+-+      <option name="project" value="LOCAL" />
+-+      <updated>1714514047127</updated>
+-     </task>
+-+    <option name="localTasksCounter" value="2" />
+-     <servers />
+-   </component>
+-   <component name="TypeScriptGeneratedFilesManager">
+-@@ -103,4 +156,8 @@
+-     <isAutomaticFoundErrors value="true" />
+-     <isAutomaticReloadCMake value="true" />
+-   </component>
+-+  <component name="VcsManagerConfiguration">
+-+    <MESSAGE value="update - v2v1 stage 1 finish" />
+-+    <option name="LAST_COMMIT_MESSAGE" value="update - v2v1 stage 1 finish" />
+-+  </component>
+- </project>
+-\ No newline at end of file
+Index: cmake-build-debug/Testing/Temporary/LastTest.log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>Start testing: May 04 14:53 CEST\n----------------------------------------------------------\nEnd testing: May 04 14:53 CEST\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/cmake-build-debug/Testing/Temporary/LastTest.log b/cmake-build-debug/Testing/Temporary/LastTest.log
+--- a/cmake-build-debug/Testing/Temporary/LastTest.log	(revision c3c0abb81f43878cd322fcb280a4d9a9dde049b2)
++++ b/cmake-build-debug/Testing/Temporary/LastTest.log	(date 1716451074590)
+@@ -1,3 +1,3 @@
+-Start testing: May 04 14:53 CEST
++Start testing: May 23 09:57 CEST
+ ----------------------------------------------------------
+-End testing: May 04 14:53 CEST
++End testing: May 23 09:57 CEST
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"CMakePresetLoader\">{\n  &quot;useNewFormat&quot;: true\n}</component>\n  <component name=\"CMakeReloadState\">\n    <option name=\"reloaded\" value=\"true\" />\n  </component>\n  <component name=\"CMakeRunConfigurationManager\">\n    <generated>\n      <config projectName=\"so_2\" targetName=\"so_2\" />\n    </generated>\n  </component>\n  <component name=\"CMakeSettings\">\n    <configurations>\n      <configuration PROFILE_NAME=\"Debug\" ENABLED=\"true\" CONFIG_NAME=\"Debug\" />\n    </configurations>\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"372a97d4-d17d-4099-b470-ae601a9d97a4\" name=\"Changes\" comment=\"update - v2 stage 1 finish and remove old project\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/misc.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/cache-v2-7cbc1ea02705f661bf33.json\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-2f63a45f758e13e540e8.json\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-1f0f90a68fcf97165413.json\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/index-2024-04-30T20-24-25-0112.json\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/.ninja_deps\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/cmake-build-debug/.ninja_deps\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/.ninja_log\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/cmake-build-debug/.ninja_log\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/CMakeFiles/rules.ninja\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/cmake-build-debug/CMakeFiles/rules.ninja\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/helpClasses/People.cpp.o\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/helpClasses/People.cpp.o\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/main.cpp.o\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/main.cpp.o\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/build.ninja\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/cmake-build-debug/build.ninja\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/cmake-build-debug/so_2\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/cmake-build-debug/so_2\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/helpClasses/People.cpp\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/helpClasses/People.cpp\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/helpClasses/People.h\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/helpClasses/People.h\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/main.cpp\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/main.cpp\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"ClangdSettings\">\n    <option name=\"formatViaClangd\" value=\"false\" />\n  </component>\n  <component name=\"ExecutionTargetManager\" SELECTED_TARGET=\"CMakeBuildProfile:Debug\" />\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$/..\" />\n    <option name=\"UPDATE_TYPE\" value=\"REBASE\" />\n  </component>\n  <component name=\"ProjectApplicationVersion\">\n    <option name=\"ide\" value=\"CLion\" />\n    <option name=\"majorVersion\" value=\"2024\" />\n    <option name=\"minorVersion\" value=\"1\" />\n    <option name=\"productBranch\" value=\"Classic\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 5\n}</component>\n  <component name=\"ProjectId\" id=\"2fpl1Cdq6EKVum1IhA1DLr3SnDf\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"RunOnceActivity.cidr.known.project.marker\": \"true\",\n    \"RunOnceActivity.readMode.enableVisualFormatting\": \"true\",\n    \"cf.first.check.clang-format\": \"false\",\n    \"cidr.known.project.marker\": \"true\",\n    \"git-widget-placeholder\": \"main\",\n    \"last_opened_file_path\": \"/home/wombat/GitHub/SO-project/so-2\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.detected.package.tslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"nodejs_package_manager_path\": \"npm\",\n    \"settings.editor.selected.configurable\": \"preferences.lookFeel\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RunManager\">\n    <configuration default=\"true\" type=\"CLionExternalRunConfiguration\" factoryName=\"Application\" REDIRECT_INPUT=\"false\" ELEVATE=\"false\" USE_EXTERNAL_CONSOLE=\"false\" EMULATE_TERMINAL=\"false\" PASS_PARENT_ENVS_2=\"true\">\n      <method v=\"2\">\n        <option name=\"CLION.EXTERNAL.BUILD\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"so_2\" type=\"CMakeRunConfiguration\" factoryName=\"Application\" REDIRECT_INPUT=\"false\" ELEVATE=\"false\" USE_EXTERNAL_CONSOLE=\"false\" EMULATE_TERMINAL=\"false\" PASS_PARENT_ENVS_2=\"true\" PROJECT_NAME=\"so_2\" TARGET_NAME=\"so_2\" CONFIG_NAME=\"Debug\" RUN_TARGET_PROJECT_NAME=\"so_2\" RUN_TARGET_NAME=\"so_2\">\n      <method v=\"2\">\n        <option name=\"com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask\" enabled=\"true\" />\n      </method>\n    </configuration>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"372a97d4-d17d-4099-b470-ae601a9d97a4\" name=\"Changes\" comment=\"\" />\n      <created>1714505684014</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1714505684014</updated>\n      <workItem from=\"1714505685544\" duration=\"10385000\" />\n      <workItem from=\"1714589444301\" duration=\"2418000\" />\n      <workItem from=\"1714815757523\" duration=\"4567000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"update - v2v1 stage 1 finish\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1714514047127</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1714514047127</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"update - v2v1 stage 1 finish\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1714514155606</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1714514155606</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"update - v2 stage 1 finish (vector change to list )\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1714515817515</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1714515817515</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"update - v2 stage 1 finish (vector change to list )\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1714515845510</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1714515845510</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"update - v2 stage 1 finish (vector change to list )\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1714515873455</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1714515873455</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"update - v2 stage 1 finish (vector change to list )\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1714515940514</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1714515940514</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"update - v2 stage 1 finish and remove old project\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1714590857604</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1714590857604</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"8\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"VCPKGProject\">\n    <isAutomaticCheckingOnLaunch value=\"false\" />\n    <isAutomaticFoundErrors value=\"true\" />\n    <isAutomaticReloadCMake value=\"true\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"update - v2v1 stage 1 finish\" />\n    <MESSAGE value=\"update - v2 stage 1 finish (vector change to list )\" />\n    <MESSAGE value=\"update - v2 stage 1 finish and remove old project\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"update - v2 stage 1 finish and remove old project\" />\n    <option name=\"GROUP_MULTIFILE_MERGE_BY_DIRECTORY\" value=\"true\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision c3c0abb81f43878cd322fcb280a4d9a9dde049b2)
++++ b/.idea/workspace.xml	(date 1716451075546)
+@@ -20,30 +20,11 @@
+     </configurations>
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 1 finish and remove old project">
+-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
++    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 1 code small refactor">
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_24_23_54_[Changes]/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_24_23_54__Changes_.xml" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/cache-v2-7cbc1ea02705f661bf33.json" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-2f63a45f758e13e540e8.json" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-1f0f90a68fcf97165413.json" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/index-2024-04-30T20-24-25-0112.json" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/rules.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/rules.ninja" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/helpClasses/People.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/helpClasses/People.cpp.o" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/main.cpp.o" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/build.ninja" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/so_2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/so_2" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/helpClasses/People.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/People.cpp" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/helpClasses/People.h" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/People.h" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -72,30 +53,25 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "RunOnceActivity.cidr.known.project.marker": "true",
+-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+-    "cf.first.check.clang-format": "false",
+-    "cidr.known.project.marker": "true",
+-    "git-widget-placeholder": "main",
+-    "last_opened_file_path": "/home/wombat/GitHub/SO-project/so-2",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "nodejs_package_manager_path": "npm",
+-    "settings.editor.selected.configurable": "preferences.lookFeel",
+-    "vue.rearranger.settings.migration": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
++    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
++    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
++    &quot;last_opened_file_path&quot;: &quot;/home/wombat/Downloads/lab08/untitled/Convolution.cpp&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RunManager">
+-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+-      <method v="2">
+-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+-      </method>
+-    </configuration>
+     <configuration name="so_2" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="so_2" TARGET_NAME="so_2" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="so_2" RUN_TARGET_NAME="so_2">
+       <method v="2">
+         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+@@ -112,7 +88,13 @@
+       <updated>1714505684014</updated>
+       <workItem from="1714505685544" duration="10385000" />
+       <workItem from="1714589444301" duration="2418000" />
+-      <workItem from="1714815757523" duration="4567000" />
++      <workItem from="1714815757523" duration="4737000" />
++      <workItem from="1715032070399" duration="76000" />
++      <workItem from="1715074495262" duration="2000" />
++      <workItem from="1715074503927" duration="60000" />
++      <workItem from="1716116022058" duration="80000" />
++      <workItem from="1716451049548" duration="18000" />
++      <workItem from="1716451075515" duration="1000" />
+     </task>
+     <task id="LOCAL-00001" summary="update - v2v1 stage 1 finish">
+       <option name="closed" value="true" />
+@@ -170,7 +152,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1714590857604</updated>
+     </task>
+-    <option name="localTasksCounter" value="8" />
++    <task id="LOCAL-00008" summary="update - v2 stage 1 code small refactor">
++      <option name="closed" value="true" />
++      <created>1714827251522</created>
++      <option name="number" value="00008" />
++      <option name="presentableId" value="LOCAL-00008" />
++      <option name="project" value="LOCAL" />
++      <updated>1714827251522</updated>
++    </task>
++    <option name="localTasksCounter" value="9" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -196,7 +186,8 @@
+     <MESSAGE value="update - v2v1 stage 1 finish" />
+     <MESSAGE value="update - v2 stage 1 finish (vector change to list )" />
+     <MESSAGE value="update - v2 stage 1 finish and remove old project" />
+-    <option name="LAST_COMMIT_MESSAGE" value="update - v2 stage 1 finish and remove old project" />
++    <MESSAGE value="update - v2 stage 1 code small refactor" />
++    <option name="LAST_COMMIT_MESSAGE" value="update - v2 stage 1 code small refactor" />
+     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
+   </component>
+ </project>
+\ No newline at end of file

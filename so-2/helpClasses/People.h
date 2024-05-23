@@ -5,7 +5,10 @@
 #include <random>
 #include <cstdlib>
 #include <atomic>
+#include <vector>
 #include "Cord.h"
+
+class Cord;
 
 class People {
 private:
@@ -15,33 +18,37 @@ private:
     int speed;
     std::string name;
     std::thread thread;
-    Cord cord;
+    Cord * cord;
     char direction;
+    std::vector<std::vector<Cord>> &map;
 
 public:
 
-    People(int x, int y);
+    People(int x, int y, std::vector<std::vector<Cord>> &map);
+
+    ~People();
+
+    void start();
 
     void moveClient();
 
     void joinThread();
 
-    bool getToErase() const;
+    [[nodiscard]] bool getToErase() const;
 
-    std::string getName() const;
+    [[nodiscard]] std::string getName() const;
 
-    char getDirection() const;
+    [[nodiscard]] char getDirection() const;
 
     void setDirection(char direction);
 
-    const Cord &getCord() const;
-
-    void setCord(const Cord &cord);
-
-    const std::atomic_bool &getHasCrossedSwitch() const;
+    [[nodiscard]] const std::atomic_bool &getHasCrossedSwitch() const;
 
     void setHasCrossedSwitch(const std::atomic_bool &hasCrossedSwitch);
 
+    [[nodiscard]] const Cord *getCord() const;
+
+    void setCord(Cord *cord);
 };
 
 

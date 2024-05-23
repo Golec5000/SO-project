@@ -13,7 +13,7 @@ std::vector<std::vector<Cord>> map;
 std::list<std::shared_ptr<People *>> clients;
 
 std::atomic_bool isRunning = true;
-std::atomic<int> switchCounter = 0;
+std::atomic_int switchCounter = 0;
 
 int width = 40;
 int height = 31;
@@ -66,6 +66,10 @@ int main() {
         setSwitchDirectionForClients();
 
         draw_map(buffer);
+
+        wprintw(buffer, "Point 1: %d\n", map[0][39].ocupied.load());
+        wprintw(buffer, "Point 2: %d\n", map[mid][39].ocupied.load());
+        wprintw(buffer, "Point 3: %d\n", map[height - 1][39].ocupied.load());
         wprintw(buffer, "Press 'space' to quit\n");
         overwrite(buffer, stdscr);
         refresh();
@@ -93,7 +97,7 @@ int main() {
 void setSwitchDirectionForClients() {
     if (!clients.empty()) {
         for (auto &client: clients) {
-            if ((*client)->getCord().y == selectorPoint && (*client)->getCord().x == mid &&
+            if ((*client)->getCord()->y == selectorPoint && (*client)->getCord()->x == mid &&
                 !(*client)->getHasCrossedSwitch()) {
 
                 (*client)->setDirection(switchChar);
@@ -116,7 +120,7 @@ void draw_map(WINDOW *ptr) {
     up_arm();
 
     for (auto &client: clients)
-        if (!(*client)->getToErase()) map[(*client)->getCord().x][(*client)->getCord().y].cordChar = (*client)->getName();
+        if (!(*client)->getToErase()) map[(*client)->getCord()->x][(*client)->getCord()->y].cordChar = (*client)->getName();
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++)
@@ -150,7 +154,8 @@ void generateClients() {
     std::uniform_int_distribution<int> dis(1000, 7000);
 
     while (isRunning) {
-        clients.push_back(std::make_shared<People *>(new People(mid, 0)));
+        clients.push_back(std::make_shared<People *>(new People(mid, 0, map)));
+        (*clients.back())->start();
         std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
     }
 }
