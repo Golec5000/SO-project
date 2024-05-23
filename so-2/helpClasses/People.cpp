@@ -1,6 +1,7 @@
 #include "People.h"
 
-People::People(int x, int y, std::vector<std::vector<Cord>> &map) : cord(new Cord(x, y)), running(true), toErase(false),
+People::People(int x, int y, std::vector<std::vector<Cord>> &map) : cord(std::make_shared<Cord>(x, y)), running(true),
+                                                                    toErase(false),
                                                                     direction('>'), hasCrossedSwitch(false), map(map) {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -104,24 +105,19 @@ void People::setDirection(char newDirection) {
     direction = newDirection;
 }
 
-const Cord *People::getCord() const {
+std::shared_ptr<Cord> People::getCord() const {
     return cord;
 }
 
-void People::setCord(Cord *newCord) {
-    delete cord; // Zwolnienie starego obiektu Cord
-    cord = newCord; // Przypisanie nowego obiektu Cord
-}
-
-const std::atomic_bool &People::getHasCrossedSwitch() const {
-    return hasCrossedSwitch;
+void People::setCord(std::shared_ptr<Cord> newCord) {
+    cord = std::move(newCord); // Automatyczne zwalnianie starego obiektu Cord
 }
 
 void People::setHasCrossedSwitch(const std::atomic_bool &hasCrossedSwitch) {
     People::hasCrossedSwitch = hasCrossedSwitch.load();
 }
 
-People::~People() {
-    delete cord;
+const std::atomic_bool &People::getHasCrossedSwitch() const {
+    return hasCrossedSwitch;
 }
 

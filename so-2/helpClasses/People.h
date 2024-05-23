@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <atomic>
 #include <vector>
+#include <memory>
+#include <utility>
 #include "Cord.h"
 
 class Cord;
@@ -18,15 +20,13 @@ private:
     int speed;
     std::string name;
     std::thread thread;
-    Cord * cord;
+    std::shared_ptr<Cord> cord;
     char direction;
     std::vector<std::vector<Cord>> &map;
 
 public:
 
     People(int x, int y, std::vector<std::vector<Cord>> &map);
-
-    ~People();
 
     void start();
 
@@ -46,9 +46,9 @@ public:
 
     void setHasCrossedSwitch(const std::atomic_bool &hasCrossedSwitch);
 
-    [[nodiscard]] const Cord *getCord() const;
+    [[nodiscard]] std::shared_ptr<Cord> getCord() const;
 
-    void setCord(Cord *cord);
+    void setCord(std::shared_ptr<Cord> newCord);
 };
 
 

@@ -5,6 +5,7 @@
 #include <atomic>
 #include <utility>
 #include <mutex>
+#include <memory>
 #include "People.h"
 
 class People;

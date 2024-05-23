@@ -9,7 +9,7 @@ bool Cord::move(People &people, int nextX, int nextY) {
         return false;
     }
     this->ocupied = true;
-    people.setCord(new Cord(nextX, nextY));
+    people.setCord(std::make_shared<Cord>(nextX, nextY));
     return true;
 }
 
