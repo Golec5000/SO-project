@@ -10,6 +10,7 @@ add_executable(so_2 main.cpp
         helpClasses/People.cpp
         helpClasses/People.h
         helpClasses/Cord.cpp
-        helpClasses/Cord.h)
+        helpClasses/Cord.h
+        helpClasses/Cord.cpp)
 
 target_link_libraries(so_2 ${CURSES_LIBRARIES})

@@ -8,6 +8,7 @@
 #include <vector>
 #include <memory>
 #include <utility>
+#include <iostream>
 #include "Cord.h"
 
 class Cord;
@@ -28,9 +29,9 @@ public:
 
     People(int x, int y, std::vector<std::vector<Cord>> &map);
 
-    void start();
+    void start(std::atomic_bool &isSwitchBlocked, std::atomic_int &switchCounter, int switchBorder);
 
-    void moveClient();
+    void moveClient(std::atomic_bool &isSwitchBlocked, std::atomic_int &switchCounter, int switchBorder);
 
     void joinThread();
 
@@ -49,6 +50,8 @@ public:
     [[nodiscard]] std::shared_ptr<Cord> getCord() const;
 
     void setCord(std::shared_ptr<Cord> newCord);
+
+    bool isThreadJoinable();
 };
 
 

@@ -5,7 +5,7 @@ People::People(int x, int y, std::vector<std::vector<Cord>> &map) : cord(std::ma
                                                                     direction('>'), hasCrossedSwitch(false), map(map) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(150, 1650);
+    std::uniform_int_distribution<> dis(150, 500);
     speed = dis(gen);
 
     std::string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ234567890!@$%&*()_+-=[]{}|;':,<?";
@@ -14,16 +14,28 @@ People::People(int x, int y, std::vector<std::vector<Cord>> &map) : cord(std::ma
 
 }
 
-void People::start() {
-    thread = std::thread([this]() {
+void People::start(std::atomic_bool &isSwitchBlocked, std::atomic_int &switchCounter, int switchBorder) {
+    thread = std::thread([this, &isSwitchBlocked, &switchCounter, switchBorder]() {
         while (running) {
-            moveClient();
+            moveClient(isSwitchBlocked, switchCounter, switchBorder);
             std::this_thread::sleep_for(std::chrono::milliseconds(speed));
         }
     });
 }
 
-void People::moveClient() {
+void People::moveClient(std::atomic_bool &isSwitchBlocked, std::atomic_int &switchCounter, int switchBorder) {
+
+    if (cord->y == 28 && !hasCrossedSwitch) {
+        // Jeśli przełącznik jest zablokowany, czekaj
+        while (isSwitchBlocked) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(speed));
+        }
+        // Jeśli liczba osób, które przekroczyły przełącznik, przekroczyła określony próg, zablokuj przełącznik
+        if (switchCounter >= switchBorder) {
+            isSwitchBlocked = true;
+        }
+    }
+
     int nextX = cord->x;
     int nextY = cord->y;
 
@@ -85,6 +97,7 @@ void People::moveClient() {
 }
 
 void People::joinThread() {
+    std::cout << "Joining thread: " << name << std::endl;
     running = false;
     thread.join();
 }
@@ -119,5 +132,9 @@ void People::setHasCrossedSwitch(const std::atomic_bool &hasCrossedSwitch) {
 
 const std::atomic_bool &People::getHasCrossedSwitch() const {
     return hasCrossedSwitch;
+}
+
+bool People::isThreadJoinable() {
+    return thread.joinable();
 }
 
