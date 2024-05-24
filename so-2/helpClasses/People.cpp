@@ -25,6 +25,11 @@ void People::start(std::atomic_bool &isSwitchBlocked, std::atomic_int &switchCou
 
 void People::moveClient(std::atomic_bool &isSwitchBlocked, std::atomic_int &switchCounter, int switchBorder) {
 
+    // Jeśli klient przekroczył przełącznik, ustaw hasCrossedSwitch na true
+    // W przeciwnym razie ustaw hasCrossedSwitch na false
+    // Wartość hasCrossedSwitch jest używana do zablokowania przełącznika,
+    // gdy klient przekroczy przełącznik i zablokowania go, zeby nie mogli przejść inni klienci ponad określony limit
+
     if (cord->y == 28 && !hasCrossedSwitch) {
         // Jeśli przełącznik jest zablokowany, czekaj
         while (isSwitchBlocked) {
@@ -79,7 +84,7 @@ void People::moveClient(std::atomic_bool &isSwitchBlocked, std::atomic_int &swit
 
     if (cord->y == 39) {
         running = false;
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::this_thread::sleep_for(std::chrono::seconds(3));
         toErase = true;
         // Znajdź obiekt Cord w mapie i zwolnij go
         for (auto &c1: map) {
@@ -94,7 +99,7 @@ void People::moveClient(std::atomic_bool &isSwitchBlocked, std::atomic_int &swit
 }
 
 void People::joinThread() {
-    std::cout << "Joining thread: " << name << std::endl;
+//    std::cout << "Joining thread: " << name << std::endl;
     running = false;
     thread.join();
 }
@@ -129,5 +134,9 @@ const std::atomic_bool &People::getHasCrossedSwitch() const {
 
 bool People::isThreadJoinable() {
     return thread.joinable();
+}
+
+void People::setRunning(const std::atomic_bool &running) {
+    People::running = running.load();
 }
 

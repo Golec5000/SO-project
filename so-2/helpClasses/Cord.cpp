@@ -5,12 +5,13 @@ bool Cord::move(People &people, int nextX, int nextY) {
     if (nextX < 0 || nextX >= 31 || nextY < 0 || nextY >= 40) {
         return false;
     }
-    if (this->ocupied.load()) {
+    if (ocupied.load() && y != 38) { // Jeśli pole jest zajęte i nie jest polem przed stacją
         return false;
+    } else {
+        ocupied.store(true); // Ustaw ocupied na true, chyba że pole jest polem przed stacją
+        people.setCord(std::make_shared<Cord>(x, y));
+        return true;
     }
-    this->ocupied = true;
-    people.setCord(std::make_shared<Cord>(nextX, nextY));
-    return true;
 }
 
 void Cord::free() {

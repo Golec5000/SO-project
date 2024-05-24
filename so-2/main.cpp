@@ -21,7 +21,7 @@ int width = 40;
 int height = 31;
 int mid = 15;
 int selectorPoint = 29;
-int switchBorder = 10; // Default value is 10
+int switchBorder = 10; // Domyslna wartosc wynosi 10
 
 char pathChar = '1';
 char switchChar = '^';
@@ -43,7 +43,7 @@ void setSwitchDirectionForClients();
 
 int main(int argc, char **argv) {
 
-    // Check if user passed switch border as argument
+    // Sprawdź, czy została podana wartość graniczna przełącznika
     if (argc > 1) {
         switchBorder = std::stoi(argv[1]);
     }
@@ -103,8 +103,11 @@ int main(int argc, char **argv) {
             }
             std::cout << "Włączanie pozostałych ludzi którzy nie dotarli do końca" << std::endl;
             for (auto &client: clients) {
-                if ((*client)->isThreadJoinable()) {
-                    (*client)->joinThread();
+                if (client && *client) { // Sprawdź, czy wskaźnik do klienta i wskaźnik do wątku nie są null
+                    (*client)->setRunning(false);
+                    if ((*client)->isThreadJoinable()) {
+                        (*client)->joinThread();
+                    }
                 }
             }
             std::cout << "Włączanie całęgo systemu powidło sie !" << std::endl;
@@ -144,7 +147,8 @@ void draw_map(WINDOW *ptr) {
     up_arm();
 
     for (auto &client: clients)
-        if (!(*client)->getToErase()) map[(*client)->getCord()->x][(*client)->getCord()->y].cordChar = (*client)->getName();
+        if (!(*client)->getToErase())
+            map[(*client)->getCord()->x][(*client)->getCord()->y].cordChar = (*client)->getName();
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++)
@@ -175,7 +179,7 @@ void switchDirection() {
 void generateClients() {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dis(1000, 3000);
+    std::uniform_int_distribution<int> dis(500, 1000);
 
     while (isRunning) {
         // Sprawdź, czy pole tworzenia jest zajęte
