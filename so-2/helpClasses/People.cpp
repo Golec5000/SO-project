@@ -5,7 +5,7 @@ People::People(int x, int y, std::vector<std::vector<Cord>> &map) : cord(std::ma
                                                                     direction('>'), hasCrossedSwitch(false), map(map) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(150, 500);
+    std::uniform_int_distribution<> dis(150, 1000);
     speed = dis(gen);
 
     std::string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ234567890!@$%&*()_+-=[]{}|;':,<?";
@@ -25,17 +25,14 @@ void People::start(std::atomic_bool &isSwitchBlocked) {
 
 void People::moveClient(std::atomic_bool &isSwitchBlocked) {
 
-    // Jeśli klient przekroczył przełącznik, ustaw hasCrossedSwitch na true
-    // W przeciwnym razie ustaw hasCrossedSwitch na false
-    // Wartość hasCrossedSwitch jest używana do zablokowania przełącznika,
-    // gdy klient przekroczy przełącznik i zablokowania go, zeby nie mogli przejść inni klienci ponad określony limit
+    if (!running) return;
 
+    // Sprawdzenie, czy switch jest zablokowany
     if (cord->y == 28 && !hasCrossedSwitch) {
-        // Jeśli przełącznik jest zablokowany, czekaj
-        while (isSwitchBlocked) {
+        while (isSwitchBlocked && running) {
             std::this_thread::sleep_for(std::chrono::milliseconds(speed));
         }
-
+        if (!running) return;
     }
 
     int nextX = cord->x;
@@ -51,48 +48,33 @@ void People::moveClient(std::atomic_bool &isSwitchBlocked) {
         direction = '>';
     }
 
-    Cord *tmpCord = nullptr;
-    // Znalezienie aktualnego pola
-    for (auto &c1: map) {
-        for (auto &c2: c1) {
-            if (c2.x == this->cord->x && c2.y == this->cord->y) {
-                tmpCord = &c2;
-                break;
-            }
-        }
-    }
-
-    // Sprawdzenie, czy nastepne pole jest wolne
-    Cord *nextCord = nullptr;
-    for (auto &c1: map) {
-        for (auto &c2: c1) {
-            if (c2.x == nextX && c2.y == nextY) {
-                nextCord = &c2;
-                break;
-            }
-        }
-    }
+    Cord *tmpCord = findCord(cord->x, cord->y);
+    Cord *nextCord = findCord(nextX, nextY);
 
     if (nextCord && nextCord->move(*this, nextX, nextY) && tmpCord) {
         tmpCord->free();
     } else {
+        if (!running) return;
         std::this_thread::sleep_for(std::chrono::milliseconds(speed));
     }
 
     if (cord->y == 39) {
         running = false;
-        std::this_thread::sleep_for(std::chrono::seconds(3));
+        std::this_thread::sleep_for(std::chrono::seconds(5));
         toErase = true;
-        // Znajdź obiekt Cord w mapie i zwolnij go
-        for (auto &c1: map) {
-            for (auto &c2: c1) {
-                if (c2.x == cord->x && c2.y == cord->y) {
-                    c2.free();
-                    break;
-                }
+        findCord(cord->x, cord->y)->free();
+    }
+}
+
+Cord *People::findCord(int x, int y) {
+    for (auto &c1: map) {
+        for (auto &c2: c1) {
+            if (c2.x == x && c2.y == y) {
+                return &c2;
             }
         }
     }
+    return nullptr;
 }
 
 void People::joinThread() {

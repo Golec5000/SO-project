@@ -52,6 +52,8 @@ public:
     bool isThreadJoinable();
 
     void setRunning(const std::atomic_bool &running);
+
+    Cord *findCord(int x, int y);
 };
 
 

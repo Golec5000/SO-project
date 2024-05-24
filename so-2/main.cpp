@@ -107,19 +107,19 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
     if (getch() == ' ') {
         endwin();
         isRunning = false;
-        std::cout << "Włączanie switcha" << std::endl;
+        std::cout << "Wyłączanie switcha" << std::endl;
         if (switchThread.joinable()) {
             switchThread.join();
         }
-        std::cout << "Włączanie generatora ludzi" << std::endl;
+        std::cout << "Wyłączanie generatora ludzi" << std::endl;
         if (clientsThread.joinable()) {
             clientsThread.join();
         }
-        std::cout << "Włączanie watku za sprawdzanie życia wątków" << std::endl;
+        std::cout << "Wyłączanie watku za sprawdzanie życia wątków" << std::endl;
         if (checkClientsThread.joinable()) {
             checkClientsThread.join();
         }
-        std::cout << "Włączanie pozostałych ludzi którzy nie dotarli do końca" << std::endl;
+        std::cout << "Wyłączanie pozostałych ludzi którzy nie dotarli do końca" << std::endl;
         for (auto &client: clients) {
             if (client && *client) { // Sprawdź, czy wskaźnik do klienta i wskaźnik do wątku nie są null
                 (*client)->setRunning(false);
@@ -128,7 +128,7 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
                 }
             }
         }
-        std::cout << "Włączanie całęgo systemu powidło sie !" << std::endl;
+        std::cout << "Wyłączanie całęgo systemu powidło sie !" << std::endl;
     }
 }
 
@@ -196,7 +196,7 @@ void switchDirection() {
 void generateClients() {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dis(500, 1000);
+    std::uniform_int_distribution<int> dis(500, 2000);
 
     while (isRunning) {
         // Sprawdź, czy pole tworzenia jest zajęte
