@@ -208,7 +208,7 @@ void generateClients() {
 
         clients.push_back(std::make_shared<People *>(new People(mid, 0, map)));
         map[mid][0].ocupied.store(true);
-        (*clients.back())->start(isSwitchBlocked, switchCounter, switchBorder);
+        (*clients.back())->start(isSwitchBlocked);
         std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
     }
 }

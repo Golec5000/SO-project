@@ -29,9 +29,9 @@ public:
 
     People(int x, int y, std::vector<std::vector<Cord>> &map);
 
-    void start(std::atomic_bool &isSwitchBlocked, std::atomic_int &switchCounter, int switchBorder);
+    void start(std::atomic_bool &isSwitchBlocked);
 
-    void moveClient(std::atomic_bool &isSwitchBlocked, std::atomic_int &switchCounter, int switchBorder);
+    void moveClient(std::atomic_bool &isSwitchBlocked);
 
     void joinThread();
 

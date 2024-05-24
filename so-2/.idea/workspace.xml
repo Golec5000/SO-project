@@ -20,19 +20,15 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 2 part 2 working Pepole stacks">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 2 small code refactor and added sync beatween people objs and switch thread">
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/helpClasses/Cord.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/helpClasses/Cord.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/helpClasses/People.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/helpClasses/People.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/main.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/so_2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/so_2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etap2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/etap2.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpClasses/Cord.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/Cord.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpClasses/Cord.h" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/Cord.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpClasses/People.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/People.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpClasses/People.h" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/People.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -122,7 +118,7 @@
       <workItem from="1715329988236" duration="6000" />
       <workItem from="1715330391702" duration="2972000" />
       <workItem from="1715890664228" duration="3164000" />
-      <workItem from="1716542507595" duration="15399000" />
+      <workItem from="1716542507595" duration="16261000" />
     </task>
     <task id="LOCAL-00001" summary="update - v2v1 stage 1 finish">
       <option name="closed" value="true" />
@@ -212,7 +208,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716563934788</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="update - v2 stage 2 small code refactor and added sync beatween people objs and switch thread">
+      <option name="closed" value="true" />
+      <created>1716566318314</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1716566318314</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -241,7 +245,8 @@
     <MESSAGE value="update - v2 stage 2 finish working on que beafore switch and block gen. if start field is block" />
     <MESSAGE value="update - v2 stage 2 small refactor in People.cpp &amp; People.h" />
     <MESSAGE value="update - v2 stage 2 part 2 working Pepole stacks" />
-    <option name="LAST_COMMIT_MESSAGE" value="update - v2 stage 2 part 2 working Pepole stacks" />
+    <MESSAGE value="update - v2 stage 2 small code refactor and added sync beatween people objs and switch thread" />
+    <option name="LAST_COMMIT_MESSAGE" value="update - v2 stage 2 small code refactor and added sync beatween people objs and switch thread" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

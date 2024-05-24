@@ -14,16 +14,16 @@ People::People(int x, int y, std::vector<std::vector<Cord>> &map) : cord(std::ma
 
 }
 
-void People::start(std::atomic_bool &isSwitchBlocked, std::atomic_int &switchCounter, int switchBorder) {
-    thread = std::thread([this, &isSwitchBlocked, &switchCounter, switchBorder]() {
+void People::start(std::atomic_bool &isSwitchBlocked) {
+    thread = std::thread([this, &isSwitchBlocked]() {
         while (running) {
-            moveClient(isSwitchBlocked, switchCounter, switchBorder);
+            moveClient(isSwitchBlocked);
             std::this_thread::sleep_for(std::chrono::milliseconds(speed));
         }
     });
 }
 
-void People::moveClient(std::atomic_bool &isSwitchBlocked, std::atomic_int &switchCounter, int switchBorder) {
+void People::moveClient(std::atomic_bool &isSwitchBlocked) {
 
     // Jeśli klient przekroczył przełącznik, ustaw hasCrossedSwitch na true
     // W przeciwnym razie ustaw hasCrossedSwitch na false
