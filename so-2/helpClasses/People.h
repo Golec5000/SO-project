@@ -39,8 +39,6 @@ public:
 
     [[nodiscard]] std::string getName() const;
 
-    [[nodiscard]] char getDirection() const;
-
     void setDirection(char direction);
 
     [[nodiscard]] const std::atomic_bool &getHasCrossedSwitch() const;

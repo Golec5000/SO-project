@@ -78,9 +78,6 @@ void People::moveClient(std::atomic_bool &isSwitchBlocked, std::atomic_int &swit
     }
 
     if (cord->y == 39) {
-        if (tmpCord) {
-            tmpCord->free();
-        }
         running = false;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         toErase = true;
@@ -108,10 +105,6 @@ bool People::getToErase() const {
 
 std::string People::getName() const {
     return name;
-}
-
-char People::getDirection() const {
-    return direction;
 }
 
 void People::setDirection(char newDirection) {
