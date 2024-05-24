@@ -1,3 +1,3 @@
 Opis wstępny do etapu 2:
-    - w pkt obsługi morze przebywać naraz tylko 1 ludzik a reszta sie stakuje za punktem  dowolna kolejnosc wchodzenia
-    - obserqja ilośći wątkuw za switchem lub oczekuje łącznie dla 3 ramian, jeśli będzie wiecej niż "n" to przed switchem zaczyna się tworzyć kolejka
+    - w pkt obsługi morze przebywać naraz tylko 1 ludzik a reszta sie stakuje za punktem  dowolna kolejnosc wchodzenia -> done
+    - obserqja ilośći wątkuw za switchem lub oczekuje łącznie dla 3 ramian, jeśli będzie wiecej niż "n" to przed switchem zaczyna się tworzyć kolejka -> done

@@ -35,10 +35,7 @@ void People::moveClient(std::atomic_bool &isSwitchBlocked, std::atomic_int &swit
         while (isSwitchBlocked) {
             std::this_thread::sleep_for(std::chrono::milliseconds(speed));
         }
-        // Jeśli liczba osób, które przekroczyły przełącznik, przekroczyła określony próg, zablokuj przełącznik
-        if (switchCounter >= switchBorder) {
-            isSwitchBlocked = true;
-        }
+
     }
 
     int nextX = cord->x;
@@ -99,7 +96,7 @@ void People::moveClient(std::atomic_bool &isSwitchBlocked, std::atomic_int &swit
 }
 
 void People::joinThread() {
-//    std::cout << "Joining thread: " << name << std::endl;
+    std::cout << "Joining thread: " << name << std::endl;
     running = false;
     thread.join();
 }

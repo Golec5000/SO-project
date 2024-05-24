@@ -5,9 +5,12 @@
 #include <thread>
 #include <ncurses.h>
 #include <atomic>
+#include <mutex>
 #include <list>
 #include "helpClasses/People.h"
 #include "helpClasses/Cord.h"
+
+std::mutex directionMutex;
 
 std::vector<std::vector<Cord>> map;
 std::list<std::shared_ptr<People *>> clients;
@@ -41,6 +44,10 @@ void checkClients();
 
 void setSwitchDirectionForClients();
 
+void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thread &checkClientsThread);
+
+void prepareMainMap();
+
 int main(int argc, char **argv) {
 
     // Sprawdź, czy została podana wartość graniczna przełącznika
@@ -53,13 +60,7 @@ int main(int argc, char **argv) {
     nodelay(stdscr, TRUE);
     WINDOW *buffer = newwin(0, 0, 0, 0);
 
-    map = std::vector<std::vector<Cord>>(height, std::vector<Cord>(width));
-
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            map[i][j] = Cord(i, j);
-        }
-    }
+    prepareMainMap();
 
     std::thread switchThread(switchDirection);
     std::thread clientsThread(generateClients);
@@ -77,47 +78,63 @@ int main(int argc, char **argv) {
 
         draw_map(buffer);
 
-        wprintw(buffer, "Point 1: %d\n", map[0][39].ocupied.load());
-        wprintw(buffer, "Point 2: %d\n", map[mid][39].ocupied.load());
-        wprintw(buffer, "Point 3: %d\n", map[height - 1][39].ocupied.load());
+        wprintw(buffer, "Point 1 lock: %d\n", map[0][39].ocupied.load());
+        wprintw(buffer, "Point 2 lock: %d\n", map[mid][39].ocupied.load());
+        wprintw(buffer, "Point 3 lock: %d\n", map[height - 1][39].ocupied.load());
         wprintw(buffer, "Switch lock: %d\n", isSwitchBlocked.load());
         wprintw(buffer, "Generator lock: %d\n", map[mid][0].ocupied.load());
         wprintw(buffer, "Press 'space' to quit\n");
         overwrite(buffer, stdscr);
         refresh();
 
-        if (getch() == ' ') {
-            endwin();
-            isRunning = false;
-            std::cout << "Włączanie switcha" << std::endl;
-            if (switchThread.joinable()) {
-                switchThread.join();
-            }
-            std::cout << "Włączanie generatora ludzi" << std::endl;
-            if (clientsThread.joinable()) {
-                clientsThread.join();
-            }
-            std::cout << "Włączanie watku za sprawdzanie życia wątków" << std::endl;
-            if (checkClientsThread.joinable()) {
-                checkClientsThread.join();
-            }
-            std::cout << "Włączanie pozostałych ludzi którzy nie dotarli do końca" << std::endl;
-            for (auto &client: clients) {
-                if (client && *client) { // Sprawdź, czy wskaźnik do klienta i wskaźnik do wątku nie są null
-                    (*client)->setRunning(false);
-                    if ((*client)->isThreadJoinable()) {
-                        (*client)->joinThread();
-                    }
-                }
-            }
-            std::cout << "Włączanie całęgo systemu powidło sie !" << std::endl;
-        }
+        endProgram(switchThread, clientsThread, checkClientsThread);
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     return 0;
 }
 
+void prepareMainMap() {
+    map = std::vector<std::vector<Cord>>(height, std::vector<Cord>(width));
+
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            map[i][j] = Cord(i, j);
+        }
+    }
+}
+
+void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thread &checkClientsThread) {
+    if (getch() == ' ') {
+        endwin();
+        isRunning = false;
+        std::cout << "Włączanie switcha" << std::endl;
+        if (switchThread.joinable()) {
+            switchThread.join();
+        }
+        std::cout << "Włączanie generatora ludzi" << std::endl;
+        if (clientsThread.joinable()) {
+            clientsThread.join();
+        }
+        std::cout << "Włączanie watku za sprawdzanie życia wątków" << std::endl;
+        if (checkClientsThread.joinable()) {
+            checkClientsThread.join();
+        }
+        std::cout << "Włączanie pozostałych ludzi którzy nie dotarli do końca" << std::endl;
+        for (auto &client: clients) {
+            if (client && *client) { // Sprawdź, czy wskaźnik do klienta i wskaźnik do wątku nie są null
+                (*client)->setRunning(false);
+                if ((*client)->isThreadJoinable()) {
+                    (*client)->joinThread();
+                }
+            }
+        }
+        std::cout << "Włączanie całęgo systemu powidło sie !" << std::endl;
+    }
+}
+
 void setSwitchDirectionForClients() {
+    //Synchronizacja wątków obiektow klasy People z wątkiem głównym ze zmiana kierunku przełącznika za pomocą mutexa
+    std::lock_guard<std::mutex> lock(directionMutex);
     if (!clients.empty()) {
         for (auto &client: clients) {
             if ((*client)->getCord()->y == selectorPoint && (*client)->getCord()->x == mid &&
@@ -171,7 +188,7 @@ void up_arm() {
 
 void switchDirection() {
     while (isRunning) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(750));
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
         switchChar = (switchChar == '^') ? '>' : (switchChar == '>') ? 'v' : '^';
     }
 }

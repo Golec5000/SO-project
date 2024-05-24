@@ -3,31 +3,25 @@
 
 #include <string>
 #include <atomic>
-#include <utility>
 #include <mutex>
-#include <memory>
+#include <utility>
 #include "People.h"
 
 class People;
 
 class Cord {
 public:
-    int x;
-    int y;
+    int x, y;
     std::atomic_bool ocupied;
     std::string cordChar;
     std::mutex mutex;
 
-    Cord() : x(0), y(0), ocupied(false), cordChar("..") {}
-
-    Cord(int x, int y, std::string cordChar = "..")
+    explicit Cord(int x = 0, int y = 0, std::string cordChar = "  ")
             : x(x), y(y), ocupied(false), cordChar(std::move(cordChar)) {}
 
-    // Konstruktor kopiujący
     Cord(const Cord &other)
             : x(other.x), y(other.y), ocupied(other.ocupied.load()), cordChar(other.cordChar) {}
 
-    // Operator przypisania kopiującego
     Cord &operator=(const Cord &other) {
         if (this != &other) {
             x = other.x;
