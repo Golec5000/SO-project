@@ -35,6 +35,11 @@ public:
     bool move(People &people, int nextX, int nextY);
 
     void free();
+
+private:
+
+    static bool isWithinBounds(int nextX, int nextY);
+
 };
 
 #endif //SO_2_CORD_H

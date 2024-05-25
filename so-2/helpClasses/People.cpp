@@ -9,13 +9,13 @@ People::People(int x, int y, std::vector<std::vector<Cord>> &map) : cord(std::ma
     speed = dis(gen);
 
     std::string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@$%&*()+-=[]{}|;':,<?";
-    for (int i = 0; i < 2; i++)
-        name += chars[dis(gen) % chars.size()];
+    name += chars[dis(gen) % chars.size()];
+    name += chars[dis(gen) % chars.size()];
 
 }
 
 void People::start(std::atomic_bool &isSwitchBlocked) {
-    thread = std::thread([this, &isSwitchBlocked]() {
+    thread = std::thread([&] {
         while (running) {
             moveClient(isSwitchBlocked);
             std::this_thread::sleep_for(std::chrono::milliseconds(speed));
@@ -24,40 +24,37 @@ void People::start(std::atomic_bool &isSwitchBlocked) {
 }
 
 void People::moveClient(std::atomic_bool &isSwitchBlocked) {
-
     if (!running) return;
 
-    // Sprawdzenie, czy switch jest zablokowany
-    if (cord->y == 28 && !hasCrossedSwitch) {
-        while (isSwitchBlocked && running) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(speed));
-        }
-        if (!running) return;
+    // Wait if switch is blocked
+    while (cord->y == 28 && !hasCrossedSwitch && isSwitchBlocked && running) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(speed));
     }
+    if (!running) return;
 
-    int nextX = cord->x;
-    int nextY = cord->y;
+    checkCordLimits();
 
-    // Modyfikacja x i y na podstawie kierunku
-    if (direction == '^' && cord->x > 0) {
-        --nextX;
-    } else if (direction == 'v' && cord->x < 30) {
-        ++nextX;
-    } else {
-        ++nextY;
-        direction = '>';
-    }
+    int nextX = cord->x + (direction == '^' && cord->x > 0) - (direction == 'v' && cord->x < 30);
+    int nextY = cord->y + (direction == '>');
 
     Cord *tmpCord = findCord(cord->x, cord->y);
     Cord *nextCord = findCord(nextX, nextY);
 
+    // Move to next position if possible
     if (nextCord && nextCord->move(*this, nextX, nextY) && tmpCord) {
         tmpCord->free();
-    } else {
-        if (!running) return;
+    } else if (running) {
         std::this_thread::sleep_for(std::chrono::milliseconds(speed));
     }
 
+    checkEndPosition();
+}
+
+void People::checkCordLimits() {
+    if (cord->x == 0 || cord->x == 30) direction = '>';
+}
+
+void People::checkEndPosition() {
     if (cord->y == 39) {
         running = false;
         std::this_thread::sleep_for(std::chrono::seconds(5));
@@ -67,12 +64,9 @@ void People::moveClient(std::atomic_bool &isSwitchBlocked) {
 }
 
 Cord *People::findCord(int x, int y) {
-    for (auto &c1: map) {
-        for (auto &c2: c1) {
-            if (c2.x == x && c2.y == y) {
-                return &c2;
-            }
-        }
+    for (auto &row: map) {
+        auto it = std::find_if(row.begin(), row.end(), [&](const Cord &cord) { return cord.x == x && cord.y == y; });
+        if (it != row.end()) return &(*it);
     }
     return nullptr;
 }

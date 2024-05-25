@@ -25,6 +25,10 @@ private:
     char direction;
     std::vector<std::vector<Cord>> &map;
 
+    void checkCordLimits();
+
+    void checkEndPosition();
+
 public:
 
     People(int x, int y, std::vector<std::vector<Cord>> &map);
@@ -54,6 +58,7 @@ public:
     void setRunning(const std::atomic_bool &running);
 
     Cord *findCord(int x, int y);
+
 };
 
 
