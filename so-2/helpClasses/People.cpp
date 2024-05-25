@@ -8,7 +8,7 @@ People::People(int x, int y, std::vector<std::vector<Cord>> &map) : cord(std::ma
     std::uniform_int_distribution<> dis(150, 1000);
     speed = dis(gen);
 
-    std::string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ234567890!@$%&*()_+-=[]{}|;':,<?";
+    std::string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@$%&*()+-=[]{}|;':,<?";
     for (int i = 0; i < 2; i++)
         name += chars[dis(gen) % chars.size()];
 

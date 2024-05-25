@@ -26,7 +26,7 @@ int mid = 15;
 int selectorPoint = 29;
 int switchBorder = 10; // Domyslna wartosc wynosi 10
 
-char pathChar = '1';
+char pathChar = '_';
 char switchChar = '^';
 char stationChar = '#';
 
@@ -135,22 +135,20 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
 void setSwitchDirectionForClients() {
     //Synchronizacja wątków obiektow klasy People z wątkiem głównym ze zmiana kierunku przełącznika za pomocą mutexa
     std::lock_guard<std::mutex> lock(directionMutex);
-    if (!clients.empty()) {
-        for (auto &client: clients) {
-            if ((*client)->getCord()->y == selectorPoint && (*client)->getCord()->x == mid &&
-                !(*client)->getHasCrossedSwitch()) {
+    for (auto &client: clients) {
+        if ((*client)->getCord()->y == selectorPoint && (*client)->getCord()->x == mid &&
+            !(*client)->getHasCrossedSwitch()) {
 
-                (*client)->setDirection(switchChar);
-                (*client)->setHasCrossedSwitch(true);
-                switchCounter++;
+            (*client)->setDirection(switchChar);
+            (*client)->setHasCrossedSwitch(true);
+            switchCounter++;
 
-                // Jeśli liczba osób, które przekroczyły przełącznik, osiągnęła określony próg, zablokuj przełącznik
-                if (switchCounter >= switchBorder) {
-                    isSwitchBlocked = true;
-                }
+            // Jeśli liczba osób, które przekroczyły przełącznik, osiągnęła określony próg, zablokuj przełącznik
+            if (switchCounter >= switchBorder) {
+                isSwitchBlocked = true;
             }
-
         }
+
     }
 }
 
@@ -187,9 +185,12 @@ void up_arm() {
 }
 
 void switchDirection() {
+    std::array<char, 3> directions = {'^', '>', 'v'};
+    int index = 0;
+
     while (isRunning) {
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
-        switchChar = (switchChar == '^') ? '>' : (switchChar == '>') ? 'v' : '^';
+        switchChar = directions[index++ % directions.size()];
     }
 }
 
@@ -199,34 +200,27 @@ void generateClients() {
     std::uniform_int_distribution<int> dis(500, 2000);
 
     while (isRunning) {
-        // Sprawdź, czy pole tworzenia jest zajęte
-        if (map[mid][0].ocupied.load()) {
-            // Jeśli pole tworzenia jest zajęte, kontynuuj pętlę bez dodawania nowego obiektu
-            std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
-            continue;
+        if (!map[mid][0].ocupied.load()) {
+            clients.push_back(std::make_shared<People *>(new People(mid, 0, map)));
+            map[mid][0].ocupied.store(true);
+            (*clients.back())->start(isSwitchBlocked);
         }
-
-        clients.push_back(std::make_shared<People *>(new People(mid, 0, map)));
-        map[mid][0].ocupied.store(true);
-        (*clients.back())->start(isSwitchBlocked);
         std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
     }
 }
 
 void checkClients() {
     while (isRunning) {
-        for (auto client = clients.begin(); client != clients.end();) {
-            if ((*(*client))->getToErase()) {
-                client = clients.erase(client);
-                switchCounter--;
-
-                // Jeśli liczba osób, które przekroczyły przełącznik, spadła poniżej określonego progu, odblokuj przełącznik
+        clients.remove_if([&](const auto &client) {
+            bool toErase = (*client)->getToErase();
+            if (toErase) {
+                --switchCounter;
                 if (switchCounter < switchBorder) {
                     isSwitchBlocked = false;
                 }
-
-            } else ++client;
-        }
+            }
+            return toErase;
+        });
         std::this_thread::sleep_for(std::chrono::milliseconds(80));
     }
 }
