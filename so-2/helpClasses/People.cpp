@@ -57,7 +57,7 @@ void People::checkCordLimits() {
 void People::checkEndPosition() {
     if (cord->y == 39) {
         running = false;
-        std::this_thread::sleep_for(std::chrono::seconds(5));
+        std::this_thread::sleep_for(std::chrono::seconds(8));
         toErase = true;
         findCord(cord->x, cord->y)->free();
     }

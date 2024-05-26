@@ -189,7 +189,7 @@ void switchDirection() {
     int index = 0;
 
     while (isRunning) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::this_thread::sleep_for(std::chrono::milliseconds(750));
         switchChar = directions[index++ % directions.size()];
     }
 }

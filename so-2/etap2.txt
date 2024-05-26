@@ -1,3 +1,31 @@
 Opis wstępny do etapu 2:
     - w pkt obsługi morze przebywać naraz tylko 1 ludzik a reszta sie stakuje za punktem  dowolna kolejnosc wchodzenia -> done
     - obserqja ilośći wątkuw za switchem lub oczekuje łącznie dla 3 ramian, jeśli będzie wiecej niż "n" to przed switchem zaczyna się tworzyć kolejka -> done
+
+
+Opis finalny działania z 2 etapu:
+
+   - Każdy obiekt klasy People wykorzystuje mechanizm synchronizacji wątków, aby bezpiecznie przechodzić z jednego pola na drugie.
+     Każde pole posiada flagę occupied, która wskazuje, czy jest aktualnie zajęte przez obiekt People.
+     Gdy obiekt People próbuje przemieścić się na inne pole, najpierw sprawdza, czy docelowe pole jest wolne.
+     Jeśli tak, obiekt People przemieszcza się na to pole i ustawia pole, na którym się wcześniej znajdował, jako wolne.
+     Jeśli docelowe pole jest zajęte, obiekt People czeka, aż stanie się wolne.
+
+
+   - Mapa jest podzielona na dwa obszary: obszar przed dystrybutorem i obszar za dystrybutorem.
+     Dystrybutor działa jako punkt kontrolny, który reguluje przepływ obiektów People.
+
+
+   - Wprowadzono mechanizm kontroli liczby obiektów People, które mogą jednocześnie przekroczyć dystrybutor.
+     Użytkownik może określić maksymalną liczbę obiektów People, które mogą być za dystrybutorem.
+     Gdy liczba obiektów People za dystrybutorem osiągnie ten limit, pozostałe obiekty People czekają w kolejce przed dystrybutorem.
+     W czasie oczekiwania, obiekty People nie mogą nachodzić na siebie ani przekraczać dystrybutora.
+
+
+   - Dodatkowo, generowanie nowych obiektów People jest zablokowane, jeśli pole startowe jest zajęte.
+     Gdy pole startowe staje się wolne, generowanie nowych obiektów People jest odblokowane.
+
+
+   - Po przekroczeniu dystrybutora, obiekty People kontynuują swoją drogę, idąc jeden za drugim i sprawdzając, czy mogą przejść na kolejne pole.
+     Wyjątkiem jest pole przed stacją końcową, gdzie obiekty People nie mogą na siebie nachodzić.
+     W tym miejscu może wystąpić wyścig o dostęp do stacji końcowej.
