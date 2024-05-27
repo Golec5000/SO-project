@@ -22,14 +22,6 @@
   <component name="ChangeListManager">
     <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 2 small code update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/so_2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/so_2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpClasses/Cord.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/Cord.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpClasses/Cord.h" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/Cord.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpClasses/People.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/People.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +109,8 @@
       <workItem from="1716644278847" duration="424000" />
       <workItem from="1716708521275" duration="4703000" />
       <workItem from="1716750737886" duration="1594000" />
-      <workItem from="1716827000739" duration="5772000" />
+      <workItem from="1716827000739" duration="5793000" />
+      <workItem from="1716843109874" duration="5000" />
     </task>
     <task id="LOCAL-00001" summary="update - v2v1 stage 1 finish">
       <option name="closed" value="true" />
@@ -255,7 +248,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716840005490</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="update - v2 stage 2 small code update">
+      <option name="closed" value="true" />
+      <created>1716840017454</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1716840017454</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -86,11 +86,11 @@ int main(int argc, char **argv) {
 
         draw_map(buffer);
 
-        wprintw(buffer, "Point 1 lock: %d\n", map[0][39].occupied.load());
-        wprintw(buffer, "Point 2 lock: %d\n", map[mid][39].occupied.load());
-        wprintw(buffer, "Point 3 lock: %d\n", map[height - 1][39].occupied.load());
-        wprintw(buffer, "Switch lock: %d\n", isSwitchBlocked.load());
-        wprintw(buffer, "Generator lock: %d\n", map[mid][0].occupied.load());
+        wprintw(buffer, "Point up lock: %s\n", map[0][39].occupied.load() ? "Locked" : "Unlocked");
+        wprintw(buffer, "Point mid lock: %s\n", map[mid][39].occupied.load() ? "Locked" : "Unlocked");
+        wprintw(buffer, "Point down lock: %s\n", map[height - 1][39].occupied.load() ? "Locked" : "Unlocked");
+        wprintw(buffer, "Switch lock: %s\n", isSwitchBlocked.load() ? "Locked" : "Unlocked");
+        wprintw(buffer, "Generator lock: %s\n", map[mid][0].occupied.load() ? "Locked" : "Unlocked");
         wprintw(buffer, "Press 'space' to quit\n");
         overwrite(buffer, stdscr);
         refresh();
