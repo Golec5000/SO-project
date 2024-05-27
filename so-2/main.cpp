@@ -50,9 +50,17 @@ void prepareMainMap();
 
 int main(int argc, char **argv) {
 
-    // Sprawdź, czy została podana wartość graniczna przełącznika
-    if (argc > 1) {
-        switchBorder = std::stoi(argv[1]);
+    try {
+        // Sprawdź, czy została podana wartość graniczna przełącznika
+        if (argc > 1) {
+            switchBorder = std::stoi(argv[1]);
+        }
+    } catch (std::invalid_argument &e) {
+        std::cerr << "Invalid argument for switch border value: " << argv[1] << std::endl;
+        return 1;
+    } catch (std::out_of_range &e) {
+        std::cerr << "Out of range argument for switch border value: " << argv[1] << std::endl;
+        return 1;
     }
 
     initscr();
@@ -78,11 +86,11 @@ int main(int argc, char **argv) {
 
         draw_map(buffer);
 
-        wprintw(buffer, "Point 1 lock: %d\n", map[0][39].ocupied.load());
-        wprintw(buffer, "Point 2 lock: %d\n", map[mid][39].ocupied.load());
-        wprintw(buffer, "Point 3 lock: %d\n", map[height - 1][39].ocupied.load());
+        wprintw(buffer, "Point 1 lock: %d\n", map[0][39].occupied.load());
+        wprintw(buffer, "Point 2 lock: %d\n", map[mid][39].occupied.load());
+        wprintw(buffer, "Point 3 lock: %d\n", map[height - 1][39].occupied.load());
         wprintw(buffer, "Switch lock: %d\n", isSwitchBlocked.load());
-        wprintw(buffer, "Generator lock: %d\n", map[mid][0].ocupied.load());
+        wprintw(buffer, "Generator lock: %d\n", map[mid][0].occupied.load());
         wprintw(buffer, "Press 'space' to quit\n");
         overwrite(buffer, stdscr);
         refresh();
@@ -120,13 +128,17 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
             checkClientsThread.join();
         }
         std::cout << "Wyłączanie pozostałych ludzi którzy nie dotarli do końca" << std::endl;
-        for (auto &client: clients) {
-            if (client && *client) { // Sprawdź, czy wskaźnik do klienta i wskaźnik do wątku nie są null
-                (*client)->setRunning(false);
-                if ((*client)->isThreadJoinable()) {
-                    (*client)->joinThread();
+        try {
+            for (auto &client: clients) {
+                if (client && *client) { // Sprawdź, czy wskaźnik do klienta i wskaźnik do wątku nie są null
+                    (*client)->setRunning(false);
+                    if ((*client)->isThreadJoinable()) {
+                        (*client)->joinThread();
+                    }
                 }
             }
+        } catch (const std::exception &e) {
+            std::cerr << "Exception caught during thread joining: " << e.what() << std::endl;
         }
         std::cout << "Wyłączanie całęgo systemu powidło sie !" << std::endl;
     }
@@ -200,9 +212,10 @@ void generateClients() {
     std::uniform_int_distribution<int> dis(500, 2000);
 
     while (isRunning) {
-        if (!map[mid][0].ocupied.load()) {
+        if (!map[mid][0].occupied.load()) {
             clients.push_back(std::make_shared<People *>(new People(mid, 0, map)));
-            map[mid][0].ocupied.store(true);
+            map[mid][0].occupied.store(true);
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
             (*clients.back())->start(isSwitchBlocked);
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
@@ -211,16 +224,20 @@ void generateClients() {
 
 void checkClients() {
     while (isRunning) {
-        clients.remove_if([&](const auto &client) {
-            bool toErase = (*client)->getToErase();
-            if (toErase) {
-                --switchCounter;
-                if (switchCounter < switchBorder) {
-                    isSwitchBlocked = false;
+        try {
+            clients.remove_if([&](const auto &client) {
+                bool toErase = (*client)->getToErase();
+                if (toErase) {
+                    --switchCounter;
+                    if (switchCounter < switchBorder) {
+                        isSwitchBlocked = false;
+                    }
                 }
-            }
-            return toErase;
-        });
+                return toErase;
+            });
+        } catch (const std::exception &e) {
+            std::cerr << "Exception caught during client removal: " << e.what() << std::endl;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(80));
     }
 }

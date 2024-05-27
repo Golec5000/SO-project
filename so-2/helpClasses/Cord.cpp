@@ -2,10 +2,10 @@
 
 bool Cord::move(People &people, int nextX, int nextY) {
     std::lock_guard<std::mutex> lock(mutex);
-    if (!isWithinBounds(nextX, nextY) || (ocupied && y != 38)) {
+    if (!isWithinBounds(nextX, nextY) || (occupied && y != 38)) {
         return false;
     }
-    ocupied = true;
+    occupied = true;
     people.setCord(std::make_shared<Cord>(x, y));
     return true;
 }
@@ -16,5 +16,5 @@ bool Cord::isWithinBounds(int nextX, int nextY) {
 
 void Cord::free() {
     std::lock_guard<std::mutex> lock(mutex);
-    ocupied = false;
+    occupied = false;
 }

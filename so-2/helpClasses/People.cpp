@@ -55,9 +55,9 @@ void People::checkCordLimits() {
 }
 
 void People::checkEndPosition() {
-    if (cord->y == 39) {
+    if (cord->y == 39 && running) {
         running = false;
-        std::this_thread::sleep_for(std::chrono::seconds(8));
+        std::this_thread::sleep_for(std::chrono::seconds(6));
         toErase = true;
         findCord(cord->x, cord->y)->free();
     }
@@ -65,7 +65,8 @@ void People::checkEndPosition() {
 
 Cord *People::findCord(int x, int y) {
     for (auto &row: map) {
-        auto it = std::find_if(row.begin(), row.end(), [&](const Cord &cord) { return cord.x == x && cord.y == y; });
+        auto it = std::find_if(row.begin(), row.end(),
+                               [&](const Cord &cordToFind) { return cordToFind.x == x && cordToFind.y == y; });
         if (it != row.end()) return &(*it);
     }
     return nullptr;

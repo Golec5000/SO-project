@@ -12,21 +12,21 @@ class People;
 class Cord {
 public:
     int x, y;
-    std::atomic_bool ocupied;
+    std::atomic_bool occupied;
     std::string cordChar;
     std::mutex mutex;
 
     explicit Cord(int x = 0, int y = 0, std::string cordChar = "  ")
-            : x(x), y(y), ocupied(false), cordChar(std::move(cordChar)) {}
+            : x(x), y(y), occupied(false), cordChar(std::move(cordChar)) {}
 
     Cord(const Cord &other)
-            : x(other.x), y(other.y), ocupied(other.ocupied.load()), cordChar(other.cordChar) {}
+            : x(other.x), y(other.y), occupied(other.occupied.load()), cordChar(other.cordChar) {}
 
     Cord &operator=(const Cord &other) {
         if (this != &other) {
             x = other.x;
             y = other.y;
-            ocupied.store(other.ocupied.load());
+            occupied.store(other.occupied.load());
             cordChar = other.cordChar;
         }
         return *this;
