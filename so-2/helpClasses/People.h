@@ -9,12 +9,16 @@
 #include <memory>
 #include <utility>
 #include <iostream>
+#include <condition_variable>
 #include "Cord.h"
 
 class Cord;
 
 class People {
 private:
+
+    std::mutex mapMutex;
+    std::condition_variable cv;
     std::atomic_bool running;
     std::atomic_bool toErase;
     std::atomic_bool hasCrossedSwitch;
@@ -58,6 +62,8 @@ public:
     void setRunning(const std::atomic_bool &running);
 
     Cord *findCord(int x, int y);
+
+    std::condition_variable & getCv();
 
 };
 
