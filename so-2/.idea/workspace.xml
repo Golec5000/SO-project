@@ -20,10 +20,15 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 2 update">
+    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 2 small code refactor">
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/helpClasses/Cord.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/helpClasses/Cord.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/helpClasses/People.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/helpClasses/People.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/main.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/so_2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/so_2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpClasses/Cord.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/Cord.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpClasses/Cord.h" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/Cord.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpClasses/People.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/People.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +119,7 @@
       <workItem from="1716827000739" duration="5793000" />
       <workItem from="1716843109874" duration="5000" />
       <workItem from="1716877927121" duration="491000" />
-      <workItem from="1716880973984" duration="3252000" />
+      <workItem from="1716880973984" duration="3926000" />
     </task>
     <task id="LOCAL-00001" summary="update - v2v1 stage 1 finish">
       <option name="closed" value="true" />
@@ -284,7 +289,23 @@
       <option name="project" value="LOCAL" />
       <updated>1716883906301</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="update - v2 stage 2 small code refactor">
+      <option name="closed" value="true" />
+      <created>1716884422868</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1716884422868</updated>
+    </task>
+    <task id="LOCAL-00023" summary="update - v2 stage 2 small code refactor">
+      <option name="closed" value="true" />
+      <created>1716884430248</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1716884430248</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -314,13 +335,13 @@
     <MESSAGE value="update - v2 stage 2 small refactor in People.cpp &amp; People.h" />
     <MESSAGE value="update - v2 stage 2 part 2 working Pepole stacks" />
     <MESSAGE value="update - v2 stage 2 small code refactor and added sync beatween people objs and switch thread" />
-    <MESSAGE value="update - v2 stage 2 small code refactor" />
     <MESSAGE value="update - v2 stage 2 code refactor in main.cpp" />
     <MESSAGE value="update - v2 stage 2 code refactor in Cord.cpp and People.cpp" />
     <MESSAGE value="update - v2 stage 2 small refactor" />
     <MESSAGE value="update - v2 stage 2 small code update" />
     <MESSAGE value="update - v2 stage 2 update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update - v2 stage 2 update" />
+    <MESSAGE value="update - v2 stage 2 small code refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="update - v2 stage 2 small code refactor" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

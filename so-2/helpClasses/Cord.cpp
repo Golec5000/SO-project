@@ -1,7 +1,7 @@
 #include "Cord.h"
 
 bool Cord::canMove(People &people, int nextX, int nextY) {
-    std::lock_guard<std::mutex> lock(mutex);
+    std::lock_guard<std::mutex> lock(moveMutex);
     if (!isWithinBounds(nextX, nextY) || (occupied && y != 38)) {
         return false;
     }
@@ -15,6 +15,6 @@ bool Cord::isWithinBounds(int nextX, int nextY) {
 }
 
 void Cord::freeOccupiedCord() {
-    std::lock_guard<std::mutex> lock(mutex);
+    std::lock_guard<std::mutex> lock(freeMutex);
     occupied = false;
 }

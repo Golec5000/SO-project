@@ -14,7 +14,8 @@ public:
     int x, y;
     std::atomic_bool occupied;
     std::string cordChar;
-    std::mutex mutex;
+    std::mutex moveMutex;
+    std::mutex freeMutex;
 
     explicit Cord(int x = 0, int y = 0, std::string cordChar = "  ")
             : x(x), y(y), occupied(false), cordChar(std::move(cordChar)) {}
