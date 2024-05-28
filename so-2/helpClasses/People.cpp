@@ -26,29 +26,30 @@ void People::start(std::atomic_bool &isSwitchBlocked) {
 void People::moveClient(std::atomic_bool &isSwitchBlocked) {
     if (!running) return;
 
-    // Wait if switch is blocked
-    while (cord->y == 28 && !hasCrossedSwitch && isSwitchBlocked && running) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(speed));
-    }
-    if (!running) return;
-
     checkCordLimits();
 
-    int nextX = cord->x + (direction == '^' && cord->x > 0) - (direction == 'v' && cord->x < 30);
-    int nextY = cord->y + (direction == '>');
+    int nextX = cord->x + (direction == '^' && cord->x > 0 ? -1 : 0) + (direction == 'v' && cord->x < 30 ? 1 : 0);
+    int nextY = cord->y + (direction == '>' ? 1 : 0);
 
     Cord *tmpCord = findCord(cord->x, cord->y);
     Cord *nextCord = findCord(nextX, nextY);
 
-    // Move to next position if possible
-    if (nextCord && nextCord->canMove(*this, nextX, nextY) && tmpCord) {
-        tmpCord->freeOccupiedCord();
-    } else if (running) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(speed));
+    if (nextCord && tmpCord) {
+        std::unique_lock<std::mutex> lock(nextCord->mtx);
+        cv.wait(lock, [&] {
+            return !isSwitchBlocked || tmpCord->y != 28 || !running;
+        });
+
+        if (!running) return;
+
+        if (nextCord->canMove(*this, nextX, nextY)) {
+            tmpCord->freeOccupiedCord(cv);
+        }
     }
 
     checkEndPosition();
 }
+
 
 void People::checkCordLimits() {
     if (cord->x == 0 || cord->x == 30) direction = '>';
@@ -59,11 +60,12 @@ void People::checkEndPosition() {
         running = false;
         std::this_thread::sleep_for(std::chrono::seconds(6));
         toErase = true;
-        findCord(cord->x, cord->y)->freeOccupiedCord();
+        findCord(cord->x, cord->y)->freeOccupiedCord(cv);
     }
 }
 
 Cord *People::findCord(int x, int y) {
+    std::lock_guard<std::mutex> lock(mapMutex); // Blokuj dostęp do `map`
     for (auto &row: map) {
         auto it = std::find_if(row.begin(), row.end(),
                                [&](const Cord &cordToFind) { return cordToFind.x == x && cordToFind.y == y; });
@@ -112,5 +114,10 @@ bool People::isThreadJoinable() {
 
 void People::setRunning(const std::atomic_bool &running) {
     People::running = running.load();
+    cv.notify_all();
+}
+
+std::condition_variable &People::getCv() {
+    return cv;
 }
 

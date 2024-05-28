@@ -7,10 +7,14 @@
 #include <atomic>
 #include <mutex>
 #include <list>
+#include <sstream>
+#include <iomanip>
 #include "helpClasses/People.h"
 #include "helpClasses/Cord.h"
 
 std::mutex directionMutex;
+std::mutex clientsMutex;
+std::mutex switchCharMutex;
 
 std::vector<std::vector<Cord>> map;
 std::list<std::shared_ptr<People *>> clients;
@@ -24,7 +28,6 @@ const int width = 40;
 const int height = 31;
 const int mid = 15;
 const int selectorPoint = 29;
-
 
 int switchBorder = 10; // Domyslna wartosc wynosi 10
 
@@ -149,43 +152,61 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
 }
 
 void setSwitchDirectionForClients() {
-    //Synchronizacja wątków obiektow klasy People z wątkiem głównym ze zmiana kierunku przełącznika za pomocą mutexa
     std::lock_guard<std::mutex> lock(directionMutex);
+    char currentSwitchChar;
+    {
+        std::lock_guard<std::mutex> switchLock(switchCharMutex);
+        currentSwitchChar = switchChar;
+    }
+
     for (auto &client: clients) {
         if ((*client)->getCord()->y == selectorPoint && (*client)->getCord()->x == mid &&
             !(*client)->getHasCrossedSwitch()) {
 
-            (*client)->setDirection(switchChar);
+            (*client)->setDirection(currentSwitchChar);
             (*client)->setHasCrossedSwitch(true);
+
             switchCounter++;
 
-            // Jeśli liczba osób, które przekroczyły przełącznik, osiągnęła określony próg, zablokuj przełącznik
             if (switchCounter >= switchBorder) {
                 isSwitchBlocked = true;
+                std::unique_lock<std::mutex> lock2(clientsMutex);
+                for (auto &c: clients) {
+                    (*c)->getCv().notify_all();
+                }
             }
         }
-
     }
 }
 
-void draw_map(WINDOW *ptr) {
-    for (int j = 0; j < width - 1; j++) map[mid][j].cordChar = pathChar;
 
+void draw_map(WINDOW *ptr) {
+    std::stringstream buffer;
+
+    // Inicjalizacja stałych części mapy
+    for (int j = 0; j < width - 1; j++) map[mid][j].cordChar = pathChar;
     map[mid][width - 1].cordChar = stationChar;
     map[mid][selectorPoint].cordChar = switchChar;
-
     down_arm();
     up_arm();
 
-    for (auto &client: clients)
-        if (!(*client)->getToErase())
+    // Dodanie klientów do mapy
+    for (auto &client: clients) {
+        if (!(*client)->getToErase()) {
             map[(*client)->getCord()->x][(*client)->getCord()->y].cordChar = (*client)->getName();
-
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++)
-            wprintw(ptr, "%4s", map[i][j].cordChar.c_str());
-        wprintw(ptr, "\n");
+        }
     }
+
+    // Buforowanie mapy
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            buffer << std::setw(4) << map[i][j].cordChar;
+        }
+        buffer << "\n";
+    }
+
+    // Wydrukowanie całego bufora do okna jednocześnie
+    wprintw(ptr, "%s", buffer.str().c_str());
 }
 
 void down_arm() {
@@ -205,10 +226,14 @@ void switchDirection() {
     int index = 0;
 
     while (isRunning) {
+        {
+            std::lock_guard<std::mutex> lock(switchCharMutex);
+            switchChar = directions[index++ % directions.size()];
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(750));
-        switchChar = directions[index++ % directions.size()];
     }
 }
+
 
 void generateClients() {
     std::random_device rd;
@@ -217,14 +242,23 @@ void generateClients() {
 
     while (isRunning) {
         if (!map[mid][0].occupied.load()) {
-            clients.push_back(std::make_shared<People *>(new People(mid, 0, map)));
+            auto newClient = std::make_shared<People *>(new People(mid, 0, map));
+            {
+                std::lock_guard<std::mutex> lock(clientsMutex); // Blokuj dostęp do `clients`
+                clients.push_back(newClient);
+            }
             map[mid][0].occupied.store(true);
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
-            (*clients.back())->start(isSwitchBlocked);
+            (*newClient)->start(isSwitchBlocked);
+            {
+                std::unique_lock<std::mutex> lock(clientsMutex); // Dodajemy blokadę dla synchronizacji
+                (*newClient)->getCv().notify_all();
+            }
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
     }
 }
+
 
 void checkClients() {
     while (isRunning) {
@@ -235,6 +269,10 @@ void checkClients() {
                     --switchCounter;
                     if (switchCounter < switchBorder) {
                         isSwitchBlocked = false;
+                        std::unique_lock<std::mutex> lock(clientsMutex); // Dodajemy blokadę dla synchronizacji
+                        for (auto &c: clients) {
+                            (*c)->getCv().notify_all();
+                        }
                     }
                 }
                 return toErase;
