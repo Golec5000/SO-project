@@ -11,6 +11,7 @@
 #include "helpClasses/Cord.h"
 
 std::mutex directionMutex;
+std::mutex clientsMutex;
 
 std::vector<std::vector<Cord>> map;
 std::list<std::shared_ptr<People *>> clients;
@@ -149,7 +150,6 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
 }
 
 void setSwitchDirectionForClients() {
-    //Synchronizacja wątków obiektow klasy People z wątkiem głównym ze zmiana kierunku przełącznika za pomocą mutexa
     std::lock_guard<std::mutex> lock(directionMutex);
     for (auto &client: clients) {
         if ((*client)->getCord()->y == selectorPoint && (*client)->getCord()->x == mid &&
@@ -157,16 +157,15 @@ void setSwitchDirectionForClients() {
 
             (*client)->setDirection(switchChar);
             (*client)->setHasCrossedSwitch(true);
+
             switchCounter++;
+            isSwitchBlocked = (switchCounter >= switchBorder);
 
-            // Jeśli liczba osób, które przekroczyły przełącznik, osiągnęła określony próg, zablokuj przełącznik
-            if (switchCounter >= switchBorder) {
-                isSwitchBlocked = true;
-            }
+            (*client)->getCv().notify_all(); // Obudź wszystkie wątki czekające na zmiennej warunkowej
         }
-
     }
 }
+
 
 void draw_map(WINDOW *ptr) {
     for (int j = 0; j < width - 1; j++) map[mid][j].cordChar = pathChar;
@@ -217,10 +216,15 @@ void generateClients() {
 
     while (isRunning) {
         if (!map[mid][0].occupied.load()) {
-            clients.push_back(std::make_shared<People *>(new People(mid, 0, map)));
+            auto newClient = std::make_shared<People *>(new People(mid, 0, map));
+            {
+                std::lock_guard<std::mutex> lock(clientsMutex); // Blokuj dostęp do `clients`
+                clients.push_back(newClient);
+            }
             map[mid][0].occupied.store(true);
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
-            (*clients.back())->start(isSwitchBlocked);
+            (*newClient)->start(isSwitchBlocked);
+            (*newClient)->getCv().notify_all();
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
     }
@@ -235,6 +239,7 @@ void checkClients() {
                     --switchCounter;
                     if (switchCounter < switchBorder) {
                         isSwitchBlocked = false;
+                        (*client)->getCv().notify_all(); // Obudź wszystkie wątki czekające na zmiennej warunkowej
                     }
                 }
                 return toErase;
