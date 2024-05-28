@@ -42,7 +42,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu++23 -fdiagnostics-color=always"
+					"fragment" : "-g -std=gnu++23"
 				}
 			],
 			"language" : "CXX",
