@@ -159,9 +159,11 @@ void setSwitchDirectionForClients() {
             (*client)->setHasCrossedSwitch(true);
 
             switchCounter++;
-            isSwitchBlocked = (switchCounter >= switchBorder);
 
-            (*client)->getCv().notify_all(); // Obudź wszystkie wątki czekające na zmiennej warunkowej
+            if (switchCounter >= switchBorder) {
+                isSwitchBlocked = true;
+                (*client)->getCv().notify_all(); // Obudź wszystkie wątki czekające na zmiennej warunkowej
+            }
         }
     }
 }
