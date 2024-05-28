@@ -37,8 +37,10 @@ void People::moveClient(std::atomic_bool &isSwitchBlocked) {
     if (nextCord && tmpCord) {
         std::unique_lock<std::mutex> lock(nextCord->mtx);
         cv.wait(lock, [&] {
-            return !isSwitchBlocked || tmpCord->y != 28;
+            return !isSwitchBlocked || tmpCord->y != 28 || !running;
         });
+
+        if (!running) return;
 
         if (nextCord->canMove(*this, nextX, nextY)) {
             tmpCord->freeOccupiedCord(cv);
@@ -107,7 +109,6 @@ const std::atomic_bool &People::getHasCrossedSwitch() const {
 }
 
 bool People::isThreadJoinable() {
-    cv.notify_all();
     return thread.joinable();
 }
 

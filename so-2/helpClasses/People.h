@@ -63,7 +63,7 @@ public:
 
     Cord *findCord(int x, int y);
 
-    std::condition_variable & getCv();
+    std::condition_variable &getCv();
 
 };
 
