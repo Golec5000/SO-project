@@ -32,9 +32,9 @@ public:
         return *this;
     }
 
-    bool move(People &people, int nextX, int nextY);
+    bool canMove(People &people, int nextX, int nextY);
 
-    void free();
+    void freeOccupiedCord();
 
 private:
 

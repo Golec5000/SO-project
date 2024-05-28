@@ -41,8 +41,8 @@ void People::moveClient(std::atomic_bool &isSwitchBlocked) {
     Cord *nextCord = findCord(nextX, nextY);
 
     // Move to next position if possible
-    if (nextCord && nextCord->move(*this, nextX, nextY) && tmpCord) {
-        tmpCord->free();
+    if (nextCord && nextCord->canMove(*this, nextX, nextY) && tmpCord) {
+        tmpCord->freeOccupiedCord();
     } else if (running) {
         std::this_thread::sleep_for(std::chrono::milliseconds(speed));
     }
@@ -59,7 +59,7 @@ void People::checkEndPosition() {
         running = false;
         std::this_thread::sleep_for(std::chrono::seconds(6));
         toErase = true;
-        findCord(cord->x, cord->y)->free();
+        findCord(cord->x, cord->y)->freeOccupiedCord();
     }
 }
 
