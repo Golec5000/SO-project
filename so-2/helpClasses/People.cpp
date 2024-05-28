@@ -36,9 +36,9 @@ void People::moveClient(std::atomic_bool &isSwitchBlocked) {
 
     if (nextCord && tmpCord) {
         std::unique_lock<std::mutex> lock(nextCord->mtx);
-//        cv.wait(lock, [&] {
-//            return nextCord->canMove(*this, nextX, nextY) || !isSwitchBlocked;
-//        });
+        cv.wait(lock, [&] {
+            return !isSwitchBlocked || tmpCord->y != 28;
+        });
 
         if (nextCord->canMove(*this, nextX, nextY)) {
             tmpCord->freeOccupiedCord(cv);
