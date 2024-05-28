@@ -22,6 +22,12 @@
   <component name="ChangeListManager">
     <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 2 small code update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/so_2.dir/main.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/so_2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/so_2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,6 +117,8 @@
       <workItem from="1716750737886" duration="1594000" />
       <workItem from="1716827000739" duration="5793000" />
       <workItem from="1716843109874" duration="5000" />
+      <workItem from="1716877927121" duration="491000" />
+      <workItem from="1716880973984" duration="2156000" />
     </task>
     <task id="LOCAL-00001" summary="update - v2v1 stage 1 finish">
       <option name="closed" value="true" />

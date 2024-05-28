@@ -20,15 +20,17 @@ std::atomic_bool isSwitchBlocked = false;
 
 std::atomic_int switchCounter = 0;
 
-int width = 40;
-int height = 31;
-int mid = 15;
-int selectorPoint = 29;
+const int width = 40;
+const int height = 31;
+const int mid = 15;
+const int selectorPoint = 29;
+
+
 int switchBorder = 10; // Domyslna wartosc wynosi 10
 
-char pathChar = '_';
+const char pathChar = '_';
 char switchChar = '^';
-char stationChar = '#';
+const char stationChar = '#';
 
 void draw_map(WINDOW *ptr);
 
@@ -86,12 +88,14 @@ int main(int argc, char **argv) {
 
         draw_map(buffer);
 
+        wprintw(buffer, "Endpoints status:\n");
         wprintw(buffer, "Point up lock: %s\n", map[0][39].occupied.load() ? "Locked" : "Unlocked");
         wprintw(buffer, "Point mid lock: %s\n", map[mid][39].occupied.load() ? "Locked" : "Unlocked");
-        wprintw(buffer, "Point down lock: %s\n", map[height - 1][39].occupied.load() ? "Locked" : "Unlocked");
+        wprintw(buffer, "Point down lock: %s\n\n", map[height - 1][39].occupied.load() ? "Locked" : "Unlocked");
+        wprintw(buffer, "Switch and generator status:\n");
         wprintw(buffer, "Switch lock: %s\n", isSwitchBlocked.load() ? "Locked" : "Unlocked");
         wprintw(buffer, "Generator lock: %s\n", map[mid][0].occupied.load() ? "Locked" : "Unlocked");
-        wprintw(buffer, "Press 'space' to quit\n");
+        wprintw(buffer, "\nPress 'space' to quit\n");
         overwrite(buffer, stdscr);
         refresh();
 
