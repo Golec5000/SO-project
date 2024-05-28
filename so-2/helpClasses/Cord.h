@@ -5,6 +5,7 @@
 #include <atomic>
 #include <mutex>
 #include <utility>
+#include <condition_variable>
 #include <iostream>
 #include "People.h"
 
@@ -15,8 +16,10 @@ public:
     int x, y;
     std::atomic_bool occupied;
     std::string cordChar;
+    std::mutex moveMutex;
     std::mutex freeMutex;
     std::mutex mtx;
+    std::condition_variable cv;
 
     explicit Cord(int x = 0, int y = 0, std::string cordChar = "  ")
             : x(x), y(y), occupied(false), cordChar(std::move(cordChar)) {}

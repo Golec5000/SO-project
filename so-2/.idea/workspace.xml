@@ -20,7 +20,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 2 cv finnish and map render small code refactor">
+    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 2 small code refactor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
@@ -30,6 +30,7 @@
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/so_2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/so_2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpClasses/Cord.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/Cord.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpClasses/Cord.h" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/Cord.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpClasses/People.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/People.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpClasses/People.h" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/People.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
@@ -131,7 +132,7 @@
       <workItem from="1716877927121" duration="491000" />
       <workItem from="1716880973984" duration="5539000" />
       <workItem from="1716889890190" duration="4000" />
-      <workItem from="1716916470641" duration="14013000" />
+      <workItem from="1716916470641" duration="7279000" />
     </task>
     <task id="LOCAL-00001" summary="update - v2v1 stage 1 finish">
       <option name="closed" value="true" />
@@ -325,39 +326,7 @@
       <option name="project" value="LOCAL" />
       <updated>1716885151986</updated>
     </task>
-    <task id="LOCAL-00025" summary="update - v2 stage 2 test number 1 cv">
-      <option name="closed" value="true" />
-      <created>1716931024799</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1716931024799</updated>
-    </task>
-    <task id="LOCAL-00026" summary="update - v2 stage 2 test number 1 cv">
-      <option name="closed" value="true" />
-      <created>1716931045789</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1716931045789</updated>
-    </task>
-    <task id="LOCAL-00027" summary="update - v2 stage 2 test number 1 cv small refactor">
-      <option name="closed" value="true" />
-      <created>1716934306714</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1716934306714</updated>
-    </task>
-    <task id="LOCAL-00028" summary="update - v2 stage 2 cv finnish and map render small code refactor">
-      <option name="closed" value="true" />
-      <created>1716937667750</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1716937667750</updated>
-    </task>
-    <option name="localTasksCounter" value="29" />
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -393,10 +362,7 @@
     <MESSAGE value="update - v2 stage 2 small code update" />
     <MESSAGE value="update - v2 stage 2 update" />
     <MESSAGE value="update - v2 stage 2 small code refactor" />
-    <MESSAGE value="update - v2 stage 2 test number 1 cv" />
-    <MESSAGE value="update - v2 stage 2 test number 1 cv small refactor" />
-    <MESSAGE value="update - v2 stage 2 cv finnish and map render small code refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="update - v2 stage 2 cv finnish and map render small code refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="update - v2 stage 2 small code refactor" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
