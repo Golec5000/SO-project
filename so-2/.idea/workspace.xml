@@ -20,7 +20,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 2 small code update" />
+    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 2 update">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etap2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/etap2.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -110,7 +113,7 @@
       <workItem from="1716827000739" duration="5793000" />
       <workItem from="1716843109874" duration="5000" />
       <workItem from="1716877927121" duration="491000" />
-      <workItem from="1716880973984" duration="2589000" />
+      <workItem from="1716880973984" duration="2895000" />
     </task>
     <task id="LOCAL-00001" summary="update - v2v1 stage 1 finish">
       <option name="closed" value="true" />
@@ -264,7 +267,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716883217504</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="update - v2 stage 2 update">
+      <option name="closed" value="true" />
+      <created>1716883869508</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1716883869508</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -299,7 +310,8 @@
     <MESSAGE value="update - v2 stage 2 code refactor in Cord.cpp and People.cpp" />
     <MESSAGE value="update - v2 stage 2 small refactor" />
     <MESSAGE value="update - v2 stage 2 small code update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update - v2 stage 2 small code update" />
+    <MESSAGE value="update - v2 stage 2 update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update - v2 stage 2 update" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

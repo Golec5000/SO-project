@@ -1,7 +1,7 @@
 Opis wstępny do etapu 2:
     - w pkt obsługi morze przebywać naraz tylko 1 ludzik a reszta sie stakuje za punktem  dowolna kolejnosc wchodzenia -> done
     - obserqja ilośći wątkuw za switchem lub oczekuje łącznie dla 3 ramian, jeśli będzie wiecej niż "n" to przed switchem zaczyna się tworzyć kolejka -> done
-    - wątki nie mogą na siebie nachodzić -> done
+    - wątki nie mogą na siebie nachodzić, poza polem przed punktem końcowym -> done
 
 
 Opis finalny działania z 2 etapu:
