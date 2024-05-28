@@ -20,7 +20,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 2 test number 1 cv small refactor">
+    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 2 cv finnish and map render small code refactor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
@@ -131,7 +131,7 @@
       <workItem from="1716877927121" duration="491000" />
       <workItem from="1716880973984" duration="5539000" />
       <workItem from="1716889890190" duration="4000" />
-      <workItem from="1716916470641" duration="13713000" />
+      <workItem from="1716916470641" duration="14013000" />
     </task>
     <task id="LOCAL-00001" summary="update - v2v1 stage 1 finish">
       <option name="closed" value="true" />
@@ -349,7 +349,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716934306714</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="update - v2 stage 2 cv finnish and map render small code refactor">
+      <option name="closed" value="true" />
+      <created>1716937667750</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1716937667750</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -387,7 +395,8 @@
     <MESSAGE value="update - v2 stage 2 small code refactor" />
     <MESSAGE value="update - v2 stage 2 test number 1 cv" />
     <MESSAGE value="update - v2 stage 2 test number 1 cv small refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="update - v2 stage 2 test number 1 cv small refactor" />
+    <MESSAGE value="update - v2 stage 2 cv finnish and map render small code refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="update - v2 stage 2 cv finnish and map render small code refactor" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
