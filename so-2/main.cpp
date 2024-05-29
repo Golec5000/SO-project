@@ -235,7 +235,6 @@ void setSwitchDirectionForClients() {
     }
 }
 
-
 void draw_map(WINDOW *ptr) {
     std::stringstream buffer;
 
@@ -290,7 +289,6 @@ void switchDirection() {
     }
 }
 
-
 void generateClients() {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -314,7 +312,6 @@ void generateClients() {
         std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
     }
 }
-
 
 void checkClients() {
     while (isRunning) {
