@@ -20,6 +20,7 @@ void People::start(std::atomic_bool &isSwitchBlocked) {
             moveClient(isSwitchBlocked);
             std::this_thread::sleep_for(std::chrono::milliseconds(speed));
         }
+//        std::cout << "Thread: " << name << " has ended" << std::endl;
     });
 }
 
@@ -37,13 +38,17 @@ void People::moveClient(std::atomic_bool &isSwitchBlocked) {
     if (nextCord && tmpCord) {
         std::unique_lock<std::mutex> lock(nextCord->mtx);
         cv.wait(lock, [&] {
-            return !isSwitchBlocked || tmpCord->y != 28 || !running;
+            return !isSwitchBlocked.load() || tmpCord->y != 28 || !running.load();
         });
 
         if (!running) return;
 
         if (nextCord->canMove(*this, nextX, nextY)) {
-            tmpCord->freeOccupiedCord(cv);
+            tmpCord->freeOccupiedCord();
+        } else {
+            nextCord->cv.wait(lock, [&] {
+                return !nextCord->occupied || !running;
+            });
         }
     }
 
@@ -65,7 +70,7 @@ void People::checkEndPosition() {
 
         std::this_thread::sleep_for(std::chrono::seconds(dis(gen)));
         toErase = true;
-        findCord(cord->x, cord->y)->freeOccupiedCord(cv);
+        findCord(cord->x, cord->y)->freeOccupiedCord();
     }
 }
 
@@ -80,9 +85,18 @@ Cord *People::findCord(int x, int y) {
 }
 
 void People::joinThread() {
+    //@TODO: Sprawdzić czy wątek jest joinable do naprawy
     std::cout << "Joining thread: " << name << std::endl;
     running = false;
-    thread.join();
+    std::cout << "Thread: " << name << " has been stopped" << std::endl;
+    cv.notify_all();
+    std::cout << "Thread: " << name << " has been notified" << std::endl;
+
+    if (thread.joinable()) {
+        thread.join();
+        std::cout << "Thread: " << name << " has been joined" << std::endl;
+    } else
+        std::cout << "Thread: " << name << " is not joinable" << std::endl;
 }
 
 bool People::getToErase() const {
@@ -114,11 +128,12 @@ const std::atomic_bool &People::getHasCrossedSwitch() const {
 }
 
 bool People::isThreadJoinable() {
+    std::cout << "Thread Joinable" << std::endl;
     return thread.joinable();
 }
 
 void People::setRunning(const std::atomic_bool &running) {
-    People::running = running.load();
+    this->running.store(running);
     cv.notify_all();
 }
 
