@@ -53,6 +53,8 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
 
 void prepareMainMap();
 
+void mapDrawer(WINDOW *buffer);
+
 int main(int argc, char **argv) {
 
     try {
@@ -80,32 +82,86 @@ int main(int argc, char **argv) {
     std::thread checkClientsThread(checkClients);
 
     while (isRunning) {
-        werase(buffer);
-
-        wprintw(buffer, "City Hall simulation\n");
-        wprintw(buffer, "Living threads: %zu\n", clients.size());
-        wprintw(buffer, "Threads after switch: %d\n", switchCounter.load());
-        wprintw(buffer, "Lock on switch: %d\n", switchBorder);
-
         setSwitchDirectionForClients();
-
-        draw_map(buffer);
-
-        wprintw(buffer, "Endpoints status:\n");
-        wprintw(buffer, "Point up lock: %s\n", map[0][39].occupied.load() ? "Locked" : "Unlocked");
-        wprintw(buffer, "Point mid lock: %s\n", map[mid][39].occupied.load() ? "Locked" : "Unlocked");
-        wprintw(buffer, "Point down lock: %s\n\n", map[height - 1][39].occupied.load() ? "Locked" : "Unlocked");
-        wprintw(buffer, "Switch and generator status:\n");
-        wprintw(buffer, "Switch lock: %s\n", isSwitchBlocked.load() ? "Locked" : "Unlocked");
-        wprintw(buffer, "Generator lock: %s\n", map[mid][0].occupied.load() ? "Locked" : "Unlocked");
-        wprintw(buffer, "\nPress 'space' to quit\n");
-        overwrite(buffer, stdscr);
-        refresh();
-
+        mapDrawer(buffer);
         endProgram(switchThread, clientsThread, checkClientsThread);
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     return 0;
+}
+
+void mapDrawer(WINDOW *buffer) {
+    werase(buffer);
+
+    // Inicjalizacja kolorów
+    start_color();
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3, COLOR_BLUE, COLOR_BLACK);
+
+    wprintw(buffer, "\n");
+    // Użycie kolorów
+    wattron(buffer, COLOR_PAIR(1));
+    wprintw(buffer, "  City Hall simulation\n");
+    wattroff(buffer, COLOR_PAIR(1));
+
+    wattron(buffer, COLOR_PAIR(2));
+    wprintw(buffer, "  Living threads: %zu\n", clients.size());
+    wattroff(buffer, COLOR_PAIR(2));
+
+    wattron(buffer, COLOR_PAIR(3));
+    wprintw(buffer, "  Threads after switch: %d\n", switchCounter.load());
+    wattroff(buffer, COLOR_PAIR(3));
+
+    wprintw(buffer, "  Lock on switch: %d\n", switchBorder);
+
+    draw_map(buffer);
+
+    init_pair(4, COLOR_GREEN, COLOR_BLACK);
+    init_pair(5, COLOR_RED, COLOR_BLACK);
+
+    wprintw(buffer, "  Endpoints status:\n");
+    wattron(buffer, COLOR_PAIR(3));
+    wprintw(buffer, "  Point up lock: ");
+    wattroff(buffer, COLOR_PAIR(3));
+    wattron(buffer, map[0][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wprintw(buffer, "%s\n", map[0][39].occupied.load() ? "Locked" : "Unlocked");
+    wattroff(buffer, map[0][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+
+    wattron(buffer, COLOR_PAIR(3));
+    wprintw(buffer, "  Point mid lock: ");
+    wattroff(buffer, COLOR_PAIR(3));
+    wattron(buffer, map[mid][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wprintw(buffer, "%s\n", map[mid][39].occupied.load() ? "Locked" : "Unlocked");
+    wattroff(buffer, map[mid][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+
+    wattron(buffer, COLOR_PAIR(3));
+    wprintw(buffer, "  Point down lock: ");
+    wattroff(buffer, COLOR_PAIR(3));
+    wattron(buffer, map[height - 1][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wprintw(buffer, "%s\n\n", map[height - 1][39].occupied.load() ? "Locked" : "Unlocked");
+    wattroff(buffer, map[height - 1][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+
+    wprintw(buffer, "  Switch and generator status:\n");
+    wattron(buffer, COLOR_PAIR(3));
+    wprintw(buffer, "  Switch lock: ");
+    wattroff(buffer, COLOR_PAIR(3));
+    wattron(buffer, isSwitchBlocked.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wprintw(buffer, "%s\n", isSwitchBlocked.load() ? "Locked" : "Unlocked");
+    wattroff(buffer, isSwitchBlocked.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+
+    wattron(buffer, COLOR_PAIR(3));
+    wprintw(buffer, "  Generator lock: ");
+    wattroff(buffer, COLOR_PAIR(3));
+    wattron(buffer, map[mid][0].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wprintw(buffer, "%s\n", map[mid][0].occupied.load() ? "Locked" : "Unlocked");
+    wattroff(buffer, map[mid][0].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+
+    // Rysowanie ramki wokół okna
+    box(buffer, 0, 0);
+
+    overwrite(buffer, stdscr);
+    wrefresh(buffer);
 }
 
 void prepareMainMap() {
