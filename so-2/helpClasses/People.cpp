@@ -5,7 +5,7 @@ People::People(int x, int y, std::vector<std::vector<Cord>> &map) : cord(std::ma
                                                                     direction('>'), hasCrossedSwitch(false), map(map) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(150, 1000);
+    std::uniform_int_distribution<> dis(100, 1000);
     speed = dis(gen);
 
     std::string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@$%&*()+-=[]{}|;':,<?";
@@ -20,7 +20,6 @@ void People::start(std::atomic_bool &isSwitchBlocked) {
             moveClient(isSwitchBlocked);
             std::this_thread::sleep_for(std::chrono::milliseconds(speed));
         }
-//        std::cout << "Thread: " << name << " has ended" << std::endl;
     });
 }
 
@@ -38,7 +37,7 @@ void People::moveClient(std::atomic_bool &isSwitchBlocked) {
     if (nextCord && tmpCord) {
         std::unique_lock<std::mutex> lock(nextCord->mtx);
         cv.wait(lock, [&] {
-            return !isSwitchBlocked.load() || tmpCord->y != 28 || !running.load();
+            return !isSwitchBlocked || tmpCord->y != 28 || !running;
         });
 
         if (!running) return;
@@ -63,16 +62,16 @@ void People::checkCordLimits() {
 void People::checkEndPosition() {
     if (cord->y == 39 && running) {
         running = false;
-
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(3, 8);
-
+        std::uniform_int_distribution<> dis(3, 10);
         std::this_thread::sleep_for(std::chrono::seconds(dis(gen)));
         toErase = true;
         findCord(cord->x, cord->y)->freeOccupiedCord();
+        cv.notify_all();  // Notify all to avoid deadlock
     }
 }
+
 
 Cord *People::findCord(int x, int y) {
     std::lock_guard<std::mutex> lock(mapMutex); // Blokuj dostęp do `map`
@@ -85,19 +84,16 @@ Cord *People::findCord(int x, int y) {
 }
 
 void People::joinThread() {
-    //@TODO: Sprawdzić czy wątek jest joinable do naprawy
-    std::cout << "Joining thread: " << name << std::endl;
     running = false;
-    std::cout << "Thread: " << name << " has been stopped" << std::endl;
     cv.notify_all();
-    std::cout << "Thread: " << name << " has been notified" << std::endl;
-
-    if (thread.joinable()) {
-        thread.join();
-        std::cout << "Thread: " << name << " has been joined" << std::endl;
-    } else
-        std::cout << "Thread: " << name << " is not joinable" << std::endl;
+    for (auto &row: map) {
+        for (auto &c: row) {
+            c.cv.notify_all();  // Notify all condition variables in map
+        }
+    }
+    if (thread.joinable()) thread.join();
 }
+
 
 bool People::getToErase() const {
     return toErase;
@@ -127,14 +123,8 @@ const std::atomic_bool &People::getHasCrossedSwitch() const {
     return hasCrossedSwitch;
 }
 
-bool People::isThreadJoinable() {
-    std::cout << "Thread Joinable" << std::endl;
-    return thread.joinable();
-}
-
 void People::setRunning(const std::atomic_bool &running) {
     this->running.store(running);
-    cv.notify_all();
 }
 
 std::condition_variable &People::getCv() {

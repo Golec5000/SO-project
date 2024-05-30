@@ -179,14 +179,11 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
         endwin();
         isRunning = false;
 
-        // Notify all clients to stop
-        {
-            std::lock_guard<std::mutex> lock(clientsMutex);
-            for (auto &client: clients) {
-                if (client && *client) {
-                    (*client)->setRunning(false);
-                    (*client)->getCv().notify_all();  // Notify all to avoid deadlock
-                }
+//            std::lock_guard<std::mutex> lock(clientsMutex);
+        for (auto &client: clients) {
+            if (client && *client) {
+                (*client)->setRunning(false);
+                (*client)->getCv().notify_all();  // Notify all to avoid deadlock
             }
         }
 
@@ -206,15 +203,14 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
         }
 
         std::cout << "Wyłączanie pozostałych ludzi którzy nie dotarli do końca" << std::endl;
-        try{
-            //@todo do poprawy dołączanie wątkuwów przy zamykaniu programu przez użytkownika
-//            std::lock_guard<std::mutex> lock(clientsMutex);
+        try {
             for (auto &client: clients) {
                 if (client && *client) {
+                    std::cout << "Wyłączanie klienta: " << (*client)->getName() << std::endl;
                     (*client)->joinThread();
                 }
             }
-        }catch (const std::system_error& e) {
+        } catch (const std::system_error &e) {
             std::cerr << "System error during client joining: " << e.what() << std::endl;
         } catch (const std::exception &e) {
             std::cerr << "Exception caught during client joining: " << e.what() << std::endl;
@@ -340,6 +336,7 @@ void checkClients() {
             clients.remove_if([&](const auto &client) {
                 bool toErase = (*client)->getToErase();
                 if (toErase) {
+                    (*client)->joinThread();  // Ensure thread is joined
                     --switchCounter;
                     if (switchCounter < switchBorder) {
                         isSwitchBlocked = false;
