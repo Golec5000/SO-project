@@ -20,7 +20,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 2 joining threads repiared">
+    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
@@ -128,7 +128,7 @@
       <workItem from="1716998636496" duration="3000" />
       <workItem from="1717010381000" duration="4111000" />
       <workItem from="1717057336011" duration="727000" />
-      <workItem from="1717058573751" duration="4744000" />
+      <workItem from="1717058573751" duration="5168000" />
     </task>
     <task id="LOCAL-00001" summary="update - v2v1 stage 1 finish">
       <option name="closed" value="true" />
@@ -402,7 +402,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717062422636</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="update - v2 stage 2">
+      <option name="closed" value="true" />
+      <created>1717064352597</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1717064352597</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -441,9 +449,9 @@
     <MESSAGE value="update - v2 stage 2 test number 1 cv" />
     <MESSAGE value="update - v2 stage 2 test number 1 cv small refactor" />
     <MESSAGE value="update - v2 stage 2 cv finnish and map render small code refactor" />
-    <MESSAGE value="update - v2 stage 2" />
     <MESSAGE value="update - v2 stage 2 joining threads repiared" />
-    <option name="LAST_COMMIT_MESSAGE" value="update - v2 stage 2 joining threads repiared" />
+    <MESSAGE value="update - v2 stage 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="update - v2 stage 2" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
