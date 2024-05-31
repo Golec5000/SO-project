@@ -17,7 +17,6 @@ class Cord;
 class People {
 private:
 
-    std::mutex mapMutex;
     std::condition_variable cv;
     std::atomic_bool running;
     std::atomic_bool toErase;
