@@ -206,7 +206,7 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
         try {
             for (auto &client: clients) {
                 if (client && *client) {
-                    std::cout << "Wyłączanie klienta: " << (*client)->getName() << std::endl;
+                    //std::cout << "Wyłączanie klienta: " << (*client)->getName() << std::endl;
                     (*client)->joinThread();
                 }
             }

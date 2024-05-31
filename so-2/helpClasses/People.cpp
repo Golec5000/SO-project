@@ -74,7 +74,6 @@ void People::checkEndPosition() {
 
 
 Cord *People::findCord(int x, int y) {
-    std::lock_guard<std::mutex> lock(mapMutex); // Blokuj dostęp do `map`
     for (auto &row: map) {
         auto it = std::find_if(row.begin(), row.end(),
                                [&](const Cord &cordToFind) { return cordToFind.x == x && cordToFind.y == y; });
@@ -88,7 +87,9 @@ void People::joinThread() {
     cv.notify_all();
     for (auto &row: map) {
         for (auto &c: row) {
-            c.cv.notify_all();  // Notify all condition variables in map
+            if (c.cordChar != "  ") {
+                c.cv.notify_all();
+            }
         }
     }
     if (thread.joinable()) thread.join();
