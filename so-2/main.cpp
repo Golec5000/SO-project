@@ -12,7 +12,6 @@
 #include "helpClasses/People.h"
 #include "helpClasses/Cord.h"
 
-std::mutex directionMutex;
 std::mutex clientsMutex;
 std::mutex switchCharMutex;
 
@@ -32,7 +31,7 @@ const int selectorPoint = 29;
 int switchBorder = 10; // Domyslna wartosc wynosi 10
 
 const char pathChar = '_';
-char switchChar = '^';
+std::atomic_char switchChar = '^';
 const char stationChar = '#';
 
 void draw_map(WINDOW *ptr);
@@ -46,8 +45,6 @@ void switchDirection();
 void generateClients();
 
 void checkClients();
-
-void setSwitchDirectionForClients();
 
 void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thread &checkClientsThread);
 
@@ -82,7 +79,6 @@ int main(int argc, char **argv) {
     std::thread checkClientsThread(checkClients);
 
     while (isRunning) {
-        setSwitchDirectionForClients();
         mapDrawer(buffer);
         endProgram(switchThread, clientsThread, checkClientsThread);
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -179,7 +175,6 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
         endwin();
         isRunning = false;
 
-//            std::lock_guard<std::mutex> lock(clientsMutex);
         for (auto &client: clients) {
             if (client && *client) {
                 (*client)->setRunning(false);
@@ -203,50 +198,13 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
         }
 
         std::cout << "Wyłączanie pozostałych ludzi którzy nie dotarli do końca" << std::endl;
-        try {
-            for (auto &client: clients) {
-                if (client && *client) {
-                    //std::cout << "Wyłączanie klienta: " << (*client)->getName() << std::endl;
-                    (*client)->joinThread();
-                }
+        for (auto &client: clients) {
+            if (client && *client) {
+                (*client)->joinThread();
             }
-        } catch (const std::system_error &e) {
-            std::cerr << "System error during client joining: " << e.what() << std::endl;
-        } catch (const std::exception &e) {
-            std::cerr << "Exception caught during client joining: " << e.what() << std::endl;
         }
-
 
         std::cout << "Wyłączanie całego systemu powiodło się!" << std::endl;
-    }
-}
-
-
-void setSwitchDirectionForClients() {
-    std::lock_guard<std::mutex> lock(directionMutex);
-    char currentSwitchChar;
-    {
-        std::lock_guard<std::mutex> switchLock(switchCharMutex);
-        currentSwitchChar = switchChar;
-    }
-
-    for (auto &client: clients) {
-        if ((*client)->getCord()->y == selectorPoint && (*client)->getCord()->x == mid &&
-            !(*client)->getHasCrossedSwitch()) {
-
-            (*client)->setDirection(currentSwitchChar);
-            (*client)->setHasCrossedSwitch(true);
-
-            switchCounter++;
-
-            if (switchCounter >= switchBorder) {
-                isSwitchBlocked = true;
-                std::unique_lock<std::mutex> lock2(clientsMutex);
-                for (auto &c: clients) {
-                    (*c)->getCv().notify_all();
-                }
-            }
-        }
     }
 }
 
@@ -299,6 +257,7 @@ void switchDirection() {
         {
             std::lock_guard<std::mutex> lock(switchCharMutex);
             switchChar = directions[index++ % directions.size()];
+            map[mid][selectorPoint].setDirection(switchChar);
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(750));
     }
@@ -311,7 +270,7 @@ void generateClients() {
 
     while (isRunning) {
         if (!map[mid][0].occupied.load()) {
-            auto newClient = std::make_shared<People *>(new People(mid, 0, map));
+            auto newClient = std::make_shared<People *>(new People(mid, 0, map, switchCounter, switchBorder));
             {
                 std::lock_guard<std::mutex> lock(clientsMutex);
                 clients.push_back(newClient);

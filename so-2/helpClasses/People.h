@@ -27,14 +27,20 @@ private:
     std::shared_ptr<Cord> cord;
     char direction;
     std::vector<std::vector<Cord>> &map;
+    std::atomic_int &switchCounter;
+    int &switchBorder;
 
     void checkCordLimits();
 
     void checkEndPosition();
 
+    void setClientDirection(std::atomic_bool &isSwitchBlocked);
+
+    Cord *findCord(int x, int y);
+
 public:
 
-    People(int x, int y, std::vector<std::vector<Cord>> &map);
+    People(int x, int y, std::vector<std::vector<Cord>> &map, std::atomic_int &switchCounter, int &switchBorder);
 
     void start(std::atomic_bool &isSwitchBlocked);
 
@@ -46,8 +52,6 @@ public:
 
     [[nodiscard]] std::string getName() const;
 
-    void setDirection(char direction);
-
     [[nodiscard]] const std::atomic_bool &getHasCrossedSwitch() const;
 
     void setHasCrossedSwitch(const std::atomic_bool &hasCrossedSwitch);
@@ -57,8 +61,6 @@ public:
     void setCord(std::shared_ptr<Cord> newCord);
 
     void setRunning(const std::atomic_bool &running);
-
-    Cord *findCord(int x, int y);
 
     std::condition_variable &getCv();
 

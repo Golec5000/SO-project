@@ -17,7 +17,9 @@ public:
     std::atomic_bool occupied;
     std::string cordChar;
     std::mutex mtx;
+    std::mutex directionMtx;
     std::condition_variable cv;
+    std::atomic_char direction;
 
     explicit Cord(int x = 0, int y = 0, std::string cordChar = "  ")
             : x(x), y(y), occupied(false), cordChar(std::move(cordChar)) {}
@@ -38,6 +40,10 @@ public:
     bool canMove(People &people, int nextX, int nextY);
 
     void freeOccupiedCord();
+
+    std::atomic_char &getDirection();
+
+    void setDirection(const std::atomic_char &direction);
 
 private:
 

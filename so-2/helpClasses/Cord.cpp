@@ -19,3 +19,12 @@ void Cord::freeOccupiedCord() {
     occupied = false;
     cv.notify_all();
 }
+
+std::atomic_char &Cord::getDirection() {
+    return direction;
+}
+
+void Cord::setDirection(const std::atomic_char &direction) {
+    std::lock_guard<std::mutex> lock(directionMtx);
+    Cord::direction = direction.load();
+}

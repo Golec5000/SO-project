@@ -1,8 +1,14 @@
 #include "People.h"
 
-People::People(int x, int y, std::vector<std::vector<Cord>> &map) : cord(std::make_shared<Cord>(x, y)), running(true),
-                                                                    toErase(false),
-                                                                    direction('>'), hasCrossedSwitch(false), map(map) {
+People::People(int x, int y, std::vector<std::vector<Cord>> &map, std::atomic_int &switchCounter, int &switchBorder)
+        : map(map), switchCounter(switchCounter), switchBorder(switchBorder) {
+
+    this->running = true;
+    this->toErase = false;
+    this->hasCrossedSwitch = false;
+    this->direction = '>';
+    this->cord = std::make_shared<Cord>(x, y);
+
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(100, 1000);
@@ -11,7 +17,6 @@ People::People(int x, int y, std::vector<std::vector<Cord>> &map) : cord(std::ma
     std::string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@$%&*()+-=[]{}|;':,<?";
     name += chars[dis(gen) % chars.size()];
     name += chars[dis(gen) % chars.size()];
-
 }
 
 void People::start(std::atomic_bool &isSwitchBlocked) {
@@ -44,6 +49,7 @@ void People::moveClient(std::atomic_bool &isSwitchBlocked) {
 
         if (nextCord->canMove(*this, nextX, nextY)) {
             tmpCord->freeOccupiedCord();
+            setClientDirection(isSwitchBlocked);
         } else {
             nextCord->cv.wait(lock, [&] {
                 return !nextCord->occupied || !running;
@@ -54,6 +60,24 @@ void People::moveClient(std::atomic_bool &isSwitchBlocked) {
     checkEndPosition();
 }
 
+void People::setClientDirection(std::atomic_bool &isSwitchBlocked) {
+    if (hasCrossedSwitch) return;
+
+    Cord *tmpCord = findCord(cord->x, cord->y);
+
+    if (tmpCord->y == 29 && tmpCord->x == 15 && !hasCrossedSwitch) {
+        direction = findCord(cord->x, cord->y)->getDirection();
+
+        switchCounter++;
+        hasCrossedSwitch = true;
+
+        if (switchCounter >= switchBorder) {
+            isSwitchBlocked = true;
+            cv.notify_all();
+        }
+
+    }
+}
 
 void People::checkCordLimits() {
     if (cord->x == 0 || cord->x == 30) direction = '>';
@@ -102,10 +126,6 @@ bool People::getToErase() const {
 
 std::string People::getName() const {
     return name;
-}
-
-void People::setDirection(char newDirection) {
-    direction = newDirection;
 }
 
 std::shared_ptr<Cord> People::getCord() const {
