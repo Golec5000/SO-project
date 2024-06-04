@@ -110,12 +110,14 @@ Cord *People::findCord(int x, int y) {
 
 void People::joinThread(std::atomic_bool &isSwitchBlocked) {
     running = false;
-    cv.notify_all();
     realseCords();
-    if (switchCounter > 0 && --switchCounter < switchBorder) {
+
+    --switchCounter;
+
+    if (switchCounter < switchBorder) {
         isSwitchBlocked = false;
-        cv.notify_all();
     }
+    cv.notify_all();
     if (thread.joinable())
         thread.join();
 }

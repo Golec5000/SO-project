@@ -193,7 +193,7 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
         std::cout << "Wyłączanie pozostałych ludzi którzy nie dotarli do końca" << std::endl;
         for (auto &client: clients) {
             if (client && *client) {
-                std::cout << "Wyłączanie klienta: " << (*client)->getName() << std::endl;
+//                std::cout << "Wyłączanie klienta: " << (*client)->getName() << std::endl;
                 (*client)->setClosedThreadBySpace(true);
                 (*client)->joinThread(isSwitchBlocked);
             }
@@ -281,7 +281,6 @@ void generateClients() {
         std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
     }
 }
-
 
 void checkClients() {
     while (isRunning) {
