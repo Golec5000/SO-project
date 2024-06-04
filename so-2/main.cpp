@@ -175,13 +175,6 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
         endwin();
         isRunning = false;
 
-        for (auto &client: clients) {
-            if (client && *client) {
-                (*client)->setRunning(false);
-                (*client)->getCv().notify_all();  // Notify all to avoid deadlock
-            }
-        }
-
         std::cout << "Wyłączanie switcha" << std::endl;
         if (switchThread.joinable()) {
             switchThread.join();
@@ -200,7 +193,8 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
         std::cout << "Wyłączanie pozostałych ludzi którzy nie dotarli do końca" << std::endl;
         for (auto &client: clients) {
             if (client && *client) {
-                (*client)->joinThread();
+                std::cout << "Wyłączanie klienta: " << (*client)->getName() << std::endl;
+                (*client)->joinThread(isSwitchBlocked);
             }
         }
 
@@ -295,21 +289,14 @@ void checkClients() {
             clients.remove_if([&](const auto &client) {
                 bool toErase = (*client)->getToErase();
                 if (toErase) {
-                    (*client)->joinThread();  // Ensure thread is joined
-                    --switchCounter;
-                    if (switchCounter < switchBorder) {
-                        isSwitchBlocked = false;
-                        for (auto &c: clients) {
-                            (*c)->getCv().notify_all();
-                        }
-                    }
+                    (*client)->joinThread(isSwitchBlocked);  // Ensure thread is joined
                 }
                 return toErase;
             });
         } catch (const std::exception &e) {
             std::cerr << "Exception caught during client removal: " << e.what() << std::endl;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(80));
+        std::this_thread::sleep_for(std::chrono::milliseconds(60));
     }
 }
 

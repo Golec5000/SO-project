@@ -1,5 +1,7 @@
 #include "People.h"
 
+std::condition_variable People::cv;
+
 People::People(int x, int y, std::vector<std::vector<Cord>> &map, std::atomic_int &switchCounter, int &switchBorder)
         : map(map), switchCounter(switchCounter), switchBorder(switchBorder) {
 
@@ -9,14 +11,12 @@ People::People(int x, int y, std::vector<std::vector<Cord>> &map, std::atomic_in
     this->direction = '>';
     this->cord = std::make_shared<Cord>(x, y);
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(100, 1000);
-    speed = dis(gen);
+
+    speed = getRandInt(100, 1000);
 
     std::string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@$%&*()+-=[]{}|;':,<?";
-    name += chars[dis(gen) % chars.size()];
-    name += chars[dis(gen) % chars.size()];
+    name += chars[getRandInt(100, 1000) % chars.size()];
+    name += chars[getRandInt(100, 1000) % chars.size()];
 }
 
 void People::start(std::atomic_bool &isSwitchBlocked) {
@@ -66,7 +66,7 @@ void People::setClientDirection(std::atomic_bool &isSwitchBlocked) {
     Cord *tmpCord = findCord(cord->x, cord->y);
 
     if (tmpCord->y == 29 && tmpCord->x == 15 && !hasCrossedSwitch) {
-        direction = findCord(cord->x, cord->y)->getDirection();
+        direction = tmpCord->getDirection();
 
         switchCounter++;
         hasCrossedSwitch = true;
@@ -86,16 +86,14 @@ void People::checkCordLimits() {
 void People::checkEndPosition() {
     if (cord->y == 39 && running) {
         running = false;
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(3, 10);
-        std::this_thread::sleep_for(std::chrono::seconds(dis(gen)));
+
+        std::this_thread::sleep_for(std::chrono::seconds(getRandInt(3, 10)));
         toErase = true;
+
         findCord(cord->x, cord->y)->freeOccupiedCord();
-        cv.notify_all();  // Notify all to avoid deadlock
+        cv.notify_all();
     }
 }
-
 
 Cord *People::findCord(int x, int y) {
     for (auto &row: map) {
@@ -106,9 +104,19 @@ Cord *People::findCord(int x, int y) {
     return nullptr;
 }
 
-void People::joinThread() {
+void People::joinThread(std::atomic_bool &isSwitchBlocked) {
     running = false;
     cv.notify_all();
+    realseCords();
+    if (switchCounter > 0 && --switchCounter < switchBorder) {
+        isSwitchBlocked = false;
+        cv.notify_all();
+    }
+    if (thread.joinable())
+        thread.join();
+}
+
+void People::realseCords() {
     for (auto &row: map) {
         for (auto &c: row) {
             if (c.cordChar != "  ") {
@@ -116,9 +124,7 @@ void People::joinThread() {
             }
         }
     }
-    if (thread.joinable()) thread.join();
 }
-
 
 bool People::getToErase() const {
     return toErase;
@@ -136,19 +142,14 @@ void People::setCord(std::shared_ptr<Cord> newCord) {
     cord = std::move(newCord); // Automatyczne zwalnianie starego obiektu Cord
 }
 
-void People::setHasCrossedSwitch(const std::atomic_bool &hasCrossedSwitch) {
-    People::hasCrossedSwitch = hasCrossedSwitch.load();
-}
-
-const std::atomic_bool &People::getHasCrossedSwitch() const {
-    return hasCrossedSwitch;
-}
-
-void People::setRunning(const std::atomic_bool &running) {
-    this->running.store(running);
-}
-
 std::condition_variable &People::getCv() {
     return cv;
+}
+
+int People::getRandInt(int min, int max) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(min, max);
+    return dis(gen);
 }
 

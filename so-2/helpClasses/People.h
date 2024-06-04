@@ -17,7 +17,7 @@ class Cord;
 class People {
 private:
 
-    std::condition_variable cv;
+    static std::condition_variable cv;
     std::atomic_bool running;
     std::atomic_bool toErase;
     std::atomic_bool hasCrossedSwitch;
@@ -38,6 +38,8 @@ private:
 
     Cord *findCord(int x, int y);
 
+    static int getRandInt(int min, int max);
+
 public:
 
     People(int x, int y, std::vector<std::vector<Cord>> &map, std::atomic_int &switchCounter, int &switchBorder);
@@ -46,24 +48,19 @@ public:
 
     void moveClient(std::atomic_bool &isSwitchBlocked);
 
-    void joinThread();
+    void joinThread(std::atomic_bool &isSwitchBlocked);
 
     [[nodiscard]] bool getToErase() const;
 
     [[nodiscard]] std::string getName() const;
 
-    [[nodiscard]] const std::atomic_bool &getHasCrossedSwitch() const;
-
-    void setHasCrossedSwitch(const std::atomic_bool &hasCrossedSwitch);
-
     [[nodiscard]] std::shared_ptr<Cord> getCord() const;
 
     void setCord(std::shared_ptr<Cord> newCord);
 
-    void setRunning(const std::atomic_bool &running);
+    static std::condition_variable &getCv();
 
-    std::condition_variable &getCv();
-
+    void realseCords();
 };
 
 

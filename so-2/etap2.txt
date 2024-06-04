@@ -3,7 +3,7 @@ Opis wstępny do etapu 2:
     - obserqja ilośći wątkuw za switchem lub oczekuje łącznie dla 3 ramian, jeśli będzie wiecej niż "n" to przed switchem zaczyna się tworzyć kolejka -> done
     - wątki nie mogą na siebie nachodzić, poza polem przed punktem końcowym -> done
     - usunać pętle gorącego czekania z przemieszcaznia ludzików (sekcja krytyczna ) -> done
-    - przenieśc setSwitchDirectionForClients mechani do clienta (funkcja do eleiminacji i przeniesie całęgo mechanizmu do clienta)
+    - przenieśc setSwitchDirectionForClients mechani do clienta (funkcja do eleiminacji i przeniesie całęgo mechanizmu do clienta) -> done
 
 
 Opis finalny działania z 2 etapu:
