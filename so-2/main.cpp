@@ -194,6 +194,7 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
         for (auto &client: clients) {
             if (client && *client) {
                 std::cout << "Wyłączanie klienta: " << (*client)->getName() << std::endl;
+                (*client)->setClosedThreadBySpace(true);
                 (*client)->joinThread(isSwitchBlocked);
             }
         }

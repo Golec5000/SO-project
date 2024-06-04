@@ -8,6 +8,7 @@ People::People(int x, int y, std::vector<std::vector<Cord>> &map, std::atomic_in
     this->running = true;
     this->toErase = false;
     this->hasCrossedSwitch = false;
+    this->closedThreadBySpace = false;
     this->direction = '>';
     this->cord = std::make_shared<Cord>(x, y);
 
@@ -87,9 +88,12 @@ void People::checkEndPosition() {
     if (cord->y == 39 && running) {
         running = false;
 
-        std::this_thread::sleep_for(std::chrono::seconds(getRandInt(3, 10)));
-        toErase = true;
+        std::unique_lock<std::mutex> lock(sleepMutex);
+        sleepCv.wait_for(lock, std::chrono::seconds(getRandInt(3, 10)), [&] {
+            return closedThreadBySpace.load();
+        });
 
+        toErase = true;
         findCord(cord->x, cord->y)->freeOccupiedCord();
         cv.notify_all();
     }
@@ -151,5 +155,10 @@ int People::getRandInt(int min, int max) {
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(min, max);
     return dis(gen);
+}
+
+void People::setClosedThreadBySpace(const std::atomic_bool &closedThreadBySpace) {
+    People::closedThreadBySpace = closedThreadBySpace.load();
+    sleepCv.notify_all();
 }
 

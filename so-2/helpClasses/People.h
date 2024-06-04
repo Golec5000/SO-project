@@ -17,10 +17,13 @@ class Cord;
 class People {
 private:
 
+    std::mutex sleepMutex;
     static std::condition_variable cv;
+    std::condition_variable sleepCv;
     std::atomic_bool running;
     std::atomic_bool toErase;
     std::atomic_bool hasCrossedSwitch;
+    std::atomic_bool closedThreadBySpace;
     int speed;
     std::string name;
     std::thread thread;
@@ -41,6 +44,8 @@ private:
     static int getRandInt(int min, int max);
 
 public:
+
+    void setClosedThreadBySpace(const std::atomic_bool &closedThreadBySpace);
 
     People(int x, int y, std::vector<std::vector<Cord>> &map, std::atomic_int &switchCounter, int &switchBorder);
 
