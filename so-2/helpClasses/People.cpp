@@ -1,7 +1,7 @@
 #include "People.h"
 
 
-People::People(std::vector<std::vector<Cord>> &map, SharedData &sharedData) : map(map), sharedData(sharedData) {
+People::People(SharedData &sharedData) : sharedData(sharedData) {
 
     this->running = true;
     this->toErase = false;
@@ -90,7 +90,7 @@ void People::checkEndPosition() {
 
         std::unique_lock<std::mutex> lock(sleepMutex);
         sleepCv.wait_for(lock, std::chrono::seconds(getRandInt(3, 10)), [&] {
-            return closedThreadBySpaceVar.load();
+            return closedThreadBySpaceVar;
         });
 
         toErase = true;
@@ -99,7 +99,7 @@ void People::checkEndPosition() {
 }
 
 Cord *People::findCord(int x, int y) {
-    for (auto &row: map) {
+    for (auto &row: sharedData.map) {
         auto it = std::find_if(row.begin(), row.end(),
                                [&](const Cord &cordToFind) { return cordToFind.x == x && cordToFind.y == y; });
         if (it != row.end()) return &(*it);
@@ -124,7 +124,7 @@ void People::joinThread() {
 }
 
 void People::realseCords() {
-    for (auto &row: map) {
+    for (auto &row: sharedData.map) {
         for (auto &c: row) {
             if (c.cordChar != "  ") {
                 c.cv.notify_all();

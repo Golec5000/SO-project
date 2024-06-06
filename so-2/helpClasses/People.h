@@ -4,8 +4,6 @@
 #include <thread>
 #include <random>
 #include <cstdlib>
-#include <atomic>
-#include <vector>
 #include <memory>
 #include <utility>
 #include <iostream>
@@ -20,16 +18,15 @@ private:
 
     std::mutex sleepMutex;
     std::condition_variable sleepCv;
-    std::atomic_bool running;
-    std::atomic_bool toErase;
-    std::atomic_bool hasCrossedSwitch;
-    std::atomic_bool closedThreadBySpaceVar;
+    bool running;
+    bool toErase;
+    bool hasCrossedSwitch;
+    bool closedThreadBySpaceVar;
     int speed;
     std::string name;
     std::thread thread;
     std::shared_ptr<Cord> cord;
     char direction;
-    std::vector<std::vector<Cord>> &map;
     SharedData &sharedData;
 
     void checkCordLimits();
@@ -46,7 +43,7 @@ public:
 
     void closedThreadBySpace();
 
-    People(std::vector<std::vector<Cord>> &map, SharedData &sharedData);
+    People(SharedData &sharedData);
 
     void start();
 

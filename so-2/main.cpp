@@ -1,10 +1,8 @@
 #include <iostream>
-#include <vector>
 #include <random>
 #include <memory>
 #include <thread>
 #include <ncurses.h>
-#include <atomic>
 #include <mutex>
 #include <list>
 #include <sstream>
@@ -16,10 +14,9 @@
 std::mutex clientsMutex;
 std::mutex switchCharMutex;
 
-std::vector<std::vector<Cord>> map;
 std::list<std::shared_ptr<People *>> clients;
 
-std::atomic_bool isRunning = true;
+bool isRunning = true;
 
 SharedData sharedData;
 
@@ -109,23 +106,23 @@ void mapDrawer(WINDOW *buffer) {
     wattron(buffer, COLOR_PAIR(3));
     wprintw(buffer, "  Point up lock: ");
     wattroff(buffer, COLOR_PAIR(3));
-    wattron(buffer, map[0][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
-    wprintw(buffer, "%s\n", map[0][39].occupied.load() ? "Locked" : "Unlocked");
-    wattroff(buffer, map[0][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wattron(buffer, sharedData.map[0][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wprintw(buffer, "%s\n", sharedData.map[0][39].occupied.load() ? "Locked" : "Unlocked");
+    wattroff(buffer, sharedData.map[0][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
 
     wattron(buffer, COLOR_PAIR(3));
     wprintw(buffer, "  Point mid lock: ");
     wattroff(buffer, COLOR_PAIR(3));
-    wattron(buffer, map[sharedData.mid][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
-    wprintw(buffer, "%s\n", map[sharedData.mid][39].occupied.load() ? "Locked" : "Unlocked");
-    wattroff(buffer, map[sharedData.mid][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wattron(buffer, sharedData.map[sharedData.mid][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wprintw(buffer, "%s\n", sharedData.map[sharedData.mid][39].occupied.load() ? "Locked" : "Unlocked");
+    wattroff(buffer, sharedData.map[sharedData.mid][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
 
     wattron(buffer, COLOR_PAIR(3));
     wprintw(buffer, "  Point down lock: ");
     wattroff(buffer, COLOR_PAIR(3));
-    wattron(buffer, map[sharedData.height - 1][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
-    wprintw(buffer, "%s\n\n", map[sharedData.height - 1][39].occupied.load() ? "Locked" : "Unlocked");
-    wattroff(buffer, map[sharedData.height - 1][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wattron(buffer, sharedData.map[sharedData.height - 1][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wprintw(buffer, "%s\n\n", sharedData.map[sharedData.height - 1][39].occupied.load() ? "Locked" : "Unlocked");
+    wattroff(buffer, sharedData.map[sharedData.height - 1][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
 
     // Rysowanie ramki wokół okna
     box(buffer, 0, 0);
@@ -135,11 +132,11 @@ void mapDrawer(WINDOW *buffer) {
 }
 
 void prepareMainMap() {
-    map = std::vector<std::vector<Cord>>(sharedData.height, std::vector<Cord>(sharedData.width));
+    sharedData.map = std::vector<std::vector<Cord>>(sharedData.height, std::vector<Cord>(sharedData.width));
 
     for (int i = 0; i < sharedData.height; ++i) {
         for (int j = 0; j < sharedData.width; ++j) {
-            map[i][j] = Cord(i, j);
+            sharedData.map[i][j] = Cord(i, j);
         }
     }
 }
@@ -180,23 +177,23 @@ void draw_map(WINDOW *ptr) {
     std::stringstream buffer;
 
     // Inicjalizacja stałych części mapy
-    for (int j = 0; j < sharedData.width - 1; j++) map[sharedData.mid][j].cordChar = sharedData.pathChar;
-    map[sharedData.mid][sharedData.width - 1].cordChar = sharedData.stationChar;
-    map[sharedData.mid][sharedData.selectorPoint].cordChar = sharedData.switchChar;
+    for (int j = 0; j < sharedData.width - 1; j++) sharedData.map[sharedData.mid][j].cordChar = sharedData.pathChar;
+    sharedData.map[sharedData.mid][sharedData.width - 1].cordChar = sharedData.stationChar;
+    sharedData.map[sharedData.mid][sharedData.selectorPoint].cordChar = sharedData.switchChar;
     down_arm();
     up_arm();
 
     // Dodanie klientów do mapy
     for (auto &client: clients) {
         if (!(*client)->getToErase()) {
-            map[(*client)->getCord()->x][(*client)->getCord()->y].cordChar = (*client)->getName();
+            sharedData.map[(*client)->getCord()->x][(*client)->getCord()->y].cordChar = (*client)->getName();
         }
     }
 
     // Buforowanie mapy
     for (int i = 0; i < sharedData.height; i++) {
         for (int j = 0; j < sharedData.width; j++) {
-            buffer << std::setw(4) << map[i][j].cordChar;
+            buffer << std::setw(4) << sharedData.map[i][j].cordChar;
         }
         buffer << "\n";
     }
@@ -207,16 +204,16 @@ void draw_map(WINDOW *ptr) {
 
 void down_arm() {
     for (int i = sharedData.mid + 1; i < sharedData.height; i++)
-        map[i][sharedData.selectorPoint].cordChar = sharedData.pathChar;
+        sharedData.map[i][sharedData.selectorPoint].cordChar = sharedData.pathChar;
     for (int i = sharedData.selectorPoint + 1; i < sharedData.width - 1; i++)
-        map[sharedData.height - 1][i].cordChar = sharedData.pathChar;
-    map[sharedData.height - 1][sharedData.width - 1].cordChar = sharedData.stationChar;
+        sharedData.map[sharedData.height - 1][i].cordChar = sharedData.pathChar;
+    sharedData.map[sharedData.height - 1][sharedData.width - 1].cordChar = sharedData.stationChar;
 }
 
 void up_arm() {
-    for (int i = sharedData.mid - 1; i >= 0; i--) map[i][sharedData.selectorPoint].cordChar = sharedData.pathChar;
-    for (int i = sharedData.selectorPoint + 1; i < sharedData.width - 1; i++) map[0][i].cordChar = sharedData.pathChar;
-    map[0][sharedData.width - 1].cordChar = sharedData.stationChar;
+    for (int i = sharedData.mid - 1; i >= 0; i--) sharedData.map[i][sharedData.selectorPoint].cordChar = sharedData.pathChar;
+    for (int i = sharedData.selectorPoint + 1; i < sharedData.width - 1; i++) sharedData.map[0][i].cordChar = sharedData.pathChar;
+    sharedData.map[0][sharedData.width - 1].cordChar = sharedData.stationChar;
 }
 
 void switchDirection() {
@@ -238,13 +235,13 @@ void generateClients() {
     std::uniform_int_distribution<int> dis(500, 2000);
 
     while (isRunning) {
-        if (!map[sharedData.mid][0].occupied.load()) {
-            auto newClient = std::make_shared<People *>(new People(map, sharedData));
+        if (!sharedData.map[sharedData.mid][0].occupied.load()) {
+            auto newClient = std::make_shared<People *>(new People(sharedData));
             {
                 std::lock_guard<std::mutex> lock(clientsMutex);
                 clients.push_back(newClient);
             }
-            map[sharedData.mid][0].occupied.store(true);
+            sharedData.map[sharedData.mid][0].occupied.store(true);
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
             (*newClient)->start();
         }

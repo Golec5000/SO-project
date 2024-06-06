@@ -3,6 +3,10 @@
 
 #include <condition_variable>
 #include <atomic>
+#include <vector>
+#include "Cord.h"
+
+class Cord;
 
 struct SharedData{
 
@@ -21,6 +25,8 @@ struct SharedData{
 
     const char pathChar = '_';
     const char stationChar = '#';
+
+    std::vector<std::vector<Cord>> map;
 
 };
 
