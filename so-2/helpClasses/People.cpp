@@ -1,15 +1,14 @@
 #include "People.h"
 
 
-People::People(int x, int y, std::vector<std::vector<Cord>> &map, SharedData &sharedData)
-        : map(map), sharedData(sharedData) {
+People::People(std::vector<std::vector<Cord>> &map, SharedData &sharedData) : map(map), sharedData(sharedData) {
 
     this->running = true;
     this->toErase = false;
     this->hasCrossedSwitch = false;
-    this->closedThreadBySpace = false;
+    this->closedThreadBySpaceVar = false;
     this->direction = '>';
-    this->cord = std::make_shared<Cord>(x, y);
+    this->cord = std::make_shared<Cord>(sharedData.mid, 0);
 
 
     speed = getRandInt(100, 1000);
@@ -63,8 +62,6 @@ void People::moveClient() {
 void People::setClientDirection() {
     if (hasCrossedSwitch) return;
 
-    //Cord *tmpCord = findCord(cord->x, cord->y);
-
     //pozycja switcha
     if (cord->y == sharedData.selectorPoint
         && cord->x == sharedData.mid
@@ -93,12 +90,11 @@ void People::checkEndPosition() {
 
         std::unique_lock<std::mutex> lock(sleepMutex);
         sleepCv.wait_for(lock, std::chrono::seconds(getRandInt(3, 10)), [&] {
-            return closedThreadBySpace.load();
+            return closedThreadBySpaceVar.load();
         });
 
         toErase = true;
         findCord(cord->x, cord->y)->freeOccupiedCord();
-        sharedData.switchCV.notify_all();
     }
 }
 
@@ -112,17 +108,19 @@ Cord *People::findCord(int x, int y) {
 }
 
 void People::joinThread() {
-    running = false;
+    running = false; // zatrzymanie wątku
     realseCords();
 
-    --sharedData.switchCounter;
+    --sharedData.switchCounter; // zmniejszenie licznika przejść
 
     if (sharedData.switchCounter < sharedData.switchBorder) {
-        sharedData.isSwitchBlocked = false;
+        sharedData.isSwitchBlocked = false; // odblokowanie przełącznika
     }
-    sharedData.switchCV.notify_all();
-    if (thread.joinable())
-        thread.join();
+
+    sharedData.switchCV.notify_all(); // poinformowanie innych wątków o zmianie stanu
+
+    if (thread.joinable()) // czekanie na zakończenie wątku
+        thread.join(); // zakończenie wątku
 }
 
 void People::realseCords() {
@@ -158,11 +156,8 @@ int People::getRandInt(int min, int max) {
     return dis(gen);
 }
 
-void People::setClosedThreadBySpace(const std::atomic_bool &closedThreadBySpace) {
-    People::closedThreadBySpace = closedThreadBySpace.load();
+void People::closedThreadBySpace() {
+    People::closedThreadBySpaceVar = true;
     sleepCv.notify_one();
 }
 
-SharedData &People::getSharedData() {
-    return sharedData;
-}

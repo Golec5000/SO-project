@@ -23,7 +23,7 @@ private:
     std::atomic_bool running;
     std::atomic_bool toErase;
     std::atomic_bool hasCrossedSwitch;
-    std::atomic_bool closedThreadBySpace;
+    std::atomic_bool closedThreadBySpaceVar;
     int speed;
     std::string name;
     std::thread thread;
@@ -44,9 +44,9 @@ private:
 
 public:
 
-    void setClosedThreadBySpace(const std::atomic_bool &closedThreadBySpace);
+    void closedThreadBySpace();
 
-    People(int x, int y, std::vector<std::vector<Cord>> &map, SharedData &sharedData);
+    People(std::vector<std::vector<Cord>> &map, SharedData &sharedData);
 
     void start();
 
@@ -64,7 +64,6 @@ public:
 
     void realseCords();
 
-    SharedData &getSharedData();
 };
 
 

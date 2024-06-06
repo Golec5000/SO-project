@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
     while (isRunning) {
         mapDrawer(buffer);
         endProgram(switchThread, clientsThread, checkClientsThread);
-        std::this_thread::sleep_for(std::chrono::milliseconds(60));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     return 0;
 }
@@ -167,8 +167,7 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
         std::cout << "Wyłączanie pozostałych ludzi którzy nie dotarli do końca" << std::endl;
         for (auto &client: clients) {
             if (client && *client) {
-//                std::cout << "Wyłączanie klienta: " << (*client)->getName() << std::endl;
-                (*client)->setClosedThreadBySpace(true);
+                (*client)->closedThreadBySpace();
                 (*client)->joinThread();
             }
         }
@@ -207,7 +206,8 @@ void draw_map(WINDOW *ptr) {
 }
 
 void down_arm() {
-    for (int i = sharedData.mid + 1; i < sharedData.height; i++) map[i][sharedData.selectorPoint].cordChar = sharedData.pathChar;
+    for (int i = sharedData.mid + 1; i < sharedData.height; i++)
+        map[i][sharedData.selectorPoint].cordChar = sharedData.pathChar;
     for (int i = sharedData.selectorPoint + 1; i < sharedData.width - 1; i++)
         map[sharedData.height - 1][i].cordChar = sharedData.pathChar;
     map[sharedData.height - 1][sharedData.width - 1].cordChar = sharedData.stationChar;
@@ -239,7 +239,7 @@ void generateClients() {
 
     while (isRunning) {
         if (!map[sharedData.mid][0].occupied.load()) {
-            auto newClient = std::make_shared<People *>(new People(sharedData.mid, 0, map, sharedData));
+            auto newClient = std::make_shared<People *>(new People(map, sharedData));
             {
                 std::lock_guard<std::mutex> lock(clientsMutex);
                 clients.push_back(newClient);
@@ -247,10 +247,6 @@ void generateClients() {
             map[sharedData.mid][0].occupied.store(true);
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
             (*newClient)->start();
-            {
-                std::unique_lock<std::mutex> lock(clientsMutex);
-                (*newClient)->getSharedData().switchCV.notify_all();
-            }
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
     }
@@ -261,11 +257,12 @@ void checkClients() {
         try {
             std::lock_guard<std::mutex> lock(clientsMutex); // Dodajemy blokadę dla synchronizacji
             clients.remove_if([&](const auto &client) {
-                bool toErase = (*client)->getToErase();
-                if (toErase) {
-                    (*client)->joinThread();  // Ensure thread is joined
-                }
-                return toErase;
+
+                if(!(*client)->getToErase()) return false; // Jeśli nie ma flagi toErase to nie usuwamy klienta i zwracamy false
+
+                (*client)->joinThread(); // Jeśli klient ma flagę toErase to wywołujemy joinThread
+                return true; // Zwracamy true, aby klient został usunięty z listy
+
             });
         } catch (const std::exception &e) {
             std::cerr << "Exception caught during client removal: " << e.what() << std::endl;
