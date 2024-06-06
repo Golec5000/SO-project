@@ -20,7 +20,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 2">
+    <list default="true" id="372a97d4-d17d-4099-b470-ae601a9d97a4" name="Changes" comment="update - v2 stage 2 SharedData.h update and move map">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
@@ -31,7 +31,6 @@
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/so_2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/so_2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpClasses/People.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/People.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpClasses/People.h" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/People.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpClasses/SharedData.h" beforeDir="false" afterPath="$PROJECT_DIR$/helpClasses/SharedData.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -152,7 +151,7 @@
       <workItem from="1717510059040" duration="1803000" />
       <workItem from="1717525166274" duration="4469000" />
       <workItem from="1717686995601" duration="860000" />
-      <workItem from="1717695711338" duration="8191000" />
+      <workItem from="1717695711338" duration="10035000" />
     </task>
     <task id="LOCAL-00001" summary="update - v2v1 stage 1 finish">
       <option name="closed" value="true" />
@@ -522,7 +521,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717701601728</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="update - v2 stage 2 SharedData.h update and move map">
+      <option name="closed" value="true" />
+      <created>1717705781545</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1717705781545</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -566,7 +573,8 @@
     <MESSAGE value="update - v2 stage 2 refactor" />
     <MESSAGE value="update - v2 stage 2 gi refactor, added shared resorces to simulation" />
     <MESSAGE value="update - v2 stage 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="update - v2 stage 2" />
+    <MESSAGE value="update - v2 stage 2 SharedData.h update and move map" />
+    <option name="LAST_COMMIT_MESSAGE" value="update - v2 stage 2 SharedData.h update and move map" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

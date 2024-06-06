@@ -44,8 +44,6 @@ void People::moveClient() {
             return !sharedData.isSwitchBlocked || tmpCord->y != 28 || !running;
         });
 
-        if (!running) return;
-
         if (nextCord->canMove(*this, nextX, nextY)) {
             tmpCord->freeOccupiedCord();
             setClientDirection();
@@ -60,12 +58,10 @@ void People::moveClient() {
 }
 
 void People::setClientDirection() {
-    if (hasCrossedSwitch) return;
+    if (hasCrossedSwitch) return; //sprawdzenie czy nie przekroczył przełącznika i jeśli tak to nie zmienia kierunku
 
     //pozycja switcha
-    if (cord->y == sharedData.selectorPoint
-        && cord->x == sharedData.mid
-        && !hasCrossedSwitch) {
+    if (cord->y == sharedData.selectorPoint && cord->x == sharedData.mid) {
 
         direction = sharedData.switchChar;  //zmiana kierunku
 
@@ -89,7 +85,7 @@ void People::checkEndPosition() {
         running = false;
 
         std::unique_lock<std::mutex> lock(sleepMutex);
-        sleepCv.wait_for(lock, std::chrono::seconds(getRandInt(3, 10)), [&] {
+        sleepCv.wait_for(lock, std::chrono::seconds(getRandInt(3, 12)), [&] {
             return closedThreadBySpaceVar;
         });
 
@@ -109,7 +105,6 @@ Cord *People::findCord(int x, int y) {
 
 void People::joinThread() {
     running = false; // zatrzymanie wątku
-    realseCords();
 
     --sharedData.switchCounter; // zmniejszenie licznika przejść
 
@@ -121,16 +116,6 @@ void People::joinThread() {
 
     if (thread.joinable()) // czekanie na zakończenie wątku
         thread.join(); // zakończenie wątku
-}
-
-void People::realseCords() {
-    for (auto &row: sharedData.map) {
-        for (auto &c: row) {
-            if (c.cordChar != "  ") {
-                c.cv.notify_all();
-            }
-        }
-    }
 }
 
 bool People::getToErase() const {

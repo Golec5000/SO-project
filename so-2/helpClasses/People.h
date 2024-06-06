@@ -43,7 +43,7 @@ public:
 
     void closedThreadBySpace();
 
-    People(SharedData &sharedData);
+    explicit People(SharedData &sharedData);
 
     void start();
 
@@ -58,8 +58,6 @@ public:
     [[nodiscard]] std::shared_ptr<Cord> getCord() const;
 
     void setCord(std::shared_ptr<Cord> newCord);
-
-    void realseCords();
 
 };
 

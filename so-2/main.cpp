@@ -162,12 +162,15 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
         }
 
         std::cout << "Wyłączanie pozostałych ludzi którzy nie dotarli do końca" << std::endl;
-        for (auto &client: clients) {
+        // Usuwanie klientów, którzy nie dotarli do końca żeby zwolinić zasoby
+        clients.remove_if([](const auto &client) {
             if (client && *client) {
                 (*client)->closedThreadBySpace();
                 (*client)->joinThread();
+                return true; // Zwróć true, aby usunąć klienta z listy
             }
-        }
+            return false; // Zwróć false, aby zachować klienta na liście
+        });
 
         std::cout << "Wyłączanie całego systemu powiodło się!" << std::endl;
     }
@@ -211,8 +214,10 @@ void down_arm() {
 }
 
 void up_arm() {
-    for (int i = sharedData.mid - 1; i >= 0; i--) sharedData.map[i][sharedData.selectorPoint].cordChar = sharedData.pathChar;
-    for (int i = sharedData.selectorPoint + 1; i < sharedData.width - 1; i++) sharedData.map[0][i].cordChar = sharedData.pathChar;
+    for (int i = sharedData.mid - 1; i >= 0; i--)
+        sharedData.map[i][sharedData.selectorPoint].cordChar = sharedData.pathChar;
+    for (int i = sharedData.selectorPoint + 1; i < sharedData.width - 1; i++)
+        sharedData.map[0][i].cordChar = sharedData.pathChar;
     sharedData.map[0][sharedData.width - 1].cordChar = sharedData.stationChar;
 }
 
@@ -255,7 +260,7 @@ void checkClients() {
             std::lock_guard<std::mutex> lock(clientsMutex); // Dodajemy blokadę dla synchronizacji
             clients.remove_if([&](const auto &client) {
 
-                if(!(*client)->getToErase()) return false; // Jeśli nie ma flagi toErase to nie usuwamy klienta i zwracamy false
+                if (!(*client)->getToErase()) return false; // Jeśli nie ma flagi toErase to nie usuwamy klienta i zwracamy false
 
                 (*client)->joinThread(); // Jeśli klient ma flagę toErase to wywołujemy joinThread
                 return true; // Zwracamy true, aby klient został usunięty z listy
@@ -264,7 +269,7 @@ void checkClients() {
         } catch (const std::exception &e) {
             std::cerr << "Exception caught during client removal: " << e.what() << std::endl;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
 }
 
