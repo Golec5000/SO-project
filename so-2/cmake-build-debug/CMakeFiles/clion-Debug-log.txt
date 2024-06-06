@@ -1,4 +1,4 @@
 /home/wombat-laptop/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/wombat-laptop/.local/share/JetBrains/Toolbox/apps/clion/bin/ninja/linux/x64/ninja -G Ninja -S /home/wombat-laptop/GitLab/SO-project/so-2 -B /home/wombat-laptop/GitLab/SO-project/so-2/cmake-build-debug
--- Configuring done (0.0s)
+-- Configuring done (0.1s)
 -- Generating done (0.0s)
 -- Build files have been written to: /home/wombat-laptop/GitLab/SO-project/so-2/cmake-build-debug

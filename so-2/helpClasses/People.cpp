@@ -1,9 +1,8 @@
 #include "People.h"
 
-std::condition_variable People::cv;
 
-People::People(int x, int y, std::vector<std::vector<Cord>> &map, std::atomic_int &switchCounter, int &switchBorder)
-        : map(map), switchCounter(switchCounter), switchBorder(switchBorder) {
+People::People(int x, int y, std::vector<std::vector<Cord>> &map, SharedData &sharedData)
+        : map(map), sharedData(sharedData) {
 
     this->running = true;
     this->toErase = false;
@@ -20,16 +19,16 @@ People::People(int x, int y, std::vector<std::vector<Cord>> &map, std::atomic_in
     name += chars[getRandInt(100, 1000) % chars.size()];
 }
 
-void People::start(std::atomic_bool &isSwitchBlocked) {
+void People::start() {
     thread = std::thread([&] {
         while (running) {
-            moveClient(isSwitchBlocked);
+            moveClient();
             std::this_thread::sleep_for(std::chrono::milliseconds(speed));
         }
     });
 }
 
-void People::moveClient(std::atomic_bool &isSwitchBlocked) {
+void People::moveClient() {
     if (!running) return;
 
     checkCordLimits();
@@ -42,15 +41,15 @@ void People::moveClient(std::atomic_bool &isSwitchBlocked) {
 
     if (nextCord && tmpCord) {
         std::unique_lock<std::mutex> lock(nextCord->mtx);
-        cv.wait(lock, [&] {
-            return !isSwitchBlocked || tmpCord->y != 28 || !running;
+        sharedData.switchCV.wait(lock, [&] {
+            return !sharedData.isSwitchBlocked || tmpCord->y != 28 || !running;
         });
 
         if (!running) return;
 
         if (nextCord->canMove(*this, nextX, nextY)) {
             tmpCord->freeOccupiedCord();
-            setClientDirection(isSwitchBlocked);
+            setClientDirection();
         } else {
             nextCord->cv.wait(lock, [&] {
                 return !nextCord->occupied || !running;
@@ -61,20 +60,24 @@ void People::moveClient(std::atomic_bool &isSwitchBlocked) {
     checkEndPosition();
 }
 
-void People::setClientDirection(std::atomic_bool &isSwitchBlocked) {
+void People::setClientDirection() {
     if (hasCrossedSwitch) return;
 
-    Cord *tmpCord = findCord(cord->x, cord->y);
+    //Cord *tmpCord = findCord(cord->x, cord->y);
 
-    if (tmpCord->y == 29 && tmpCord->x == 15 && !hasCrossedSwitch) {
-        direction = tmpCord->getDirection();
+    //pozycja switcha
+    if (cord->y == sharedData.selectorPoint
+        && cord->x == sharedData.mid
+        && !hasCrossedSwitch) {
 
-        switchCounter++;
-        hasCrossedSwitch = true;
+        direction = sharedData.switchChar;  //zmiana kierunku
 
-        if (switchCounter >= switchBorder) {
-            isSwitchBlocked = true;
-            cv.notify_all();
+        sharedData.switchCounter++;         //zwiększenie licznika przejść
+        hasCrossedSwitch = true;            //ustawnienie flagi przejścia
+
+        if (sharedData.switchCounter >= sharedData.switchBorder) {
+            sharedData.isSwitchBlocked = true;  //blokada przełącznika i poinformowanie innych wątków o zmianie stanu
+            sharedData.switchCV.notify_all();
         }
 
     }
@@ -95,7 +98,7 @@ void People::checkEndPosition() {
 
         toErase = true;
         findCord(cord->x, cord->y)->freeOccupiedCord();
-        cv.notify_all();
+        sharedData.switchCV.notify_all();
     }
 }
 
@@ -108,16 +111,16 @@ Cord *People::findCord(int x, int y) {
     return nullptr;
 }
 
-void People::joinThread(std::atomic_bool &isSwitchBlocked) {
+void People::joinThread() {
     running = false;
     realseCords();
 
-    --switchCounter;
+    --sharedData.switchCounter;
 
-    if (switchCounter < switchBorder) {
-        isSwitchBlocked = false;
+    if (sharedData.switchCounter < sharedData.switchBorder) {
+        sharedData.isSwitchBlocked = false;
     }
-    cv.notify_all();
+    sharedData.switchCV.notify_all();
     if (thread.joinable())
         thread.join();
 }
@@ -148,10 +151,6 @@ void People::setCord(std::shared_ptr<Cord> newCord) {
     cord = std::move(newCord); // Automatyczne zwalnianie starego obiektu Cord
 }
 
-std::condition_variable &People::getCv() {
-    return cv;
-}
-
 int People::getRandInt(int min, int max) {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -161,6 +160,9 @@ int People::getRandInt(int min, int max) {
 
 void People::setClosedThreadBySpace(const std::atomic_bool &closedThreadBySpace) {
     People::closedThreadBySpace = closedThreadBySpace.load();
-    sleepCv.notify_all();
+    sleepCv.notify_one();
 }
 
+SharedData &People::getSharedData() {
+    return sharedData;
+}

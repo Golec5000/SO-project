@@ -11,6 +11,7 @@
 #include <iostream>
 #include <condition_variable>
 #include "Cord.h"
+#include "SharedData.h"
 
 class Cord;
 
@@ -18,7 +19,6 @@ class People {
 private:
 
     std::mutex sleepMutex;
-    static std::condition_variable cv;
     std::condition_variable sleepCv;
     std::atomic_bool running;
     std::atomic_bool toErase;
@@ -30,14 +30,13 @@ private:
     std::shared_ptr<Cord> cord;
     char direction;
     std::vector<std::vector<Cord>> &map;
-    std::atomic_int &switchCounter;
-    int &switchBorder;
+    SharedData &sharedData;
 
     void checkCordLimits();
 
     void checkEndPosition();
 
-    void setClientDirection(std::atomic_bool &isSwitchBlocked);
+    void setClientDirection();
 
     Cord *findCord(int x, int y);
 
@@ -47,13 +46,13 @@ public:
 
     void setClosedThreadBySpace(const std::atomic_bool &closedThreadBySpace);
 
-    People(int x, int y, std::vector<std::vector<Cord>> &map, std::atomic_int &switchCounter, int &switchBorder);
+    People(int x, int y, std::vector<std::vector<Cord>> &map, SharedData &sharedData);
 
-    void start(std::atomic_bool &isSwitchBlocked);
+    void start();
 
-    void moveClient(std::atomic_bool &isSwitchBlocked);
+    void moveClient();
 
-    void joinThread(std::atomic_bool &isSwitchBlocked);
+    void joinThread();
 
     [[nodiscard]] bool getToErase() const;
 
@@ -63,9 +62,9 @@ public:
 
     void setCord(std::shared_ptr<Cord> newCord);
 
-    static std::condition_variable &getCv();
-
     void realseCords();
+
+    SharedData &getSharedData();
 };
 
 

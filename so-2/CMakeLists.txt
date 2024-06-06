@@ -11,6 +11,7 @@ add_executable(so_2 main.cpp
         helpClasses/People.h
         helpClasses/Cord.cpp
         helpClasses/Cord.h
-        helpClasses/Cord.cpp)
+        helpClasses/Cord.cpp
+        helpClasses/SharedData.h)
 
 target_link_libraries(so_2 ${CURSES_LIBRARIES})

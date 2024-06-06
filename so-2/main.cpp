@@ -11,6 +11,7 @@
 #include <iomanip>
 #include "helpClasses/People.h"
 #include "helpClasses/Cord.h"
+#include "helpClasses/SharedData.h"
 
 std::mutex clientsMutex;
 std::mutex switchCharMutex;
@@ -19,20 +20,8 @@ std::vector<std::vector<Cord>> map;
 std::list<std::shared_ptr<People *>> clients;
 
 std::atomic_bool isRunning = true;
-std::atomic_bool isSwitchBlocked = false;
 
-std::atomic_int switchCounter = 0;
-
-const int width = 40;
-const int height = 31;
-const int mid = 15;
-const int selectorPoint = 29;
-
-int switchBorder = 10; // Domyslna wartosc wynosi 10
-
-const char pathChar = '_';
-std::atomic_char switchChar = '^';
-const char stationChar = '#';
+SharedData sharedData;
 
 void draw_map(WINDOW *ptr);
 
@@ -57,7 +46,7 @@ int main(int argc, char **argv) {
     try {
         // Sprawdź, czy została podana wartość graniczna przełącznika
         if (argc > 1) {
-            switchBorder = std::stoi(argv[1]);
+            sharedData.switchBorder = std::stoi(argv[1]);
         }
     } catch (std::invalid_argument &e) {
         std::cerr << "Invalid argument for switch border value: " << argv[1] << std::endl;
@@ -81,7 +70,7 @@ int main(int argc, char **argv) {
     while (isRunning) {
         mapDrawer(buffer);
         endProgram(switchThread, clientsThread, checkClientsThread);
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(60));
     }
     return 0;
 }
@@ -106,10 +95,10 @@ void mapDrawer(WINDOW *buffer) {
     wattroff(buffer, COLOR_PAIR(2));
 
     wattron(buffer, COLOR_PAIR(3));
-    wprintw(buffer, "  Threads after switch: %d\n", switchCounter.load());
+    wprintw(buffer, "  Threads after switch: %d\n", sharedData.switchCounter.load());
     wattroff(buffer, COLOR_PAIR(3));
 
-    wprintw(buffer, "  Lock on switch: %d\n", switchBorder);
+    wprintw(buffer, "  Lock on switch: %d\n", sharedData.switchBorder);
 
     draw_map(buffer);
 
@@ -127,31 +116,16 @@ void mapDrawer(WINDOW *buffer) {
     wattron(buffer, COLOR_PAIR(3));
     wprintw(buffer, "  Point mid lock: ");
     wattroff(buffer, COLOR_PAIR(3));
-    wattron(buffer, map[mid][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
-    wprintw(buffer, "%s\n", map[mid][39].occupied.load() ? "Locked" : "Unlocked");
-    wattroff(buffer, map[mid][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wattron(buffer, map[sharedData.mid][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wprintw(buffer, "%s\n", map[sharedData.mid][39].occupied.load() ? "Locked" : "Unlocked");
+    wattroff(buffer, map[sharedData.mid][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
 
     wattron(buffer, COLOR_PAIR(3));
     wprintw(buffer, "  Point down lock: ");
     wattroff(buffer, COLOR_PAIR(3));
-    wattron(buffer, map[height - 1][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
-    wprintw(buffer, "%s\n\n", map[height - 1][39].occupied.load() ? "Locked" : "Unlocked");
-    wattroff(buffer, map[height - 1][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
-
-    wprintw(buffer, "  Switch and generator status:\n");
-    wattron(buffer, COLOR_PAIR(3));
-    wprintw(buffer, "  Switch lock: ");
-    wattroff(buffer, COLOR_PAIR(3));
-    wattron(buffer, isSwitchBlocked.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
-    wprintw(buffer, "%s\n", isSwitchBlocked.load() ? "Locked" : "Unlocked");
-    wattroff(buffer, isSwitchBlocked.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
-
-    wattron(buffer, COLOR_PAIR(3));
-    wprintw(buffer, "  Generator lock: ");
-    wattroff(buffer, COLOR_PAIR(3));
-    wattron(buffer, map[mid][0].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
-    wprintw(buffer, "%s\n", map[mid][0].occupied.load() ? "Locked" : "Unlocked");
-    wattroff(buffer, map[mid][0].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wattron(buffer, map[sharedData.height - 1][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wprintw(buffer, "%s\n\n", map[sharedData.height - 1][39].occupied.load() ? "Locked" : "Unlocked");
+    wattroff(buffer, map[sharedData.height - 1][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
 
     // Rysowanie ramki wokół okna
     box(buffer, 0, 0);
@@ -161,10 +135,10 @@ void mapDrawer(WINDOW *buffer) {
 }
 
 void prepareMainMap() {
-    map = std::vector<std::vector<Cord>>(height, std::vector<Cord>(width));
+    map = std::vector<std::vector<Cord>>(sharedData.height, std::vector<Cord>(sharedData.width));
 
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
+    for (int i = 0; i < sharedData.height; ++i) {
+        for (int j = 0; j < sharedData.width; ++j) {
             map[i][j] = Cord(i, j);
         }
     }
@@ -195,7 +169,7 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
             if (client && *client) {
 //                std::cout << "Wyłączanie klienta: " << (*client)->getName() << std::endl;
                 (*client)->setClosedThreadBySpace(true);
-                (*client)->joinThread(isSwitchBlocked);
+                (*client)->joinThread();
             }
         }
 
@@ -207,9 +181,9 @@ void draw_map(WINDOW *ptr) {
     std::stringstream buffer;
 
     // Inicjalizacja stałych części mapy
-    for (int j = 0; j < width - 1; j++) map[mid][j].cordChar = pathChar;
-    map[mid][width - 1].cordChar = stationChar;
-    map[mid][selectorPoint].cordChar = switchChar;
+    for (int j = 0; j < sharedData.width - 1; j++) map[sharedData.mid][j].cordChar = sharedData.pathChar;
+    map[sharedData.mid][sharedData.width - 1].cordChar = sharedData.stationChar;
+    map[sharedData.mid][sharedData.selectorPoint].cordChar = sharedData.switchChar;
     down_arm();
     up_arm();
 
@@ -221,8 +195,8 @@ void draw_map(WINDOW *ptr) {
     }
 
     // Buforowanie mapy
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
+    for (int i = 0; i < sharedData.height; i++) {
+        for (int j = 0; j < sharedData.width; j++) {
             buffer << std::setw(4) << map[i][j].cordChar;
         }
         buffer << "\n";
@@ -233,15 +207,16 @@ void draw_map(WINDOW *ptr) {
 }
 
 void down_arm() {
-    for (int i = mid + 1; i < height; i++) map[i][selectorPoint].cordChar = pathChar;
-    for (int i = selectorPoint + 1; i < width - 1; i++) map[height - 1][i].cordChar = pathChar;
-    map[height - 1][width - 1].cordChar = stationChar;
+    for (int i = sharedData.mid + 1; i < sharedData.height; i++) map[i][sharedData.selectorPoint].cordChar = sharedData.pathChar;
+    for (int i = sharedData.selectorPoint + 1; i < sharedData.width - 1; i++)
+        map[sharedData.height - 1][i].cordChar = sharedData.pathChar;
+    map[sharedData.height - 1][sharedData.width - 1].cordChar = sharedData.stationChar;
 }
 
 void up_arm() {
-    for (int i = mid - 1; i >= 0; i--) map[i][selectorPoint].cordChar = pathChar;
-    for (int i = selectorPoint + 1; i < width - 1; i++) map[0][i].cordChar = pathChar;
-    map[0][width - 1].cordChar = stationChar;
+    for (int i = sharedData.mid - 1; i >= 0; i--) map[i][sharedData.selectorPoint].cordChar = sharedData.pathChar;
+    for (int i = sharedData.selectorPoint + 1; i < sharedData.width - 1; i++) map[0][i].cordChar = sharedData.pathChar;
+    map[0][sharedData.width - 1].cordChar = sharedData.stationChar;
 }
 
 void switchDirection() {
@@ -251,8 +226,7 @@ void switchDirection() {
     while (isRunning) {
         {
             std::lock_guard<std::mutex> lock(switchCharMutex);
-            switchChar = directions[index++ % directions.size()];
-            map[mid][selectorPoint].setDirection(switchChar);
+            sharedData.switchChar = directions[index++ % directions.size()];
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(750));
     }
@@ -264,18 +238,18 @@ void generateClients() {
     std::uniform_int_distribution<int> dis(500, 2000);
 
     while (isRunning) {
-        if (!map[mid][0].occupied.load()) {
-            auto newClient = std::make_shared<People *>(new People(mid, 0, map, switchCounter, switchBorder));
+        if (!map[sharedData.mid][0].occupied.load()) {
+            auto newClient = std::make_shared<People *>(new People(sharedData.mid, 0, map, sharedData));
             {
                 std::lock_guard<std::mutex> lock(clientsMutex);
                 clients.push_back(newClient);
             }
-            map[mid][0].occupied.store(true);
+            map[sharedData.mid][0].occupied.store(true);
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
-            (*newClient)->start(isSwitchBlocked);
+            (*newClient)->start();
             {
                 std::unique_lock<std::mutex> lock(clientsMutex);
-                (*newClient)->getCv().notify_all();
+                (*newClient)->getSharedData().switchCV.notify_all();
             }
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
@@ -289,14 +263,14 @@ void checkClients() {
             clients.remove_if([&](const auto &client) {
                 bool toErase = (*client)->getToErase();
                 if (toErase) {
-                    (*client)->joinThread(isSwitchBlocked);  // Ensure thread is joined
+                    (*client)->joinThread();  // Ensure thread is joined
                 }
                 return toErase;
             });
         } catch (const std::exception &e) {
             std::cerr << "Exception caught during client removal: " << e.what() << std::endl;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(60));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 }
 
