@@ -8,7 +8,7 @@
 
 class Cord;
 
-struct SharedData{
+struct SharedData {
 
     std::condition_variable switchCV;
 
@@ -27,6 +27,8 @@ struct SharedData{
     const char stationChar = '#';
 
     std::vector<std::vector<Cord>> map;
+
+    const std::string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@$%&*()+-=[]{}|;':,<?";
 
 };
 

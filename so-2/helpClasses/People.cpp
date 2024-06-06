@@ -10,12 +10,10 @@ People::People(SharedData &sharedData) : sharedData(sharedData) {
     this->direction = '>';
     this->cord = std::make_shared<Cord>(sharedData.mid, 0);
 
-
     speed = getRandInt(100, 1000);
 
-    std::string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@$%&*()+-=[]{}|;':,<?";
-    name += chars[getRandInt(100, 1000) % chars.size()];
-    name += chars[getRandInt(100, 1000) % chars.size()];
+    name += sharedData.chars[getRandInt(100, 1000) % sharedData.chars.size()];
+    name += sharedData.chars[getRandInt(100, 1000) % sharedData.chars.size()];
 }
 
 void People::start() {
@@ -114,6 +112,8 @@ void People::joinThread() {
 
     sharedData.switchCV.notify_all(); // poinformowanie innych wątków o zmianie stanu
 
+    findCord(cord->x,cord->y)->freeOccupiedCord(); // zwolnienie zasobów Cord w mapie (wątek zakończył działanie wiec dane pole jest wolne)
+
     if (thread.joinable()) // czekanie na zakończenie wątku
         thread.join(); // zakończenie wątku
 }
@@ -143,6 +143,6 @@ int People::getRandInt(int min, int max) {
 
 void People::closedThreadBySpace() {
     People::closedThreadBySpaceVar = true;
-    sleepCv.notify_one();
+    sleepCv.notify_all();
 }
 

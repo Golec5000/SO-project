@@ -8,27 +8,36 @@ Opis wstępny do etapu 2:
 
 Opis finalny działania z 2 etapu:
 
-   - Każdy obiekt klasy People wykorzystuje mechanizm synchronizacji wątków, aby bezpiecznie przechodzić z jednego pola na drugie.
-     Każde pole posiada flagę occupied, która wskazuje, czy jest aktualnie zajęte przez obiekt People.
-     Gdy obiekt People próbuje przemieścić się na inne pole, najpierw sprawdza, czy docelowe pole jest wolne.
-     Jeśli tak, obiekt People przemieszcza się na to pole i ustawia pole, na którym się wcześniej znajdował, jako wolne.
-     Jeśli docelowe pole jest zajęte, obiekt People czeka, aż stanie się wolne.
+Synchronizacja ruchu obiektów People w symulacji:
+   - Każdy obiekt klasy People wykorzystuje mechanizm synchronizacji wątków,
+     aby bezpiecznie przemieszczać się z jednego pola na drugie. Każde pole posiada flagę occupied,
+     która wskazuje, czy jest aktualnie zajęte przez obiekt People. Gdy obiekt People próbuje przemieścić się na inne pole,
+     najpierw sprawdza, czy docelowe pole jest wolne. Jeśli tak, obiekt People przemieszcza się na to pole i ustawia pole,
+     na którym się wcześniej znajdował, jako wolne. Jeśli docelowe pole jest zajęte, obiekt People czeka, aż stanie się wolne.
 
-
+Podział mapy i rola dystrybutora:
    - Mapa jest podzielona na dwa obszary: obszar przed dystrybutorem i obszar za dystrybutorem.
-     Dystrybutor działa jako punkt kontrolny, który reguluje przepływ obiektów People.
-
-
-   - Wprowadzono mechanizm kontroli liczby obiektów People, które mogą jednocześnie przekroczyć dystrybutor.
-     Użytkownik może określić maksymalną liczbę obiektów People, które mogą być za dystrybutorem.
-     Gdy liczba obiektów People za dystrybutorem osiągnie ten limit, pozostałe obiekty People czekają w kolejce przed dystrybutorem.
+     Dystrybutor działa jako punkt kontrolny, który reguluje przepływ obiektów People. Wprowadzono mechanizm kontroli liczby obiektów People,
+     które mogą jednocześnie przekroczyć dystrybutor. Użytkownik może określić maksymalną liczbę obiektów People,
+     które mogą być za dystrybutorem. Gdy liczba obiektów People za dystrybutorem osiągnie ten limit,
+     pozostałe obiekty People czekają w kolejce przed dystrybutorem.
      W czasie oczekiwania, obiekty People nie mogą nachodzić na siebie ani przekraczać dystrybutora.
 
+Generowanie nowych obiektów People:
+   - Generowanie nowych obiektów People jest zablokowane, jeśli pole startowe jest zajęte. Gdy pole startowe staje się wolne,
+     generowanie nowych obiektów People jest odblokowane.
 
-   - Dodatkowo, generowanie nowych obiektów People jest zablokowane, jeśli pole startowe jest zajęte.
-     Gdy pole startowe staje się wolne, generowanie nowych obiektów People jest odblokowane.
+Ruch po przekroczeniu dystrybutora:
+   - Program uruchamia symulację w oknie terminala z wykorzystaniem biblioteki ncurses.
+     W głównym wątku uruchamiane są trzy inne wątki: jeden odpowiada za zmianę kierunku przełącznika (dystrybutora),
+     drugi za generowanie nowych obiektów People, a trzeci za sprawdzanie stanu obiektów People i ich usuwanie, gdy dotrą do końca swojej trasy.
+     Cała mapa jest rysowana w oknie terminala, z aktualizacjami liczby żywych wątków, liczby wątków po przekroczeniu przełącznika oraz stanu końcowych punktów trasy.
 
-
+Działanie programu:
    - Po przekroczeniu dystrybutora, obiekty People kontynuują swoją drogę, idąc jeden za drugim i sprawdzając, czy mogą przejść na kolejne pole.
      Wyjątkiem jest pole przed stacją końcową, gdzie obiekty People nie mogą na siebie nachodzić.
      W tym miejscu może wystąpić wyścig o dostęp do stacji końcowej.
+
+Zamykanie programu:
+    - Program zamyka się po naciśnięciu spacji, zatrzymując wszystkie wątki i
+      usuwając pozostałe obiekty People, które nie dotarły do końca swojej trasy, aby zwolnić zasoby.

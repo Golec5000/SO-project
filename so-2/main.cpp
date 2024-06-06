@@ -161,15 +161,20 @@ void endProgram(std::thread &switchThread, std::thread &clientsThread, std::thre
             checkClientsThread.join();
         }
 
+        int i = 0;
+        int size = clients.size();
+
         std::cout << "Wyłączanie pozostałych ludzi którzy nie dotarli do końca" << std::endl;
         // Usuwanie klientów, którzy nie dotarli do końca żeby zwolinić zasoby
-        clients.remove_if([](const auto &client) {
+        std::lock_guard<std::mutex> lock(clientsMutex);
+        clients.remove_if([&i, &size](const auto &client) {
             if (client && *client) {
+                std::cout << "Usuwanie klienta " << ++i << " z " << size << std::endl;
                 (*client)->closedThreadBySpace();
                 (*client)->joinThread();
-                return true; // Zwróć true, aby usunąć klienta z listy
+                return true;
             }
-            return false; // Zwróć false, aby zachować klienta na liście
+            return false;
         });
 
         std::cout << "Wyłączanie całego systemu powiodło się!" << std::endl;
