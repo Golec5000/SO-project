@@ -11,8 +11,8 @@ People::People(SharedData &sharedData) : sharedData(sharedData) {
 
     speed = getRandInt(100, 1000);
 
-    name += sharedData.chars[getRandInt(100, 1000) % sharedData.chars.size()];
-    name += sharedData.chars[getRandInt(100, 1000) % sharedData.chars.size()];
+    name += sharedData.chars[getRandInt(0, sharedData.chars.size() - 1)];
+    name += sharedData.chars[getRandInt(0, sharedData.chars.size() - 1)];
 }
 
 void People::start() {
