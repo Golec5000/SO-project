@@ -92,7 +92,7 @@ void mapDrawer(WINDOW *buffer) {
     wattroff(buffer, COLOR_PAIR(2));
 
     wattron(buffer, COLOR_PAIR(3));
-    wprintw(buffer, "  Threads after switch: %d\n", sharedData.switchCounter.load());
+    wprintw(buffer, "  Threads after switch: %d\n", sharedData.switchCounter);
     wattroff(buffer, COLOR_PAIR(3));
 
     wprintw(buffer, "  Lock on switch: %d\n", sharedData.switchBorder);
@@ -233,7 +233,9 @@ void switchDirection() {
     while (isRunning) {
         {
             std::lock_guard<std::mutex> lock(switchCharMutex);
-            sharedData.switchChar = directions[index++ % directions.size()];
+            index++;
+            index %= directions.size();
+            sharedData.switchChar = directions[index];
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(750));
     }
@@ -250,8 +252,8 @@ void generateClients() {
             {
                 std::lock_guard<std::mutex> lock(clientsMutex);
                 clients.push_back(newClient);
+                sharedData.map[sharedData.mid][0].occupied.store(true);
             }
-            sharedData.map[sharedData.mid][0].occupied.store(true);
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
             (*newClient)->start();
         }

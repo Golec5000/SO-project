@@ -28,26 +28,25 @@ void People::start() {
 void People::moveClient() {
     if (!running) return;
 
-    checkCordLimits();
+    if (cord->x == 0 || cord->x == 30) direction = '>';
 
     int nextX = cord->x + (direction == '^' && cord->x > 0 ? -1 : 0) + (direction == 'v' && cord->x < 30 ? 1 : 0);
     int nextY = cord->y + (direction == '>' ? 1 : 0);
 
-    Cord *tmpCord = findCord(cord->x, cord->y);
-    Cord *nextCord = findCord(nextX, nextY);
-
-    if (nextCord && tmpCord) {
-        std::unique_lock<std::mutex> lock(nextCord->mtx);
+    Cord &tmpCord = sharedData.map[cord->x][cord->y];
+    Cord &nextCord = sharedData.map[nextX][nextY];
+    {
+        std::unique_lock<std::mutex> lock(nextCord.mtx);
         sharedData.switchCV.wait(lock, [&] {
-            return !sharedData.isSwitchBlocked || tmpCord->y != 28 || !running;
+            return !sharedData.isSwitchBlocked || tmpCord.y != 28 || !running;
         });
 
-        if (nextCord->canMove(*this, nextX, nextY)) {
-            tmpCord->freeOccupiedCord();
+        if (nextCord.canMove(*this, nextX, nextY)) {
+            tmpCord.freeOccupiedCord();
             setClientDirection();
         } else {
-            nextCord->cv.wait(lock, [&] {
-                return !nextCord->occupied || !running;
+            nextCord.cv.wait(lock, [&] {
+                return !nextCord.occupied || !running;
             });
         }
     }
@@ -74,31 +73,18 @@ void People::setClientDirection() {
     }
 }
 
-void People::checkCordLimits() {
-    if (cord->x == 0 || cord->x == 30) direction = '>';
-}
-
 void People::checkEndPosition() {
     if (cord->y == 39 && running) {
         running = false;
 
         std::unique_lock<std::mutex> lock(sleepMutex);
-        sleepCv.wait_for(lock, std::chrono::seconds(getRandInt(3, 12)), [&] {
+        sleepCv.wait_for(lock, std::chrono::seconds(getRandInt(5, 12)), [&] {
             return closedThreadBySpaceVar;
         });
 
         toErase = true;
-        findCord(cord->x, cord->y)->freeOccupiedCord();
+        sharedData.map[cord->x][cord->y].freeOccupiedCord();
     }
-}
-
-Cord *People::findCord(int x, int y) {
-    for (auto &row: sharedData.map) {
-        auto it = std::find_if(row.begin(), row.end(),
-                               [&](const Cord &cordToFind) { return cordToFind.x == x && cordToFind.y == y; });
-        if (it != row.end()) return &(*it);
-    }
-    return nullptr;
 }
 
 void People::joinThread() {
@@ -112,7 +98,7 @@ void People::joinThread() {
 
     sharedData.switchCV.notify_all(); // poinformowanie innych wątków o zmianie stanu
 
-    findCord(cord->x,cord->y)->freeOccupiedCord(); // zwolnienie zasobów Cord w mapie (wątek zakończył działanie wiec dane pole jest wolne)
+    sharedData.map[cord->x][cord->y].freeOccupiedCord(); // zwolnienie zasobów Cord w mapie (wątek zakończył działanie wiec dane pole jest wolne)
 
     if (thread.joinable()) // czekanie na zakończenie wątku
         thread.join(); // zakończenie wątku

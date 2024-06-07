@@ -29,13 +29,9 @@ private:
     char direction;
     SharedData &sharedData;
 
-    void checkCordLimits();
-
     void checkEndPosition();
 
     void setClientDirection();
-
-    Cord *findCord(int x, int y);
 
     static int getRandInt(int min, int max);
 

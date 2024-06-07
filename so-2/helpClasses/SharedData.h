@@ -2,7 +2,6 @@
 #define SO_2_SHAREDDATA_H
 
 #include <condition_variable>
-#include <atomic>
 #include <vector>
 #include "Cord.h"
 
@@ -12,9 +11,9 @@ struct SharedData {
 
     std::condition_variable switchCV;
 
-    std::atomic_int switchCounter = 0;
-    std::atomic_bool isSwitchBlocked = false;
-    std::atomic_char switchChar = '^';
+    int switchCounter = 0;
+    bool isSwitchBlocked = false;
+    char switchChar = '^';
 
     int switchBorder = 10; // wartość domyślna
 
