@@ -2,10 +2,8 @@
 #define SO_2_CORD_H
 
 #include <string>
-#include <atomic>
 #include <mutex>
 #include <utility>
-#include <iostream>
 #include <condition_variable>
 #include "People.h"
 
@@ -14,7 +12,7 @@ class People;
 class Cord {
 public:
     int x, y;
-    std::atomic_bool occupied;
+    bool occupied;
     std::string cordChar;
     std::mutex mtx;
     std::condition_variable cv;
@@ -23,13 +21,13 @@ public:
             : x(x), y(y), occupied(false), cordChar(std::move(cordChar)) {}
 
     Cord(const Cord &other)
-            : x(other.x), y(other.y), occupied(other.occupied.load()), cordChar(other.cordChar) {}
+            : x(other.x), y(other.y), occupied(other.occupied), cordChar(other.cordChar) {}
 
     Cord &operator=(const Cord &other) {
         if (this != &other) {
             x = other.x;
             y = other.y;
-            occupied.store(other.occupied.load());
+            occupied = other.occupied;
             cordChar = other.cordChar;
         }
         return *this;
@@ -38,10 +36,6 @@ public:
     bool canMove(People &people, int nextX, int nextY);
 
     void freeOccupiedCord();
-
-private:
-
-    static bool isWithinBounds(int nextX, int nextY);
 
 };
 

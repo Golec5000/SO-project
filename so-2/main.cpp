@@ -106,23 +106,23 @@ void mapDrawer(WINDOW *buffer) {
     wattron(buffer, COLOR_PAIR(3));
     wprintw(buffer, "  Point up lock: ");
     wattroff(buffer, COLOR_PAIR(3));
-    wattron(buffer, sharedData.map[0][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
-    wprintw(buffer, "%s\n", sharedData.map[0][39].occupied.load() ? "Locked" : "Unlocked");
-    wattroff(buffer, sharedData.map[0][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wattron(buffer, sharedData.map[0][39].occupied ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wprintw(buffer, "%s\n", sharedData.map[0][39].occupied ? "Locked" : "Unlocked");
+    wattroff(buffer, sharedData.map[0][39].occupied ? COLOR_PAIR(5) : COLOR_PAIR(4));
 
     wattron(buffer, COLOR_PAIR(3));
     wprintw(buffer, "  Point mid lock: ");
     wattroff(buffer, COLOR_PAIR(3));
-    wattron(buffer, sharedData.map[sharedData.mid][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
-    wprintw(buffer, "%s\n", sharedData.map[sharedData.mid][39].occupied.load() ? "Locked" : "Unlocked");
-    wattroff(buffer, sharedData.map[sharedData.mid][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wattron(buffer, sharedData.map[sharedData.mid][39].occupied ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wprintw(buffer, "%s\n", sharedData.map[sharedData.mid][39].occupied ? "Locked" : "Unlocked");
+    wattroff(buffer, sharedData.map[sharedData.mid][39].occupied ? COLOR_PAIR(5) : COLOR_PAIR(4));
 
     wattron(buffer, COLOR_PAIR(3));
     wprintw(buffer, "  Point down lock: ");
     wattroff(buffer, COLOR_PAIR(3));
-    wattron(buffer, sharedData.map[sharedData.height - 1][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
-    wprintw(buffer, "%s\n\n", sharedData.map[sharedData.height - 1][39].occupied.load() ? "Locked" : "Unlocked");
-    wattroff(buffer, sharedData.map[sharedData.height - 1][39].occupied.load() ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wattron(buffer, sharedData.map[sharedData.height - 1][39].occupied ? COLOR_PAIR(5) : COLOR_PAIR(4));
+    wprintw(buffer, "%s\n\n", sharedData.map[sharedData.height - 1][39].occupied ? "Locked" : "Unlocked");
+    wattroff(buffer, sharedData.map[sharedData.height - 1][39].occupied ? COLOR_PAIR(5) : COLOR_PAIR(4));
 
     // Rysowanie ramki wokół okna
     box(buffer, 0, 0);
@@ -247,12 +247,12 @@ void generateClients() {
     std::uniform_int_distribution<int> dis(500, 2000);
 
     while (isRunning) {
-        if (!sharedData.map[sharedData.mid][0].occupied.load()) {
+        if (!sharedData.map[sharedData.mid][0].occupied) {
             auto newClient = std::make_shared<People *>(new People(sharedData));
             {
                 std::lock_guard<std::mutex> lock(clientsMutex);
                 clients.push_back(newClient);
-                sharedData.map[sharedData.mid][0].occupied.store(true);
+                sharedData.map[sharedData.mid][0].occupied = true;
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
             (*newClient)->start();

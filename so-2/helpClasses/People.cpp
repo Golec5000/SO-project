@@ -1,6 +1,5 @@
 #include "People.h"
 
-
 People::People(SharedData &sharedData) : sharedData(sharedData) {
 
     this->running = true;
@@ -55,10 +54,8 @@ void People::moveClient() {
 }
 
 void People::setClientDirection() {
-    if (hasCrossedSwitch) return; //sprawdzenie czy nie przekroczył przełącznika i jeśli tak to nie zmienia kierunku
-
-    //pozycja switcha
-    if (cord->y == sharedData.selectorPoint && cord->x == sharedData.mid) {
+    //pozycja switcha i sprawdzenie czy klient przeszedł przez switch
+    if (!hasCrossedSwitch && cord->y == sharedData.selectorPoint && cord->x == sharedData.mid) {
 
         direction = sharedData.switchChar;  //zmiana kierunku
 
